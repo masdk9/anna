@@ -22,8 +22,10 @@
         /* Cards & Containers */
         .custom-card { background: white; border-radius: 12px; margin: 12px; border: 1px solid #e0e0e0; overflow: hidden; }
         
-        /* Profile Styling */
+        /* Profile Styling - Github Photo Applied */
         .profile-dp { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid #0d6efd; }
+        .mini-dp { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+        
         .stat-item { text-align: center; flex: 1; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
 
         /* Menu Items */
@@ -39,7 +41,7 @@
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 10px 0; }
-        .nav-item { border: none; background: none; color: #333; font-size: 11px; }
+        .nav-item { border: none; background: none; color: #333; font-size: 11px; text-decoration: none; text-align: center; }
         .nav-item i { font-size: 22px; display: block; }
     </style>
 </head>
@@ -74,13 +76,14 @@
             
             <div class="custom-card p-3">
                 <div class="d-flex align-items-center mb-2">
-                    <img src="https://via.placeholder.com/70" class="profile-dp me-3">
+                    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp me-3">
                     <div>
                         <h5 class="mb-0">AnnA</h5>
                         <small class="text-muted">@ann_user • Web Developer</small>
                     </div>
                 </div>
                 <div class="d-flex">
+                    <div class="stat-item"><b>12</b><span>Posts</span></div>
                     <div class="stat-item"><b>340</b><span>Followers</span></div>
                     <div class="stat-item"><b>180</b><span>Following</span></div>
                 </div>
@@ -91,7 +94,7 @@
                     <i class="bi bi-person-badge"></i>
                     <div class="flex-grow-1">
                         <span class="d-block">Account Centre</span>
-                        <small class="text-muted" style="font-size: 11px;">Password, security, personal details</small>
+                        <small class="text-muted" style="font-size: 11px;">Name, Username, Change DP</small>
                     </div>
                     <i class="bi bi-chevron-right chevron"></i>
                 </a>
@@ -104,7 +107,7 @@
             </div>
 
             <div class="logout-container">
-                <button class="btn btn-logout">
+                <button class="btn btn-logout shadow-sm">
                     <i class="bi bi-box-arrow-right me-1"></i> Log Out
                 </button>
                 <p class="text-muted mt-2" style="font-size: 10px;">Version 1.0.4 - Anna Social</p>
@@ -112,12 +115,13 @@
         </div>
     </div>
 
-    <nav class="bottom-nav">
-        <button class="nav-item"><i class="bi bi-house-door"></i>Home</button>
-        <button class="nav-item"><i class="bi bi-search"></i>Search</button>
-        <button class="nav-item"><i class="bi bi-chat-dots"></i>Message</button>
-        <button class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
-            <i class="bi bi-person-circle"></i>Profile
+    <nav class="bottom-nav shadow-sm">
+        <a href="#" class="nav-item"><i class="bi bi-house-door"></i>Home</a>
+        <a href="#" class="nav-item"><i class="bi bi-search"></i>Search</a>
+        <a href="#" class="nav-item"><i class="bi bi-chat-dots"></i>Message</a>
+        <button class="nav-item p-0" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
+            <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="mini-dp mb-1">
+            <span class="d-block">Profile</span>
         </button>
     </nav>
 
