@@ -10,127 +10,97 @@
     <style>
         :root {
             --bg-color: #f4f7f6;
-            --text-main: #1c1e21;
-            --text-muted: #65676b;
-            --accent: #0095f6;
+            --nav-dark: #1c1e21; /* Dark Nav jaisa photo mein hai */
+            --accent-pink: #ff2d55;
         }
-        body { background-color: var(--bg-color); padding-bottom: 90px; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text-main); }
+        body { background-color: var(--bg-color); padding-bottom: 100px; font-family: 'Segoe UI', sans-serif; }
 
         /* Header */
         .top-nav { background: #fff; padding: 12px 18px; border-bottom: 1px solid #dbdbdb; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { font-weight: 800; font-size: 24px; color: #000; text-decoration: none; }
 
-        /* Sidebar Styling */
-        .offcanvas-end { width: 100% !important; border: none !important; background-color: var(--bg-color) !important; }
-        .back-header { background: #fff; padding: 12px; border-bottom: 1px solid #dbdbdb; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .back-btn { background: none; border: none; font-size: 22px; margin-right: 12px; }
-
-        /* Profile Card Refined */
-        .profile-card { background: white; border-radius: 16px; margin: 12px; padding: 20px; border: 1px solid #efefef; }
-        .profile-dp { width: 80px; height: 80px; border-radius: 50%; border: 2.5px solid var(--accent); padding: 2px; }
-        .user-name { font-weight: 700; font-size: 20px; display: block; margin-bottom: 2px; }
-        .user-handle { color: var(--text-muted); font-size: 14px; display: block; margin-bottom: 15px; }
-        .user-bio { font-size: 14px; color: #444; border-top: 1px solid #f0f0f0; display: block; padding-top: 12px; line-height: 1.5; }
-
-        /* Stats Section */
-        .stats-row { border-top: 1px solid #f0f0f0; margin-top: 15px; padding-top: 12px; display: flex; justify-content: space-around; text-align: center; }
+        /* Sidebar Fix */
+        .offcanvas-end { width: 100% !important; border: none !important; transition: transform 0.3s ease-in-out; }
+        .back-header { background: #fff; padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; position: sticky; top: 0; z-index: 100; }
+        
+        /* Profile Card - Photo 2 & 3 Style */
+        .profile-card { background: white; border-radius: 20px; margin: 15px; padding: 20px; border: 1px solid #efefef; }
+        .profile-dp { width: 85px; height: 85px; border-radius: 50%; border: 3px solid #0095f6; padding: 2px; object-fit: cover; }
+        .user-name { font-weight: 700; font-size: 22px; margin-bottom: 0; }
+        .user-handle { color: #65676b; font-size: 15px; margin-bottom: 15px; display: block; }
+        .stats-row { border-top: 1px solid #f0f0f0; margin-top: 15px; padding-top: 15px; display: flex; justify-content: space-between; text-align: center; }
         .stat-item b { display: block; font-size: 18px; color: #000; }
-        .stat-item span { font-size: 12px; color: var(--text-muted); }
+        .stat-item span { color: #65676b; font-size: 14px; }
 
-        /* Menu Groups */
-        .menu-group { background: white; border-radius: 16px; margin: 12px; border: 1px solid #efefef; overflow: hidden; }
-        .menu-link { display: flex; align-items: center; padding: 16px; color: var(--text-main); text-decoration: none; border-bottom: 1px solid #fafafa; cursor: pointer; }
-        .menu-link:active { background: #f8f9fa; }
+        /* Menu Icons - Photo 4 Style */
+        .menu-group { background: white; border-radius: 20px; margin: 15px; border: 1px solid #efefef; overflow: hidden; }
+        .menu-link { display: flex; align-items: center; padding: 18px; color: #000; text-decoration: none; border-bottom: 1px solid #fafafa; }
+        .menu-link i { font-size: 22px; width: 40px; }
 
-        /* Logout Fix: Extra space for Bottom Nav */
-        .logout-section { padding: 12px 12px 110px 12px; text-align: center; }
+        /* CURVED BOTTOM NAVIGATION - Photo 1 Style */
+        .nav-wrapper { position: fixed; bottom: 0; width: 100%; height: 80px; background: transparent; z-index: 2000; }
+        .nav-main { position: absolute; bottom: 0; width: 100%; height: 65px; background: var(--nav-dark); display: flex; justify-content: space-around; align-items: center; border-radius: 25px 25px 0 0; }
+        
+        /* The Notch Effect */
+        .nav-main::before { content: ''; position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 85px; height: 45px; background: var(--bg-color); border-radius: 0 0 50px 50px; }
 
-        /* List Items (Messages & Search) */
-        .list-item { background: white; margin: 8px 12px; padding: 12px 15px; border-radius: 16px; border: 1px solid #eee; display: flex; align-items: center; }
-        .search-tag { background: #fff; border: 1px solid #ddd; padding: 6px 14px; border-radius: 20px; font-size: 13px; margin: 4px; display: inline-block; color: #333; cursor: pointer; }
+        .nav-item { flex: 1; text-align: center; color: #8e8e8e; text-decoration: none; font-size: 10px; border: none; background: none; z-index: 5; }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 2px; }
+        .nav-item.active { color: #2ecc71; } /* Green color for Home */
 
-        /* Bottom Nav (Light & Simple) */
-        .bottom-nav-container { position: fixed; bottom: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 2000; }
-        .nav-item { flex: 1; text-align: center; color: #555; text-decoration: none; font-size: 10px; border: none; background: none; cursor: pointer; }
-        .nav-icon { width: 24px; height: 24px; margin-bottom: 4px; margin-left: auto; margin-right: auto; display: block; }
-        .plus-icon { width: 52px; height: 52px; background: #ff2d55; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 26px; margin-top: -18px; box-shadow: 0 4px 12px rgba(255,45,85,0.3); }
+        /* Floating Plus Button */
+        .plus-container { position: relative; top: -30px; z-index: 10; }
+        .plus-btn { width: 55px; height: 55px; background: var(--accent-pink); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; border: 5px solid var(--bg-color); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        
+        .profile-nav-img { width: 26px; height: 26px; border-radius: 50%; border: 1px solid #555; }
 
-        /* Form Styling for Account Centre */
-        .edit-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #eee; background: #f9f9f9; margin-bottom: 15px; outline: none; }
-        .edit-input:focus { border-color: var(--accent); }
+        /* Logout spacing */
+        .logout-box { padding: 15px 15px 120px 15px; }
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <div class="logo">Social</div>
-        <div onclick="openPage('notifSidebar')" style="cursor: pointer;"><i class="bi bi-bell fs-4"></i></div>
+        <a href="#" class="logo">Social</a>
+        <div onclick="openPage('notifSidebar')"><i class="bi bi-bell fs-4"></i></div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifSidebar">
+    <div class="offcanvas offcanvas-end" id="messageSidebar">
         <div class="back-header">
-            <button class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
-            <h6 class="mb-0 fw-bold">Notifications</h6>
-        </div>
-        <div class="offcanvas-body text-center pt-5">
-            <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80" class="mb-3 opacity-50">
-            <p class="text-muted">No new notifications at the moment.</p>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="searchSidebar">
-        <div class="back-header">
-            <button class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
-            <div class="flex-grow-1"><input type="text" class="form-control border-0 bg-light py-2" placeholder="Search railway, whatsapp, etc..."></div>
-        </div>
-        <div class="offcanvas-body p-2">
-            <div class="px-3 py-2"><small class="text-muted fw-bold">DUMMY SEARCH SUGGESTIONS</small></div>
-            <div class="px-2 mb-4">
-                <span class="search-tag"><i class="bi bi-search me-1"></i> railway exam kab hai</span>
-                <span class="search-tag"><i class="bi bi-search me-1"></i> whatsapp account suspend</span>
-                <span class="search-tag"><i class="bi bi-search me-1"></i> youtube views nahi aa rahe</span>
-                <span class="search-tag"><i class="bi bi-search me-1"></i> bootstrap tutorial</span>
-            </div>
-            <div class="px-3 py-2"><small class="text-muted fw-bold">TRENDING NOW</small></div>
-            <div class="list-item"><i class="bi bi-graph-up-arrow me-3 text-success"></i> Railway Exam Dates 2026</div>
-            <div class="list-item"><i class="bi bi-graph-up-arrow me-3 text-success"></i> AI Web Apps Guide</div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="messageSidebar">
-        <div class="back-header">
-            <button class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
+            <button class="back-btn" onclick="closePage('messageSidebar')"><i class="bi bi-arrow-left"></i></button>
             <h6 class="mb-0 fw-bold">Messages</h6>
         </div>
-        <div class="offcanvas-body p-0">
-            <div class="list-item">
-                <div class="bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center fw-bold" style="width:50px; height:50px;">RK</div>
-                <div class="flex-grow-1"><div class="fw-bold">Rahul Kumar</div><small class="text-muted">Bhai railway exam kab hai?</small></div>
-                <div class="text-end"><small style="font-size: 10px;">10:30 AM</small><br><span class="badge bg-danger rounded-pill" style="font-size: 8px;">1</span></div>
-            </div>
-            <div class="list-item">
-                <div class="bg-info text-white rounded-circle me-3 d-flex align-items-center justify-content-center fw-bold" style="width:50px; height:50px;">SS</div>
-                <div class="flex-grow-1"><div class="fw-bold">Soniya Singh</div><small class="text-muted">WhatsApp check kar, urgent hai.</small></div>
-                <div class="text-end"><small style="font-size: 10px;">9:45 AM</small></div>
-            </div>
+        <div class="offcanvas-body">
+            <p class="text-muted text-center mt-5">No messages yet.</p>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="profileSidebar">
+    <div class="offcanvas offcanvas-end" id="searchSidebar">
         <div class="back-header">
-            <button class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
-            <h6 class="mb-0 fw-bold">Profile Options</h6>
+            <button class="back-btn" onclick="closePage('searchSidebar')"><i class="bi bi-arrow-left"></i></button>
+            <input type="text" class="form-control bg-light border-0 rounded-pill" placeholder="Search railway, whatsapp...">
+        </div>
+        <div class="offcanvas-body">
+            <div class="p-2 text-muted small">RECENT SEARCHES</div>
+            <div class="p-2 border-bottom">railway exam kab hai</div>
+            <div class="p-2 border-bottom">whatsapp account suspend</div>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-end" id="profileSidebar">
+        <div class="back-header">
+            <button class="back-btn" onclick="closePage('profileSidebar')"><i class="bi bi-arrow-left"></i></button>
+            <h6 class="mb-0 fw-bold">Options</h6>
         </div>
         <div class="offcanvas-body p-0">
             <div class="profile-card shadow-sm">
                 <div class="d-flex align-items-center">
                     <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp me-3">
-                    <div class="flex-grow-1">
-                        <span class="user-name">AnnA</span>
-                        <span class="user-handle">@anna_user</span>
+                    <div>
+                        <h5 class="user-name">AnnA</h5>
+                        <span class="user-handle">@ann_user • Web Developer</span>
                     </div>
                 </div>
-                <span class="user-bio">Web App Developer | Learning Bootstrap & UI Design. Building the next big social platform for developers.</span>
                 <div class="stats-row">
                     <div class="stat-item"><b>12</b><span>Posts</span></div>
                     <div class="stat-item"><b>340</b><span>Followers</span></div>
@@ -140,89 +110,72 @@
 
             <div class="menu-group">
                 <div class="menu-link" onclick="openPage('accPage')">
-                    <i class="bi bi-person-circle pe-3 fs-5"></i>
-                    <div class="flex-grow-1"><b>Account Centre</b><small class="d-block text-muted" style="font-size:11px;">Customize your account details</small></div>
-                    <i class="bi bi-chevron-right small text-muted"></i>
+                    <i class="bi bi-person-circle text-primary"></i>
+                    <div class="flex-grow-1"><b>Account Centre</b><br><small class="text-muted">Customize your account here</small></div>
+                    <i class="bi bi-chevron-right text-muted fs-6"></i>
                 </div>
             </div>
 
             <div class="menu-group">
-                <div class="menu-link"><i class="bi bi-gear pe-3 fs-5"></i><span>Settings</span></div>
-                <div class="menu-link"><i class="bi bi-shield-check pe-3 fs-5"></i><span>Privacy</span></div>
-                <div class="menu-link"><i class="bi bi-patch-question pe-3 fs-5"></i><span>Help Centre</span></div>
-                <div class="menu-link"><i class="bi bi-chat-left-text pe-3 fs-5"></i><span>Send Feedback</span></div>
+                <div class="menu-link"><i class="bi bi-gear"></i><span>Settings</span></div>
+                <div class="menu-link"><i class="bi bi-shield-check"></i><span>Privacy</span></div>
+                <div class="menu-link"><i class="bi bi-patch-question"></i><span>Help</span></div>
+                <div class="menu-link"><i class="bi bi-chat-left-dots"></i><span>Feedback</span></div>
             </div>
 
-            <div class="logout-section">
-                <button class="btn w-100 py-2 border rounded-4 text-danger fw-bold bg-white">Log Out</button>
-                <div class="mt-3"><small class="text-muted">Social App Beta v1.2</small></div>
+            <div class="logout-box">
+                <button class="btn btn-outline-danger w-100 fw-bold rounded-3">Log Out</button>
             </div>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="accPage">
+    <div class="offcanvas offcanvas-end" id="accPage">
         <div class="back-header">
-            <button class="back-btn" onclick="openPage('profileSidebar')"><i class="bi bi-arrow-left"></i></button>
-            <h6 class="mb-0 fw-bold">Edit Profile</h6>
+            <button class="back-btn" onclick="closePage('accPage')"><i class="bi bi-arrow-left"></i></button>
+            <h6 class="mb-0 fw-bold">Edit Account</h6>
         </div>
-        <div class="offcanvas-body p-3">
-            <div class="text-center mb-4">
-                <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" width="80" class="rounded-circle border p-1">
-                <br><small class="text-primary fw-bold" style="cursor: pointer;">Change Photo</small>
-            </div>
-            <label class="small fw-bold text-muted ms-1">Full Name</label>
-            <input type="text" class="edit-input" value="AnnA Developer">
-            
-            <label class="small fw-bold text-muted ms-1">Username</label>
-            <input type="text" class="edit-input" value="anna_user">
-            
-            <div class="row">
-                <div class="col-6">
-                    <label class="small fw-bold text-muted ms-1">Gender</label>
-                    <select class="edit-input"><option>Female</option><option>Male</option><option>Other</option></select>
-                </div>
-                <div class="col-6">
-                    <label class="small fw-bold text-muted ms-1">Birthday</label>
-                    <input type="date" class="edit-input" value="1998-05-20">
-                </div>
-            </div>
-
-            <label class="small fw-bold text-muted ms-1">Email</label>
-            <input type="email" class="edit-input" value="anna@example.com">
-            
-            <label class="small fw-bold text-muted ms-1">Mobile Number</label>
-            <input type="tel" class="edit-input" value="+91 9876543210">
-            
-            <button class="btn btn-success w-100 py-3 rounded-4 mt-2 fw-bold" onclick="openPage('profileSidebar')">Save All Changes</button>
+        <div class="offcanvas-body">
+            <label class="small fw-bold mb-1">Full Name</label>
+            <input type="text" class="form-control mb-3" value="AnnA Developer">
+            <label class="small fw-bold mb-1">Username</label>
+            <input type="text" class="form-control mb-3" value="ann_user">
+            <button class="btn btn-success w-100 rounded-3 mt-3">Save Changes</button>
         </div>
     </div>
 
-    <div class="bottom-nav-container">
-        <div class="nav-item" onclick="location.reload()">
-            <img src="https://cdn-icons-png.flaticon.com/128/1946/1946436.png" class="nav-icon">Home
-        </div>
-        <div class="nav-item" onclick="openPage('searchSidebar')">
-            <img src="https://cdn-icons-png.flaticon.com/128/54/54481.png" class="nav-icon">Search
-        </div>
-        <div class="nav-item"><div class="plus-icon"><i class="bi bi-plus-lg"></i></div></div>
-        <div class="nav-item" onclick="openPage('messageSidebar')">
-            <img src="https://cdn-icons-png.flaticon.com/128/2099/2099122.png" class="nav-icon">Message
-        </div>
-        <div class="nav-item" onclick="openPage('profileSidebar')">
-            <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="nav-icon rounded-circle border">Profile
+    <div class="nav-wrapper">
+        <div class="nav-main">
+            <div class="nav-item active" onclick="location.reload()">
+                <i class="bi bi-house-door-fill"></i>Home
+            </div>
+            <div class="nav-item" onclick="openPage('searchSidebar')">
+                <i class="bi bi-search"></i>Search
+            </div>
+            
+            <div class="plus-container">
+                <div class="plus-btn"><i class="bi bi-plus-lg"></i></div>
+            </div>
+
+            <div class="nav-item" onclick="openPage('messageSidebar')">
+                <i class="bi bi-chat-dots"></i>Message
+            </div>
+            <div class="nav-item" onclick="openPage('profileSidebar')">
+                <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-nav-img">
+                Profile
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function openPage(id) {
-            const openers = document.querySelectorAll('.offcanvas.show');
-            openers.forEach(el => {
-                const instance = bootstrap.Offcanvas.getInstance(el);
-                if(instance) instance.hide();
-            });
             const target = new bootstrap.Offcanvas(document.getElementById(id));
             target.show();
+        }
+        function closePage(id) {
+            const el = document.getElementById(id);
+            const instance = bootstrap.Offcanvas.getInstance(el);
+            if (instance) instance.hide();
         }
     </script>
 </body>
