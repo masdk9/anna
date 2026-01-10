@@ -1,177 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social App - Anna</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <style>
-        body {
-            background-color: #f8f9fa;
-            padding-bottom: 70px; /* Space for bottom nav */
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social App - Anna</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-        /* Top Header */
-        .top-nav {
-            background: #fff;
-            padding: 10px 15px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+<style>
+body {
+    background-color: #f8f9fa;
+    padding-bottom: 70px; /* Bottom nav space */
+}
 
-        .logo {
-            font-weight: bold;
-            font-size: 24px;
-            color: #0d6efd;
-        }
+/* Top Header */
+.top-nav {
+    background: #fff;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: #fff;
-            border-top: 1px solid #ddd;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 1000;
-        }
+/* Bottom Navigation */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    z-index: 1000;
+}
 
-        .nav-item {
-            text-align: center;
-            color: #555;
-            text-decoration: none;
-            font-size: 12px;
-            cursor: pointer;
-        }
+.nav-item {
+    text-align: center;
+    color: #555;
+    text-decoration: none;
+    font-size: 12px;
+    cursor: pointer;
+}
 
-        .nav-item i {
-            font-size: 20px;
-            display: block;
-        }
+.nav-item i {
+    font-size: 20px;
+    display: block;
+}
 
-        /* Sidebar Profile */
-        .offcanvas-header {
-            border-bottom: 1px solid #eee;
-        }
+/* Profile Sidebar Offcanvas */
+.profile-dp {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
-        .profile-dp {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+.stat-box {
+    text-align: center;
+    margin-top: 10px;
+}
 
-        .stat-box {
-            text-align: center;
-            margin-top: 10px;
-        }
+.section-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #888;
+    margin-top: 20px;
+    padding-left: 15px;
+    text-transform: uppercase;
+}
 
-        .section-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #888;
-            margin-top: 20px;
-            padding-left: 15px;
-            text-transform: uppercase;
-        }
-
-        .list-group-item {
-            border: none;
-            padding: 12px 15px;
-        }
-    </style>
+.list-group-item {
+    border: none;
+    padding: 12px 15px;
+}
+</style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <div class="logo">Social</div>
-        <div class="notification">
-            <i class="bi bi-bell fs-4"></i>
+<!-- TOP NAV -->
+<div class="top-nav">
+    <div class="logo">Social</div>
+    <div class="notification">
+        <i class="bi bi-bell fs-4 position-relative me-3"></i>
+        <i class="bi bi-person-circle fs-4" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar"></i>
+    </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container mt-4">
+    <div class="card p-3 shadow-sm mb-3">
+        <h5>Welcome to Anna Social</h5>
+        <p>Yeh aapka main feed area hai.</p>
+    </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+    <a href="#" class="nav-item">
+        <i class="bi bi-house-door"></i> Home
+    </a>
+    <a href="#" class="nav-item">
+        <i class="bi bi-search"></i> Search
+    </a>
+    <a href="#" class="nav-item">
+        <i class="bi bi-chat-dots"></i> Message
+    </a>
+    <div class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
+        <i class="bi bi-person-circle"></i> Profile
+    </div>
+</nav>
+
+<!-- PROFILE SIDEBAR (Right) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="profileSidebar" aria-labelledby="profileSidebarLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="profileSidebarLabel">Profile Details</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0">
+        <!-- User Info -->
+        <div class="d-flex align-items-center p-3">
+            <img src="https://via.placeholder.com/60" alt="DP" class="profile-dp me-3">
+            <div>
+                <h6 class="mb-0">John Doe</h6>
+                <small class="text-muted">@johndoe_99</small>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-around border-bottom pb-3">
+            <div class="stat-box">
+                <strong>1.2k</strong><br><small>Followers</small>
+            </div>
+            <div class="stat-box">
+                <strong>450</strong><br><small>Following</small>
+            </div>
+        </div>
+
+        <!-- Account Centre -->
+        <div class="section-title">Account Centre</div>
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">
+                <h6 class="mb-1 text-primary"><i class="bi bi-person-gear me-2"></i>Edit Profile</h6>
+                <small class="text-muted">Yahan se naam, username aur DP badle.</small>
+            </a>
+        </div>
+
+        <!-- App Settings -->
+        <div class="section-title">App Settings</div>
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-shield-lock me-2"></i> Privacy & Security
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+                <i class="bi bi-palette me-2"></i> Display & Theme
+            </a>
+        </div>
+
+        <!-- Logout -->
+        <div class="mt-4 p-3 border-top">
+            <a href="#" class="btn btn-outline-danger w-100">
+                <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </a>
         </div>
     </div>
+</div>
 
-    <div class="container mt-4">
-        <div class="card p-3 shadow-sm mb-3">
-            <h5>Welcome to Anna Social</h5>
-            <p>Yeh aapka main feed area hai.</p>
-        </div>
-    </div>
-
-    <nav class="bottom-nav">
-        <a href="#" class="nav-item">
-            <i class="bi bi-house-door"></i> Home
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-search"></i> Search
-        </a>
-        <a href="#" class="nav-item">
-            <i class="bi bi-chat-dots"></i> Message
-        </a>
-        <div class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
-            <i class="bi bi-person-circle"></i> Profile
-        </div>
-    </nav>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="profileSidebar" aria-labelledby="profileSidebarLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="profileSidebarLabel">Profile Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body p-0">
-            <div class="d-flex align-items-center p-3">
-                <img src="https://via.placeholder.com/60" alt="DP" class="profile-dp me-3">
-                <div>
-                    <h6 class="mb-0">John Doe</h6>
-                    <small class="text-muted">@johndoe_99</small>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-around border-bottom pb-3">
-                <div class="stat-box">
-                    <strong>1.2k</strong><br><small>Followers</small>
-                </div>
-                <div class="stat-box">
-                    <strong>450</strong><br><small>Following</small>
-                </div>
-            </div>
-
-            <div class="section-title">Account Centre</div>
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1 text-primary"><i class="bi bi-person-gear me-2"></i>Edit Profile</h6>
-                    </div>
-                    <small class="text-muted">Yahan se naam, username aur DP badle.</small>
-                </a>
-            </div>
-
-            <div class="section-title">App Settings</div>
-            <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
-                    <i class="bi bi-shield-lock me-2"></i> Privacy & Security
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <i class="bi bi-palette me-2"></i> Display & Theme
-                </a>
-            </div>
-
-            <div class="mt-4 p-3 border-top">
-                <a href="#" class="btn btn-outline-danger w-100">
-                    <i class="bi bi-box-arrow-right me-2"></i> Logout
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
