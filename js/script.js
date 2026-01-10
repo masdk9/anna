@@ -11,3 +11,14 @@ function openMenu() {
 function closeMenu() {
   document.getElementById("sideMenu").classList.remove("open");
 }
+
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "280px"; // Drawer open
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";    // Drawer close
+}
+
+
