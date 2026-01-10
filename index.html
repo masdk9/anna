@@ -2,29 +2,70 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>My Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
 
   <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="#">MySite</a>
+<body class="bg-light">
+
+<!-- TOP BAR -->
+<nav class="navbar navbar-dark bg-primary">
+  <div class="container d-flex justify-content-between align-items-center">
+    <!-- LOGO -->
+    <span class="navbar-brand fw-bold fs-3">M</span>
+
+    <!-- NOTIFICATION ICON -->
+    <a href="notification/notification.html" class="text-white">
+      <i class="bi bi-bell fs-4"></i>
+    </a>
   </div>
 </nav>
 
-<div class="container mt-5">
-  <h1 class="text-center">Hello Netlify 🚀</h1>
-  <p class="text-center">HTML + CSS + Bootstrap working</p>
+<!-- MAIN CONTENT -->
+<div class="container mt-3 mb-5 text-center">
+
+  <p class="text-muted mb-3">Welcome to Home</p>
+
+  <!-- OPEN FEED BUTTON -->
+  <a href="feed/feed.html" class="btn btn-primary btn-sm px-4 py-2">
+    Open Feed
+  </a>
+
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/script.js"></script>
+<!-- BOTTOM NAVIGATION (ICON ONLY) -->
+<nav class="navbar fixed-bottom bg-white border-top">
+  <div class="container d-flex justify-content-around align-items-center">
+
+    <!-- HOME (Active) -->
+    <a href="index.html" class="nav-icon active">
+      <i class="bi bi-house fs-4"></i>
+    </a>
+
+    <!-- SEARCH -->
+    <a href="search.html" class="nav-icon">
+      <i class="bi bi-search fs-4"></i>
+    </a>
+
+    <!-- INBOX -->
+    <a href="inbox.html" class="nav-icon">
+      <i class="bi bi-chat fs-4"></i>
+    </a>
+
+    <!-- PROFILE -->
+    <a href="profile.html" class="nav-icon">
+      <i class="bi bi-person fs-4"></i>
+    </a>
+
+  </div>
+</nav>
+
 </body>
 </html>
