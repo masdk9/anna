@@ -1,62 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+
+<style>
+/* SIDE NAVIGATION (RIGHT) */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1050;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  border-left: 1px solid #ddd;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding: 20px;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.sidenav h6 {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.sidenav p {
+  font-size: 14px;
+  color: #555;
+}
+
+.sidenav button {
+  margin-top: 15px;
+}
+
+/* TOP BAR */
+.topbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 56px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  z-index: 1000;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  padding-top: 65px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+</style>
 </head>
+
 <body>
 
-<!-- TOP NAV BAR -->
-<nav class="d-flex justify-content-between align-items-center p-2 border-bottom bg-white fixed-top">
-  <img src="assets/logos/social.png" alt="Social Logo" width="100">
-  <div class="position-relative">
-    <i class="bi bi-bell fs-4"></i>
-    <span class="notification-badge position-absolute top-0 start-100 translate-middle bg-danger rounded-circle">3</span>
-  </div>
-</nav>
-
-<!-- FEED CONTENT -->
-<div class="container mt-5 pt-4 mb-5">
-  <h4>Feed</h4>
-  <div class="card mt-3">
-    <div class="card-body">
-      <h6>User Name</h6>
-      <p>Ye ek sample post hai.</p>
-    </div>
-  </div>
-  <div class="card mt-3">
-    <div class="card-body">
-      <h6>Another User</h6>
-      <p>Dusri post yahan dikhegi.</p>
-    </div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <img src="../assets/logos/social.png" alt="Social Logo" width="100">
+  <div>
+    <i class="bi bi-bell fs-4 position-relative me-3">
+      <span class="notification-badge position-absolute top-0 start-100 translate-middle bg-danger rounded-circle">3</span>
+    </i>
+    <i class="bi bi-person fs-4" onclick="openNav()"></i>
   </div>
 </div>
 
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav fixed-bottom bg-white border-top d-flex justify-content-around">
-  <a href="index.html" class="active text-center">
-    <i class="bi bi-house fs-4"></i>
-    <span>Home</span>
-  </a>
-  <a href="pages/search.html" class="text-center">
-    <i class="bi bi-search fs-4"></i>
-    <span>Search</span>
-  </a>
-  <a href="pages/messages.html" class="text-center">
-    <i class="bi bi-chat-left-text fs-4"></i>
-    <span>Messages</span>
-  </a>
-  <a href="pages/profile.html" class="text-center">
-    <i class="bi bi-person fs-4"></i>
-    <span>Profile</span>
-  </a>
-</nav>
+<!-- SIDE NAVIGATION -->
+<div id="mySidenav" class="sidenav">
+  <span class="closebtn" onclick="closeNav()">&times;</span>
+
+  <!-- USER INFO -->
+  <div class="d-flex align-items-center mb-3">
+    <img src="../assets/images/profile/user.png" width="60" class="rounded-circle me-2">
+    <div>
+      <h6>User Name</h6>
+      <p>@username</p>
+      <p>Following: 120 | Followers: 150</p>
+    </div>
+  </div>
+
+  <!-- ACCOUNT CENTRE -->
+  <h6>Account Centre</h6>
+  <p>All your account settings here: Change Name, Username, DP</p>
+
+  <!-- SETTINGS -->
+  <h6>Settings</h6>
+  <p>App related settings</p>
+
+  <!-- LOGOUT -->
+  <button class="btn btn-outline-danger w-100">Logout</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-content">
+  <h4>Profile Feed / Content</h4>
+  <p>Yahan user posts ya profile related content dikhega.</p>
+</div>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "280px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/script.js"></script>
+<script src="../js/script.js"></script>
 </body>
 </html>
