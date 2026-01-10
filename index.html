@@ -13,51 +13,48 @@
             --text-main: #1c1e21;
             --text-muted: #65676b;
             --accent: #0095f6;
-            --nav-bg: #1c1e21; /* Dark Nav jaisa image mein hai */
         }
         body { background-color: var(--bg-color); padding-bottom: 90px; font-family: 'Segoe UI', Roboto, sans-serif; color: var(--text-main); }
 
-        /* Full Screen Canvas */
+        /* Top Nav - Wapas laya gaya */
+        .top-nav { background: #fff; padding: 12px 18px; border-bottom: 1px solid #dbdbdb; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-weight: 800; font-size: 24px; letter-spacing: -0.5px; }
+
         .offcanvas-end { width: 100% !important; border: none !important; background-color: var(--bg-color) !important; }
         .back-header { background: #fff; padding: 12px; border-bottom: 1px solid #dbdbdb; display: flex; align-items: center; }
         .back-btn { background: none; border: none; font-size: 22px; margin-right: 12px; }
 
-        /* Profile Card - Keeping your original data */
+        /* Profile Card */
         .profile-card { background: white; border-radius: 16px; margin: 12px; padding: 20px; border: 1px solid #efefef; }
         .profile-dp { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent); padding: 2px; }
-        .user-name { font-weight: 700; font-size: 20px; margin-bottom: 0; }
         .stats-row { border-top: 1px solid #f0f0f0; margin-top: 15px; padding-top: 12px; display: flex; justify-content: space-between; }
 
         /* Menu Groups */
         .menu-group { background: white; border-radius: 16px; margin: 12px; border: 1px solid #efefef; overflow: hidden; }
         .menu-link { display: flex; align-items: center; padding: 16px; color: var(--text-main); text-decoration: none; border-bottom: 1px solid #fafafa; cursor: pointer; }
-        .menu-subtitle { font-size: 11px; color: var(--text-muted); display: block; }
 
-        /* Logout Fix */
-        .logout-box { text-align: center; margin: 20px 0; }
-        .btn-logout-small { background: #fff; color: #ed4956; border: 1px solid #eee; font-size: 15px; font-weight: 700; padding: 10px; width: 85%; border-radius: 10px; }
+        /* Account Centre Form Styling */
+        .edit-group { margin-bottom: 15px; }
+        .edit-group label { font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; display: block; }
+        .edit-input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; background: #fff; font-size: 15px; }
+        .btn-save { background: var(--accent); color: white; border: none; padding: 12px; width: 100%; border-radius: 12px; font-weight: 600; margin-top: 10px; }
 
-        /* --- NEW CURVED BOTTOM NAV --- */
-        .bottom-nav-wrapper { position: fixed; bottom: 0; width: 100%; height: 75px; background: transparent; z-index: 2000; }
-        .nav-bar-bg { position: absolute; bottom: 0; width: 100%; height: 60px; background: var(--nav-bg); display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; }
-        
-        /* The Curve Effect */
-        .nav-bar-bg::before { content: ''; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); width: 75px; height: 40px; background: var(--bg-color); border-radius: 0 0 50px 50px; }
+        /* Simple Bottom Nav (White Background) */
+        .bottom-nav-container { position: fixed; bottom: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #dbdbdb; z-index: 2000; }
+        .nav-item { text-align: center; color: #262626; text-decoration: none; flex: 1; font-size: 10px; }
+        /* Placeholder for Flaticon/Images */
+        .nav-icon { width: 24px; height: 24px; margin-bottom: 3px; display: block; margin-left: auto; margin-right: auto; }
 
-        .nav-item { flex: 1; text-align: center; color: #8e8e8e; text-decoration: none; border: none; background: none; font-size: 10px; z-index: 5; }
-        .nav-item i { font-size: 20px; display: block; }
-        .nav-item.active { color: #2ecc71; } /* Green color for active */
-
-        .create-btn-container { position: relative; top: -28px; z-index: 10; }
-        .plus-btn { width: 55px; height: 55px; background: #ff2d55; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 28px; border: 5px solid var(--bg-color); }
-        .nav-dp-small { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #555; }
-
-        /* Submenu edit styling */
-        .edit-option-item { display: flex; align-items: center; padding: 15px; background: white; margin-bottom: 10px; border-radius: 12px; border: 1px solid #eee; }
-        .edit-option-item i { margin-right: 15px; color: var(--accent); }
+        .plus-container { position: relative; top: -15px; }
+        .plus-icon { width: 50px; height: 50px; background: #ff2d55; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
+
+    <div class="top-nav">
+        <div class="logo">Social</div>
+        <div class="notification"><i class="bi bi-bell fs-4"></i></div>
+    </div>
 
     <div class="offcanvas offcanvas-end" tabindex="-1" id="profileSidebar">
         <div class="back-header">
@@ -71,8 +68,7 @@
                     <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp me-3">
                     <div class="flex-grow-1">
                         <h5 class="user-name">AnnA</h5>
-                        <div class="user-handle">@ann_user • Web Developer</div>
-                        <div class="user-bio">Bootstrap web app developer. Building modern interfaces.</div>
+                        <div class="user-handle">@ann_user</div>
                     </div>
                 </div>
                 <div class="stats-row">
@@ -87,7 +83,7 @@
                     <i class="bi bi-person-circle pe-3 fs-5"></i>
                     <div class="flex-grow-1">
                         <span class="fw-bold">Account Centre</span>
-                        <small class="menu-subtitle">Customize your account here</small>
+                        <small class="d-block text-muted" style="font-size: 11px;">Customize your account here</small>
                     </div>
                     <i class="bi bi-chevron-right text-muted small"></i>
                 </div>
@@ -96,11 +92,12 @@
             <div class="menu-group">
                 <div class="menu-link"><i class="bi bi-gear pe-3 fs-5"></i><span>Settings</span></div>
                 <div class="menu-link"><i class="bi bi-shield-check pe-3 fs-5"></i><span>Privacy</span></div>
+                <div class="menu-link"><i class="bi bi-question-circle pe-3 fs-5"></i><span>Help</span></div>
+                <div class="menu-link"><i class="bi bi-chat-square-text pe-3 fs-5"></i><span>Feedback</span></div>
             </div>
 
-            <div class="logout-box">
-                <button class="btn-logout-small">Log Out</button>
-                <div class="text-muted mt-2" style="font-size: 10px;">Social Inc.</div>
+            <div class="logout-box p-3">
+                <button class="btn-logout-small w-100 py-2 border rounded-3 bg-white text-danger fw-bold">Log Out</button>
             </div>
         </div>
     </div>
@@ -111,27 +108,57 @@
             <h6 class="mb-0 fw-bold">Account Centre</h6>
         </div>
         <div class="offcanvas-body p-3">
-            <div class="edit-option-item"><i class="bi bi-pencil"></i> Edit Name</div>
-            <div class="edit-option-item"><i class="bi bi-at"></i> Edit Username</div>
-            <div class="edit-option-item"><i class="bi bi-image"></i> Edit Profile Picture</div>
+            <div class="edit-group">
+                <label>Name</label>
+                <input type="text" class="edit-input" value="AnnA Developer">
+            </div>
+            <div class="edit-group">
+                <label>Username</label>
+                <input type="text" class="edit-input" value="@ann_user">
+            </div>
+            <div class="edit-group">
+                <label>Gender</label>
+                <select class="edit-input">
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="edit-group">
+                <label>Birthday</label>
+                <input type="date" class="edit-input" value="1998-05-20">
+            </div>
+            <div class="edit-group">
+                <label>Email</label>
+                <input type="email" class="edit-input" value="anna@example.com">
+            </div>
+            <div class="edit-group">
+                <label>Mobile Number</label>
+                <input type="tel" class="edit-input" value="+91 9876543210">
+            </div>
+            <button class="btn-save" onclick="closeAccountCentre()">Save Changes</button>
         </div>
     </div>
 
-    <div class="bottom-nav-wrapper">
-        <div class="nav-bar-bg">
-            <a href="#" class="nav-item active"><i class="bi bi-house-door-fill"></i>Home</a>
-            <a href="#" class="nav-item"><i class="bi bi-search"></i>Search</a>
-            
-            <div class="create-btn-container">
-                <div class="plus-btn"><i class="bi bi-plus-lg"></i></div>
-            </div>
-
-            <a href="#" class="nav-item"><i class="bi bi-chat-dots"></i>Message</a>
-            
-            <button class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
-                <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="nav-dp-small">
-                Profile
-            </button>
+    <div class="bottom-nav-container">
+        <a href="#" class="nav-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/1946/1946436.png" class="nav-icon">
+            Home
+        </a>
+        <a href="#" class="nav-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/54/54481.png" class="nav-icon">
+            Search
+        </a>
+        <div class="plus-container">
+            <div class="plus-icon"><i class="bi bi-plus-lg"></i></div>
+        </div>
+        <a href="#" class="nav-item">
+            <img src="https://cdn-icons-png.flaticon.com/128/2099/2099122.png" class="nav-icon">
+            Message
+        </a>
+        <div class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar">
+            <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="nav-icon rounded-circle">
+            Profile
         </div>
     </div>
 
