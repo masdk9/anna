@@ -1,113 +1,22 @@
-/* ===== GENERAL ===== */
-body {
-  font-family: system-ui, -apple-system;
-  margin: 0;
-  padding: 0;
-  background-color: #f2f2f2;
+/* Bottom Navigation */
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
 }
 
-/* ===== FEED CONTAINER ===== */
-.feed-container {
-  margin-top: 70px; /* space for fixed navbar */
-}
-
-/* ===== FEED CARD CONTAINER ===== */
-.feed-card-container {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-/* Post box (photo) */
-.feed-card-container .post-box {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  background-size: cover;
-  background-position: center;
-}
-
-/* Video post */
-.feed-card-container .post-video {
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-
-/* Text-only post */
-.feed-card-container .text-post {
-  background-color: #5f6f7f;
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: center;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Action icons inside feed-card only */
-.feed-card-container i {
-  cursor: pointer;
-  font-size: 1.2rem;
-  margin-right: 0.5rem;
-}
-
-.feed-card-container i:hover {
-  transform: scale(1.2);
-  transition: 0.2s;
-}
-
-/* Heart icon active inside feed-card */
-.feed-card-container .bi-heart.active {
-  color: red;
-  transform: scale(1.2);
-  transition: all 0.2s ease-in-out;
-}
-
-/* ===== TOP NAVBAR ===== */
-.navbar.fixed-top {
-  background-color: #f0f2f5 !important; /* light background */
-  z-index: 2000 !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-/* M logo color */
-.navbar.fixed-top .navbar-brand {
-  color: #0d6efd; /* dark/blue colour for visibility */
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
-/* Bell icon color */
-.navbar.fixed-top a i {
-  color: #0d6efd; /* same as logo or dark for contrast */
-  font-size: 1.25rem;
-}
-
-/* ===== BOTTOM NAV ICONS ===== */
-.nav-icon {
-  color: #212529;
-  font-size: 28px;
+.bottom-nav a {
   text-decoration: none;
+  color: #6c757d;
+  font-size: 12px;
+  text-align: center;
 }
 
-.nav-icon.active {
+.bottom-nav a i {
+  font-size: 20px;
+  display: block;
+}
+
+.bottom-nav a.active {
   color: #0d6efd;
 }
-
-.nav-icon:hover {
-  transform: scale(1.1);
-  transition: 0.2s;
-}
-
-
-
-
-
-
-
-
-
-
