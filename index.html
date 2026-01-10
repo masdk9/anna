@@ -25,19 +25,12 @@
         /* Full Screen Canvas */
         .offcanvas-end { width: 100% !important; border: none !important; background-color: var(--bg-color) !important; transition: transform 0.3s ease-in-out; }
 
-        /* Profile Card - Modern Look */
+        /* Profile Card */
         .profile-card { background: white; border-radius: 16px; margin: 12px; padding: 20px; border: 1px solid #efefef; }
         .profile-dp { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2.5px solid var(--accent); padding: 2px; }
         
-        /* Typography Adjustment */
         .user-name { font-weight: 700; font-size: 20px; margin-bottom: 0; color: #000; }
         .user-handle { font-size: 14px; color: var(--text-muted); font-weight: 400; }
-        .user-bio { font-size: 14px; margin-top: 4px; line-height: 1.4; color: #262626; }
-
-        /* Stats Row - Just like your Image */
-        .stats-row { border-top: 1px solid #f0f0f0; margin-top: 15px; padding-top: 12px; display: flex; justify-content: space-between; }
-        .stat-item { font-size: 15px; font-weight: 400; color: #262626; }
-        .stat-item b { font-weight: 700; margin-right: 2px; }
 
         /* Menu Containers */
         .menu-group { background: white; border-radius: 16px; margin: 12px; border: 1px solid #efefef; overflow: hidden; }
@@ -46,11 +39,16 @@
         .menu-link:last-child { border-bottom: none; }
         .menu-link i:first-child { font-size: 20px; width: 36px; color: #1c1e21; }
         .menu-link span { flex-grow: 1; font-weight: 500; font-size: 15px; }
+        .menu-subtitle { display: block; font-size: 12px; color: var(--text-muted); font-weight: 400; }
         .chevron { color: #bcbcbc; font-size: 12px; }
 
-        /* Small Logout */
-        .logout-box { text-align: center; margin: 20px 0; }
-        .btn-logout-small { background: transparent; color: #ed4956; border: none; font-size: 14px; font-weight: 700; padding: 8px 20px; }
+        /* Account Centre Edit Items */
+        .edit-item { display: flex; align-items: center; padding: 15px; background: #fff; margin-bottom: 10px; border-radius: 12px; cursor: pointer; border: 1px solid #efefef; }
+        .edit-item i { margin-right: 15px; color: var(--accent); font-size: 18px; }
+
+        /* Logout Section */
+        .logout-box { text-align: center; margin: 30px 0; }
+        .btn-logout-small { background: #fff; color: #ed4956; border: 1px solid #eee; font-size: 15px; font-weight: 600; padding: 10px 40px; border-radius: 10px; width: 80%; }
 
         /* Bottom Nav */
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: #fff; border-top: 1px solid #dbdbdb; display: flex; justify-content: space-around; padding: 8px 0; }
@@ -75,63 +73,27 @@
         </div>
         <div class="offcanvas-body p-0">
             
-            <div class="profile-card shadow-sm">
-                <div class="d-flex align-items-center">
-                    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp me-3">
-                    <div class="flex-grow-1">
-                        <h5 class="user-name">AnnA</h5>
-                        <div class="user-handle">@ann_user • Web Developer</div>
-                        <div class="user-bio">Bootstrap web app developer. Building modern interfaces.</div>
+            <div class="menu-group shadow-sm" style="border: 1px solid #0095f626;">
+                <div class="menu-link" onclick="openAccountCentre()">
+                    <i class="bi bi-person-circle" style="color: var(--accent);"></i>
+                    <div>
+                        <span>Account Centre</span>
+                        <small class="menu-subtitle">Customize your account here</small>
                     </div>
-                </div>
-                
-                <div class="stats-row">
-                    <div class="stat-item"><b>12</b>Posts</div>
-                    <div class="stat-item"><b>340</b>Followers</div>
-                    <div class="stat-item"><b>180</b>Following</div>
+                    <i class="bi bi-chevron-right ms-auto chevron"></i>
                 </div>
             </div>
 
             <div class="menu-group">
-                <div class="menu-link" onclick="openSubMenu('Account Centre Content')">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Account Centre</span>
-                    <i class="bi bi-chevron-right chevron"></i>
-                </div>
-            </div>
-
-            <div class="menu-group">
-                <div class="menu-link" onclick="openSubMenu('General Settings')">
-                    <i class="bi bi-gear"></i>
-                    <span>Settings</span>
-                    <i class="bi bi-chevron-right chevron"></i>
-                </div>
-                <div class="menu-link" onclick="openSubMenu('Privacy Policy')">
-                    <i class="bi bi-shield-check"></i>
-                    <span>Privacy</span>
-                    <i class="bi bi-chevron-right chevron"></i>
-                </div>
-                <div class="menu-link" onclick="openSubMenu('Help Centre')">
-                    <i class="bi bi-patch-question"></i>
-                    <span>Help</span>
-                    <i class="bi bi-chevron-right chevron"></i>
-                </div>
+                <div class="menu-link"><i class="bi bi-gear"></i><span>Settings</span><i class="bi bi-chevron-right chevron"></i></div>
+                <div class="menu-link"><i class="bi bi-shield-check"></i><span>Privacy</span><i class="bi bi-chevron-right chevron"></i></div>
+                <div class="menu-link"><i class="bi bi-patch-question"></i><span>Help</span><i class="bi bi-chevron-right chevron"></i></div>
             </div>
 
             <div class="logout-box">
                 <button class="btn-logout-small">Log Out</button>
-                <div class="text-muted" style="font-size: 10px;">from Social Inc.</div>
+                <div class="text-muted mt-2" style="font-size: 11px;">Social Inc.</div>
             </div>
-        </div>
-    </div>
-
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="notifSidebar">
-        <div class="back-header">
-            <button class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
-            <h6 class="mb-0 fw-bold">Notifications</h6>
-        </div>
-        <div class="offcanvas-body text-center mt-5">
-            <p class="text-muted">No notifications yet.</p>
         </div>
     </div>
 
@@ -140,9 +102,8 @@
             <button class="back-btn" onclick="closeSubMenu()"><i class="bi bi-arrow-left"></i></button>
             <h6 class="mb-0 fw-bold" id="subMenuTitle">Settings</h6>
         </div>
-        <div class="offcanvas-body">
-            <div id="subMenuBody" class="p-3 text-center text-muted">Loading...</div>
-        </div>
+        <div class="offcanvas-body" id="subMenuBody">
+            </div>
     </div>
 
     <nav class="bottom-nav">
@@ -157,15 +118,28 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Simple function to open sub-menus like Account Centre or Settings
         const subMenu = new bootstrap.Offcanvas(document.getElementById('subMenu'));
         
-        function openSubMenu(title) {
-            document.getElementById('subMenuTitle').innerText = title;
+        function openAccountCentre() {
+            document.getElementById('subMenuTitle').innerText = 'Account Centre';
             document.getElementById('subMenuBody').innerHTML = `
-                <div class="custom-card p-3 bg-white rounded-3 shadow-sm mb-3 text-start">
-                    <p class="mb-1 fw-bold">Manage your ${title}</p>
-                    <small>Settings for your profile, security, and preferences will appear here.</small>
+                <div class="p-2">
+                    <p class="text-muted small mb-4">Manage your personal info and profile look.</p>
+                    
+                    <div class="edit-item shadow-sm">
+                        <i class="bi bi-pencil-square"></i>
+                        <span class="fw-medium">Edit Name</span>
+                    </div>
+                    
+                    <div class="edit-item shadow-sm">
+                        <i class="bi bi-at"></i>
+                        <span class="fw-medium">Edit Username</span>
+                    </div>
+                    
+                    <div class="edit-item shadow-sm">
+                        <i class="bi bi-camera"></i>
+                        <span class="fw-medium">Change Profile Picture (DP)</span>
+                    </div>
                 </div>
             `;
             subMenu.show();
@@ -177,4 +151,3 @@
     </script>
 </body>
 </html>
-
