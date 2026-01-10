@@ -4,52 +4,58 @@
   <meta charset="UTF-8">
   <title>Home</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-light">
+<body>
+
+<!-- TOP NAV BAR -->
+<nav class="d-flex justify-content-between align-items-center p-2 border-bottom bg-white fixed-top">
+  <img src="assets/logos/social.png" alt="Social Logo" width="100">
+  <div class="position-relative">
+    <i class="bi bi-bell fs-4"></i>
+    <span class="notification-badge position-absolute top-0 start-100 translate-middle bg-danger rounded-circle">3</span>
+  </div>
+</nav>
 
 <!-- FEED CONTENT -->
-<div class="container mt-3 mb-5">
-  <h4 class="fw-bold">Feed</h4>
-
+<div class="container mt-5 pt-4 mb-5">
+  <h4>Feed</h4>
   <div class="card mt-3">
     <div class="card-body">
-      <h6 class="card-title">User Name</h6>
-      <p class="card-text">Ye ek sample post hai</p>
+      <h6>User Name</h6>
+      <p>Ye ek sample post hai.</p>
     </div>
   </div>
-
   <div class="card mt-3">
     <div class="card-body">
-      <h6 class="card-title">Another User</h6>
-      <p class="card-text">Dusri post yahan dikhegi</p>
+      <h6>Another User</h6>
+      <p>Dusri post yahan dikhegi.</p>
     </div>
   </div>
 </div>
 
 <!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav fixed-bottom bg-white border-top">
-  <a href="index.html" class="active">
-    <i class="bi bi-house"></i>
+<nav class="bottom-nav fixed-bottom bg-white border-top d-flex justify-content-around">
+  <a href="index.html" class="active text-center">
+    <i class="bi bi-house fs-4"></i>
     <span>Home</span>
   </a>
-  <a href="pages/notification.html">
-    <i class="bi bi-bell"></i>
-    <span>Alerts</span>
+  <a href="pages/search.html" class="text-center">
+    <i class="bi bi-search fs-4"></i>
+    <span>Search</span>
   </a>
-  <a href="pages/profile.html">
-    <i class="bi bi-person"></i>
+  <a href="pages/messages.html" class="text-center">
+    <i class="bi bi-chat-left-text fs-4"></i>
+    <span>Messages</span>
+  </a>
+  <a href="pages/profile.html" class="text-center">
+    <i class="bi bi-person fs-4"></i>
     <span>Profile</span>
   </a>
 </nav>
 
-<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/script.js"></script>
 </body>
