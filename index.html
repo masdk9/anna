@@ -19,8 +19,9 @@
         .nav-item { text-align: center; color: #333; text-decoration: none; font-size: 11px; cursor: pointer; border: none; background: none; }
         .nav-item i { font-size: 22px; display: block; }
 
-        /* Sidebar Custom Styling (As per Image) */
-        .offcanvas { background-color: #f0f2f5 !important; border-radius: 15px 15px 0 0; }
+        /* Sidebar Styling (Right to Left & Full Screen) */
+        .offcanvas-end { width: 100% !important; border: none !important; background-color: #f0f2f5 !important; }
+        
         .profile-card { background: white; border-radius: 12px; margin: 15px; border: 1px solid #e0e0e0; padding: 20px; }
         .profile-dp { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; }
         .user-info h5 { font-weight: 700; margin-bottom: 2px; }
@@ -33,14 +34,15 @@
 
         /* Menu List Styling */
         .menu-container { background: white; border-radius: 12px; margin: 15px; border: 1px solid #e0e0e0; overflow: hidden; }
-        .menu-item { display: flex; align-items: center; padding: 14px 18px; color: #000; text-decoration: none; border-bottom: 1px solid #f0f0f0; transition: background 0.2s; }
+        .menu-item { display: flex; align-items: center; padding: 14px 18px; color: #000; text-decoration: none; border-bottom: 1px solid #f0f0f0; }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item:active { background-color: #f0f2f5; }
         .menu-item i:first-child { font-size: 20px; width: 35px; color: #1c1e21; }
         .menu-item span { flex-grow: 1; font-weight: 500; font-size: 16px; }
         .menu-item .chevron { color: #8a8d91; font-size: 14px; }
         .logout-text { color: #dc3545 !important; }
 
+        /* Custom Close Button for Full Screen */
+        .back-btn { background: none; border: none; font-size: 24px; padding: 10px 15px; }
     </style>
 </head>
 <body>
@@ -51,7 +53,7 @@
     </div>
 
     <div class="container mt-4 text-center">
-        <p class="text-muted">Main feed content goes here...</p>
+        <p class="text-muted">Main feed content...</p>
     </div>
 
     <nav class="bottom-nav">
@@ -61,10 +63,14 @@
         <button class="nav-item" data-bs-toggle="offcanvas" data-bs-target="#profileSidebar"><i class="bi bi-person-circle"></i>Profile</button>
     </nav>
 
-    <div class="offcanvas offcanvas-start w-75" tabindex="-1" id="profileSidebar">
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="profileSidebar">
+        <div class="d-flex align-items-center bg-white border-bottom">
+            <button type="button" class="back-btn" data-bs-dismiss="offcanvas"><i class="bi bi-arrow-left"></i></button>
+            <h6 class="mb-0 fw-bold">Settings</h6>
+        </div>
+
         <div class="offcanvas-body p-0">
-            
-            <div class="profile-card">
+            <div class="profile-card shadow-sm">
                 <div class="d-flex align-items-start mb-3">
                     <img src="https://via.placeholder.com/85" alt="DP" class="profile-dp me-3 border">
                     <div class="user-info">
@@ -84,37 +90,32 @@
                 </div>
             </div>
 
-            <div class="menu-container">
+            <div class="menu-container shadow-sm">
                 <a href="#" class="menu-item">
                     <i class="bi bi-person"></i>
                     <span>Account Centre</span>
                     <i class="bi bi-chevron-right chevron"></i>
                 </a>
-                
                 <a href="#" class="menu-item">
                     <i class="bi bi-gear"></i>
                     <span>Settings</span>
                     <i class="bi bi-chevron-right chevron"></i>
                 </a>
-
                 <a href="#" class="menu-item">
                     <i class="bi bi-shield-protected"></i>
                     <span>Privacy</span>
                     <i class="bi bi-chevron-right chevron"></i>
                 </a>
-
                 <a href="#" class="menu-item">
                     <i class="bi bi-question-circle"></i>
                     <span>Help</span>
                     <i class="bi bi-chevron-right chevron"></i>
                 </a>
-
-                <a href="#" class="menu-item">
+                <a href="#" class="menu-item border-0">
                     <i class="bi bi-box-arrow-right logout-text"></i>
                     <span class="logout-text">Logout</span>
                 </a>
             </div>
-
         </div>
     </div>
 
