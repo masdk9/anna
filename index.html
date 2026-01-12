@@ -1,201 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pixel Perfect Nav</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Floating Nav</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* CSS starts here */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
-<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+        body {
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-<style>
-body {
-  margin: 0;
-  background: #f4f6f7;
-  padding-bottom: 100px;
-}
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 500px; /* Mobile view restrict karne ke liye */
+            height: 70px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            z-index: 100;
+        }
 
-/* ---------- NAVBAR CONTAINER ---------- */
-.nav-wrapper {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 72px; /* As per guideline */
-  background: #fff;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 1px solid #eee;
-  z-index: 2000;
-}
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #8e8e93;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
 
-/* ---------- NAV ITEMS ---------- */
-.nav-item {
-  width: 74px; /* As per guideline */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: #888;
-  gap: 4px;
-}
+        .nav-item.active {
+            color: #2563eb;
+        }
 
-.nav-item i {
-  font-size: 24px; /* As per guideline */
-  line-height: 1;
-}
+        .nav-item i {
+            font-size: 1.4rem;
+        }
 
-.nav-item span {
-  font-size: 12px; /* As per guideline */
-  font-weight: 500;
-}
+        /* Floating Plus Button Styling */
+        .fab-container {
+            position: relative;
+            width: 70px;
+            display: flex;
+            justify-content: center;
+        }
 
-.nav-item.active {
-  color: #004d4d; /* Theme color */
-}
+        .plus-button {
+            position: absolute;
+            /* Yahan se aadha upar set hota hai */
+            top: -35px; 
+            width: 65px;
+            height: 65px;
+            background-color: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            /* White border se "cut-out" look aata hai */
+            border: 6px solid #f4f7f6; 
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            transition: all 0.2s ease;
+        }
 
-/* ---------- CENTER PLUS BUTTON ---------- */
-.plus-wrap {
-  position: relative;
-  width: 74px;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-}
+        .plus-button:active {
+            transform: scale(0.9);
+            background-color: #1d4ed8;
+        }
 
-/* Curved Cut (Transparent effect) */
-.nav-curve {
-  position: absolute;
-  top: -30px;
-  width: 85px;
-  height: 50px;
-  background: #f4f6f7; /* Match body background */
-  border-radius: 50%;
-  z-index: 1;
-}
-
-.plus-btn {
-  position: absolute;
-  top: -26px; /* Floating slightly higher */
-  width: 52px; /* As per guideline */
-  height: 52px; /* As per guideline */
-  background: #004d4d; /* Matches image theme */
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 24px;
-  box-shadow: 0 4px 15px rgba(0, 77, 77, 0.3);
-  z-index: 2;
-  border: none;
-}
-
-/* ---------- PROFILE IMAGE ---------- */
-.nav-profile-img {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* ---------- OFFCANVAS FIX ---------- */
-.offcanvas-end { width: 100% !important; border: none; }
-</style>
+        /* Optional: Content area padding */
+        .main-content {
+            text-align: center;
+            padding-bottom: 80px;
+        }
+    </style>
 </head>
 <body>
 
-<div class="p-3 bg-white border-bottom sticky-top">
-  <b class="h5 m-0">Social App</b>
-</div>
+    <div class="main-content">
+        <h2>Custom Tab Bar</h2>
+        <p>Plus button aadha upar, aadha neeche.</p>
+    </div>
 
-<div class="p-3">
-  <div class="card mb-3 border-0 shadow-sm p-3">
-    <b>Hello, AnnA!</b>
-    <p class="small text-muted m-0">Pixel-perfect navbar is ready.</p>
-  </div>
-</div>
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item active" onclick="setActive(this)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </a>
 
-<div class="nav-wrapper">
-  
-  <a href="#" class="nav-item active" onclick="closeAll()">
-    <i class="fi fi-sr-home"></i>
-    <span>Home</span>
-  </a>
+        <div class="fab-container">
+            <div class="plus-button" id="fab">
+                <i class="fa-solid fa-plus"></i>
+            </div>
+        </div>
 
-  <a href="#" class="nav-item" onclick="toggleCanvas('search')">
-    <i class="fi fi-rr-stats"></i>
-    <span>Status</span>
-  </a>
+        <a href="#" class="nav-item" onclick="setActive(this)">
+            <i class="fa-solid fa-message"></i>
+        </a>
+    </nav>
 
-  <div class="plus-wrap">
-    <div class="nav-curve"></div>
-    <button class="plus-btn">
-      <i class="fi fi-rr-add"></i>
-    </button>
-  </div>
+    <script>
+        // JavaScript starts here
+        
+        // Tab change karne ka logic
+        function setActive(element) {
+            // Purane active class ko remove karein
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => item.classList.remove('active'));
+            
+            // Naye tab ko active banayein
+            element.classList.add('active');
+        }
 
-  <a href="#" class="nav-item" onclick="toggleCanvas('messages')">
-    <i class="fi fi-rr-wallet"></i>
-    <span>Budget</span>
-  </a>
-
-  <a href="#" class="nav-item" onclick="toggleCanvas('profile')">
-    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="nav-profile-img">
-    <span>Profile</span>
-  </a>
-
-</div>
-
-<div class="offcanvas offcanvas-end" id="search">
-  <div class="p-3 border-bottom d-flex align-items-center gap-2">
-    <button class="btn p-0 border-0" data-bs-dismiss="offcanvas">←</button>
-    <b class="m-0">Search Status</b>
-  </div>
-  <div class="offcanvas-body">Dummy Search Data...</div>
-</div>
-
-<div class="offcanvas offcanvas-end" id="messages">
-  <div class="p-3 border-bottom d-flex align-items-center gap-2">
-    <button class="btn p-0 border-0" data-bs-dismiss="offcanvas">←</button>
-    <b class="m-0">Budget Details</b>
-  </div>
-  <div class="offcanvas-body">Budget details dummy content...</div>
-</div>
-
-<div class="offcanvas offcanvas-end" id="profile">
-  <div class="p-3 border-bottom d-flex align-items-center gap-2">
-    <button class="btn p-0 border-0" data-bs-dismiss="offcanvas">←</button>
-    <b>Profile Settings</b>
-  </div>
-  <div class="offcanvas-body text-center">
-    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="rounded-circle mb-2" width="80">
-    <h5>AnnA User</h5>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-function toggleCanvas(id){
-  const el = document.getElementById(id);
-  let inst = bootstrap.Offcanvas.getInstance(el) || new bootstrap.Offcanvas(el);
-  
-  document.querySelectorAll('.offcanvas.show').forEach(o => {
-    if(o.id !== id) bootstrap.Offcanvas.getInstance(o)?.hide();
-  });
-
-  inst.show();
-}
-
-function closeAll(){
-  document.querySelectorAll('.offcanvas.show').forEach(o => {
-    bootstrap.Offcanvas.getInstance(o)?.hide();
-  });
-}
-</script>
+        // Plus button click event
+        const fab = document.getElementById('fab');
+        fab.addEventListener('click', () => {
+            alert('Plus button clicked!');
+        });
+    </script>
 
 </body>
 </html>
