@@ -3,229 +3,194 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social App - AnnA</title>
+<title>Social App</title>
 
 <!-- Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Flaticon UIcons -->
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 
 <style>
-:root{
-  --bg:#f4f7f6;
-  --card:#fff;
-  --border:#e5e5e5;
-  --accent:#ff2d55;
-}
 body{
   margin:0;
-  background:var(--bg);
   font-family:system-ui,-apple-system;
-  padding-bottom:90px;
+  background:#f4f6f7;
+  padding-bottom:80px;
 }
 
-/* TOP BAR */
-.top-nav{
+/* ---------- TOP BAR ---------- */
+.top-bar{
   height:56px;
   background:#fff;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 16px;
-  border-bottom:1px solid var(--border);
+  border-bottom:1px solid #ddd;
   position:sticky;
   top:0;
   z-index:1000;
 }
-.logo{font-weight:800;font-size:20px}
 
-/* OFFCANVAS */
-.offcanvas-end{width:100%}
-.back-header{
+/* ---------- OFFCANVAS ---------- */
+.offcanvas-end{ width:100%; }
+.back-bar{
   height:56px;
-  background:#fff;
   display:flex;
   align-items:center;
-  gap:10px;
-  padding:0 12px;
-  border-bottom:1px solid var(--border);
+  gap:12px;
+  padding:0 14px;
+  border-bottom:1px solid #ddd;
+  background:#fff;
 }
 .back-btn{
-  background:none;border:none;font-size:22px;
+  background:none;
+  border:none;
+  font-size:22px;
 }
 
-/* PROFILE */
-.profile-card{
-  background:var(--card);
-  margin:12px;
-  padding:20px;
-  border-radius:16px;
-}
-.profile-dp{
-  width:80px;height:80px;border-radius:50%;
-}
-.stats{
-  display:flex;justify-content:space-around;margin-top:15px;
-}
-
-/* MENU */
-.menu-group{
-  background:var(--card);
-  margin:12px;
-  border-radius:16px;
-  overflow:hidden;
-}
-.menu-link{
-  display:flex;align-items:center;
-  padding:16px;
-  border-bottom:1px solid #eee;
-  gap:14px;
-}
-.menu-link i{font-size:22px}
-
-/* BOTTOM NAV */
+/* ---------- BOTTOM NAV ---------- */
 .bottom-nav{
-  position:fixed;bottom:0;width:100%;
-  height:72px;background:#fff;
-  display:flex;justify-content:space-around;align-items:center;
-  border-top:1px solid var(--border);
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:70px;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:1px solid #ddd;
   z-index:2000;
 }
-.nav-item{
-  flex:1;text-align:center;color:#333;
+
+.nav-btn{
+  flex:1;
+  text-align:center;
+  font-size:0; /* 🔥 TEXT COMPLETELY DEAD */
 }
-.nav-item i{font-size:24px}
-.plus{
-  width:52px;height:52px;border-radius:50%;
-  background:var(--accent);color:#fff;
-  display:flex;align-items:center;justify-content:center;
-  font-size:26px;margin-top:-22px;
+
+.nav-btn i{
+  font-size:24px;
+  color:#111;
+}
+
+.nav-btn img{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+}
+
+.plus-btn{
+  width:54px;
+  height:54px;
+  background:#ff2d55;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:-26px;
+}
+
+.plus-btn i{
+  color:#fff;
+  font-size:26px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="top-nav">
-  <div class="logo">Social</div>
-  <i class="fi fi-rr-bell" style="font-size:22px" onclick="toggleOffcanvas('notif')"></i>
+<!-- TOP -->
+<div class="top-bar">
+  <b>Social</b>
+  <i class="fi fi-rr-bell" style="font-size:22px" onclick="toggleCanvas('notif')"></i>
 </div>
 
-<!-- NOTIFICATIONS -->
+<!-- NOTIFICATION -->
 <div class="offcanvas offcanvas-end" id="notif">
-  <div class="back-header">
+  <div class="back-bar">
     <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
     <b>Notifications</b>
   </div>
-  <div class="offcanvas-body text-center mt-5">
-    <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80">
-    <p class="text-muted mt-3">No new notifications</p>
+  <div class="offcanvas-body text-center text-muted mt-5">
+    No notifications
   </div>
 </div>
 
 <!-- SEARCH -->
 <div class="offcanvas offcanvas-end" id="search">
-  <div class="back-header">
+  <div class="back-bar">
     <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-    <input class="form-control border-0 bg-light" placeholder="Search...">
+    <input class="form-control border-0 bg-light" placeholder="Search">
   </div>
 </div>
 
-<!-- MESSAGES -->
+<!-- MESSAGE -->
 <div class="offcanvas offcanvas-end" id="messages">
-  <div class="back-header">
+  <div class="back-bar">
     <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
     <b>Messages</b>
   </div>
-  <div class="offcanvas-body">
-    <p class="text-muted">No messages</p>
-  </div>
+  <div class="offcanvas-body text-muted">No messages</div>
 </div>
 
 <!-- PROFILE -->
 <div class="offcanvas offcanvas-end" id="profile">
-  <div class="back-header">
+  <div class="back-bar">
     <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
     <b>Profile</b>
   </div>
-  <div class="offcanvas-body p-0">
-    <div class="profile-card text-center">
-      <img class="profile-dp"
-        src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg">
-      <h5 class="mt-2">AnnA</h5>
-      <small>@anna_user</small>
-      <div class="stats">
-        <div><b>12</b><br>Posts</div>
-        <div><b>340</b><br>Followers</div>
-        <div><b>180</b><br>Following</div>
-      </div>
-    </div>
-
-    <div class="menu-group">
-      <div class="menu-link">
-        <i class="fi fi-sr-user"></i>
-        <div>
-          <b>Account Centre</b><br>
-          <small class="text-muted">Customize your account details</small>
-        </div>
-      </div>
-    </div>
-
-    <div class="menu-group">
-      <div class="menu-link"><i class="fi fi-sr-settings"></i>Settings</div>
-      <div class="menu-link"><i class="fi fi-sr-shield-check"></i>Privacy</div>
-      <div class="menu-link"><i class="fi fi-sr-question"></i>Help Centre</div>
-    </div>
+  <div class="offcanvas-body text-center">
+    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
+         style="width:90px;height:90px;border-radius:50%">
+    <h5 class="mt-2">AnnA</h5>
   </div>
 </div>
 
 <!-- BOTTOM NAV (ICON ONLY) -->
 <div class="bottom-nav">
-  <div class="nav-item" onclick="closeAll()">
+
+  <div class="nav-btn" onclick="closeAll()">
     <i class="fi fi-sr-home"></i>
   </div>
 
-  <div class="nav-item" onclick="toggleOffcanvas('search')">
+  <div class="nav-btn" onclick="toggleCanvas('search')">
     <i class="fi fi-rr-search"></i>
   </div>
 
-  <div class="nav-item">
-    <div class="plus">
+  <div class="nav-btn">
+    <div class="plus-btn">
       <i class="fi fi-sr-add"></i>
     </div>
   </div>
 
-  <div class="nav-item" onclick="toggleOffcanvas('messages')">
+  <div class="nav-btn" onclick="toggleCanvas('messages')">
     <i class="fi fi-sr-comment-alt"></i>
   </div>
 
-  <div class="nav-item" onclick="toggleOffcanvas('profile')">
-    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
-         style="width:26px;height:26px;border-radius:50%">
+  <div class="nav-btn" onclick="toggleCanvas('profile')">
+    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg">
   </div>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function toggleOffcanvas(id){
+function toggleCanvas(id){
   const el = document.getElementById(id);
   let inst = bootstrap.Offcanvas.getInstance(el);
 
-  // अगर वही खुला है → बंद
   if(inst && el.classList.contains('show')){
     inst.hide();
     return;
   }
 
-  // पहले सब बंद
   document.querySelectorAll('.offcanvas.show').forEach(o=>{
     bootstrap.Offcanvas.getInstance(o)?.hide();
   });
 
-  // फिर target खोल
   inst = inst || new bootstrap.Offcanvas(el);
   inst.show();
 }
