@@ -3,109 +3,245 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social App</title>
+<title>Social App - AnnA</title>
 
+<!-- Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+
+<!-- Flaticon UIcons -->
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+<style>
+body{
+    margin:0;
+    background:#f4f7f6;
+    font-family:system-ui, -apple-system;
+    padding-bottom:90px;
+}
+
+/* TOP BAR */
+.top-nav{
+    background:#fff;
+    height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 16px;
+    border-bottom:1px solid #ddd;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+.logo{font-weight:800;font-size:20px}
+
+/* OFFCANVAS */
+.offcanvas-end{width:100%}
+.back-header{
+    height:56px;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    border-bottom:1px solid #ddd;
+}
+.back-btn{
+    background:none;
+    border:none;
+    font-size:22px;
+    margin-right:10px;
+}
+
+/* PROFILE */
+.profile-card{
+    background:#fff;
+    margin:12px;
+    padding:20px;
+    border-radius:16px;
+}
+.profile-dp{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+}
+.stats{
+    display:flex;
+    justify-content:space-around;
+    margin-top:15px;
+}
+
+/* MENU */
+.menu-group{
+    background:#fff;
+    margin:12px;
+    border-radius:16px;
+    overflow:hidden;
+}
+.menu-link{
+    display:flex;
+    align-items:center;
+    padding:16px;
+    border-bottom:1px solid #eee;
+}
+.menu-link i{font-size:22px;margin-right:14px}
+
+/* BOTTOM NAV */
+.bottom-nav-container{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:75px;
+    background:#fff;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid #ddd;
+    z-index:2000;
+}
+.nav-item{
+    flex:1;
+    text-align:center;
+    font-size:10px;
+    color:#444;
+}
+.nav-item i{
+    font-size:24px;
+    display:block;
+    margin-bottom:4px;
+}
+.plus-icon{
+    width:52px;
+    height:52px;
+    background:#ff2d55;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:26px;
+    margin-top:-20px;
+}
+</style>
 </head>
 
 <body>
 
 <!-- ================= HEADER ================= -->
-<header class="top-bar">
-    <span id="backBtn" onclick="goBack()">←</span>
-    <span id="title">Social</span>
-    <img id="bell" src="https://cdn-icons-png.flaticon.com/128/1827/1827392.png"
-         onclick="openScreen('notifications')">
-</header>
+<div class="top-nav">
+    <div class="logo">Social</div>
+    <i class="fi fi-rr-bell" style="font-size:22px" onclick="openPage('notifSidebar')"></i>
+</div>
 
-<!-- ================= SCREENS ================= -->
+<!-- ================= NOTIFICATION ================= -->
+<div class="offcanvas offcanvas-end" id="notifSidebar">
+    <div class="back-header">
+        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+        <b>Notifications</b>
+    </div>
+    <div class="offcanvas-body text-center mt-5">
+        <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80">
+        <p class="text-muted mt-3">No new notifications</p>
+    </div>
+</div>
 
-<section class="screen active" id="home"></section>
+<!-- ================= SEARCH ================= -->
+<div class="offcanvas offcanvas-end" id="searchSidebar">
+    <div class="back-header">
+        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+        <input class="form-control border-0 bg-light" placeholder="Search...">
+    </div>
+</div>
 
-<section class="screen" id="search">
-    <input class="search-box" placeholder="Search railway, whatsapp, etc...">
-    <h6>DUMMY SEARCH SUGGESTIONS</h6>
-    <div class="chip">railway exam kab hai</div>
-    <div class="chip">whatsapp account suspend</div>
-    <div class="chip">youtube views nahi aa rahe</div>
-    <div class="chip">bootstrap tutorial</div>
-</section>
+<!-- ================= MESSAGE ================= -->
+<div class="offcanvas offcanvas-end" id="messageSidebar">
+    <div class="back-header">
+        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+        <b>Messages</b>
+    </div>
+    <div class="offcanvas-body">
+        <p class="text-muted">No messages</p>
+    </div>
+</div>
 
-<section class="screen" id="messages">
-    <div class="chat-card">
-        <div class="avatar">RK</div>
-        <div>
-            <b>Rahul Kumar</b><br>
-            Bhai railway exam kab hai?
-        </div>
-        <span class="time">10:30 AM</span>
+<!-- ================= PROFILE ================= -->
+<div class="offcanvas offcanvas-end" id="profileSidebar">
+    <div class="back-header">
+        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+        <b>Profile</b>
     </div>
 
-    <div class="chat-card">
-        <div class="avatar blue">SS</div>
-        <div>
-            <b>Soniya Singh</b><br>
-            WhatsApp check kar, urgent hai.
+    <div class="offcanvas-body p-0">
+        <div class="profile-card text-center">
+            <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp">
+            <h5 class="mt-2">AnnA</h5>
+            <small>@anna_user</small>
+
+            <div class="stats">
+                <div><b>12</b><br>Posts</div>
+                <div><b>340</b><br>Followers</div>
+                <div><b>180</b><br>Following</div>
+            </div>
         </div>
-        <span class="time">9:45 AM</span>
-    </div>
-</section>
 
-<section class="screen center" id="notifications">
-    <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80">
-    <p>No new notifications at the moment.</p>
-</section>
+        <div class="menu-group">
+            <div class="menu-link">
+                <i class="fi fi-sr-user"></i>
+                <div>
+                    <b>Account Centre</b><br>
+                    <small class="text-muted">Customize your account details</small>
+                </div>
+            </div>
+        </div>
 
-<section class="screen" id="profile">
-    <div class="profile-card">
-        <img class="dp" src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg">
-        <h4>AnnA</h4>
-        <small>@anna_user</small>
-
-        <div class="stats">
-            <div><b>12</b><br>Posts</div>
-            <div><b>340</b><br>Followers</div>
-            <div><b>180</b><br>Following</div>
+        <div class="menu-group">
+            <div class="menu-link"><i class="fi fi-sr-settings"></i>Settings</div>
+            <div class="menu-link"><i class="fi fi-sr-shield-check"></i>Privacy</div>
+            <div class="menu-link"><i class="fi fi-sr-question"></i>Help Centre</div>
         </div>
     </div>
-
-    <div class="list" onclick="openScreen('edit')">Edit Profile</div>
-    <div class="list">Settings</div>
-    <div class="list">Privacy</div>
-    <div class="list">Help Centre</div>
-</section>
-
-<section class="screen" id="edit">
-    <h5>Edit Profile</h5>
-    <input value="AnnA Developer">
-    <input value="anna_user">
-    <input value="anna@example.com">
-    <input value="+91 9876543210">
-    <button class="save-btn" onclick="goBack()">Save</button>
-</section>
+</div>
 
 <!-- ================= BOTTOM NAV ================= -->
-<nav class="bottom-nav">
-    <div onclick="openScreen('home')">
-        <img src="https://cdn-icons-png.flaticon.com/128/1946/1946436.png">
+<div class="bottom-nav-container">
+
+    <div class="nav-item" onclick="location.reload()">
+        <i class="fi fi-sr-home"></i>
         Home
     </div>
-    <div onclick="openScreen('search')">
-        <img src="https://cdn-icons-png.flaticon.com/128/54/54481.png">
+
+    <div class="nav-item" onclick="openPage('searchSidebar')">
+        <i class="fi fi-rr-search"></i>
         Search
     </div>
-    <div class="plus">+</div>
-    <div onclick="openScreen('messages')">
-        <img src="https://cdn-icons-png.flaticon.com/128/2099/2099122.png">
+
+    <div class="nav-item">
+        <div class="plus-icon">
+            <i class="fi fi-sr-add"></i>
+        </div>
+    </div>
+
+    <div class="nav-item" onclick="openPage('messageSidebar')">
+        <i class="fi fi-sr-comment-alt"></i>
         Message
     </div>
-    <div onclick="openScreen('profile')">
-        <img src="https://cdn-icons-png.flaticon.com/128/847/847969.png">
+
+    <div class="nav-item" onclick="openPage('profileSidebar')">
+        <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
+             style="width:26px;height:26px;border-radius:50%">
         Profile
     </div>
-</nav>
 
-<script src="app.js"></script>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function openPage(id){
+    document.querySelectorAll('.offcanvas.show').forEach(el=>{
+        bootstrap.Offcanvas.getInstance(el)?.hide();
+    });
+    new bootstrap.Offcanvas(document.getElementById(id)).show();
+}
+</script>
+
 </body>
 </html>
