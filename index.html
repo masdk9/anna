@@ -1,23 +1,143 @@
-<div class="offcanvas offcanvas-end" id="search">
-  <div class="back-bar">
-    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-    <input class="form-control border-0 bg-light" placeholder="Search people, tags, or posts...">
-  </div>
-  <div class="offcanvas-body">
-    <h6 class="text-muted mb-3">Recent Searches</h6>
-    <div class="d-flex align-items-center mb-3">
-      <div class="bg-light rounded-circle p-2 me-3"><i class="fi fi-rr-search"></i></div>
-      <div>
-        <p class="mb-0 fw-bold">#WebDevelopment</p>
-        <small class="text-muted">Trending in Tech</small>
-      </div>
-    </div>
-    <div class="d-flex align-items-center mb-3">
-      <img src="https://i.pravatar.cc/150?u=jack" style="width:40px;height:40px;border-radius:50%" class="me-3">
-      <div>
-        <p class="mb-0 fw-bold">Jack Snyder</p>
-        <small class="text-muted">Followed by @anna_user</small>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social App</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-solid-rounded/css/uicons-solid-rounded.css">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+<style>
+body{
+  margin:0;
+  font-family:system-ui,-apple-system;
+  background:#f4f6f7;
+  padding-bottom:80px;
+}
+
+/* ---------- TOP BAR ---------- */
+.top-bar{
+  height:56px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  border-bottom:1px solid #ddd;
+  position:sticky;
+  top:0;
+  z-index:1000;
+}
+
+/* ---------- OFFCANVAS ---------- */
+.offcanvas-end{ width:100%; border:none; }
+.back-bar{
+  height:56px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 14px;
+  border-bottom:1px solid #ddd;
+  background:#fff;
+}
+.back-btn{
+  background:none;
+  border:none;
+  font-size:22px;
+}
+
+/* ---------- BOTTOM NAV ---------- */
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  height:70px;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  border-top:1px solid #ddd;
+  z-index:2000;
+}
+
+.nav-btn{
+  flex:1;
+  text-align:center;
+  font-size:0;
+}
+
+.nav-btn i{
+  font-size:24px;
+  color:#111;
+}
+
+.nav-btn img{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+}
+
+.plus-btn{
+  width:54px;
+  height:54px;
+  background:#ff2d55;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:-26px;
+}
+
+.plus-btn i{
+  color:#fff;
+  font-size:26px;
+}
+
+/* ---------- LIST ITEMS ---------- */
+.list-item{
+  display:flex;
+  align-items:center;
+  padding:12px 16px;
+  border-bottom:1px solid #eee;
+  background:#fff;
+}
+.profile-menu div{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+.profile-menu div span{font-size:16px;}
+.profile-menu div.text-danger{color:#ff3b30;}
+
+.online-dot {
+  height: 10px;
+  width: 10px;
+  background-color: #31a24c;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <b style="font-size: 20px;">Social</b>
+  <i class="fi fi-rr-bell" style="font-size:22px" onclick="toggleCanvas('notif')"></i>
+</div>
+
+<div class="p-3">
+  <div class="card border-0 shadow-sm mb-3">
+    <div class="card-body">
+      <h6 class="mb-1">Welcome back, AnnA!</h6>
+      <p class="text-muted small">Check what your friends are up to today.</p>
     </div>
   </div>
 </div>
@@ -28,23 +148,42 @@
     <b>Notifications</b>
   </div>
   <div class="offcanvas-body p-0">
-    <div class="p-3 border-bottom bg-light-subtle">
-      <div class="d-flex align-items-start">
-        <img src="https://i.pravatar.cc/150?u=sara" style="width:45px;height:45px;border-radius:50%" class="me-3">
-        <div>
-          <p class="mb-1"><b>Sara Williams</b> liked your photo. <span class="text-muted small">2m ago</span></p>
-          <img src="https://picsum.photos/50/50" class="rounded mt-1">
-        </div>
+    <div class="list-item">
+      <img src="https://i.pravatar.cc/150?u=1" class="rounded-circle me-3" width="45">
+      <div>
+        <p class="mb-0 small"><b>Rahul Sharma</b> liked your post. <span class="text-muted">2m ago</span></p>
       </div>
     </div>
-    <div class="p-3 border-bottom">
-      <div class="d-flex align-items-center">
-        <img src="https://i.pravatar.cc/150?u=mike" style="width:45px;height:45px;border-radius:50%" class="me-3">
-        <div>
-          <p class="mb-0"><b>Mike Ross</b> started following you. <span class="text-muted small">1h ago</span></p>
-          <button class="btn btn-primary btn-sm mt-2 px-3" style="border-radius:20px">Follow Back</button>
-        </div>
+    <div class="list-item bg-light">
+      <img src="https://i.pravatar.cc/150?u=2" class="rounded-circle me-3" width="45">
+      <div>
+        <p class="mb-0 small"><b>Sneha Kapoor</b> started following you. <span class="text-muted">1h ago</span></p>
+        <button class="btn btn-primary btn-sm mt-2 py-0">Follow Back</button>
       </div>
+    </div>
+    <div class="list-item">
+      <img src="https://i.pravatar.cc/150?u=3" class="rounded-circle me-3" width="45">
+      <div>
+        <p class="mb-0 small"><b>Vikram</b> mentioned you in a comment. <span class="text-muted">5h ago</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" id="search">
+  <div class="back-bar">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <input class="form-control border-0 bg-light" placeholder="Search friends...">
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="p-3"><small class="text-muted fw-bold">TRENDING</small></div>
+    <div class="list-item">#NewYear2024</div>
+    <div class="list-item">#WebDevelopment</div>
+    <div class="list-item">#TravelVibes</div>
+    <div class="p-3"><small class="text-muted fw-bold">SUGGESTED PEOPLE</small></div>
+    <div class="list-item">
+      <img src="https://i.pravatar.cc/150?u=8" class="rounded-circle me-3" width="40">
+      <span>Amit Techie</span>
     </div>
   </div>
 </div>
@@ -55,29 +194,84 @@
     <b>Messages</b>
   </div>
   <div class="offcanvas-body p-0">
-    <div class="p-3 d-flex align-items-center border-bottom" onclick="alert('Opening chat with Rahul')">
+    <div class="list-item">
       <div class="position-relative me-3">
-        <img src="https://i.pravatar.cc/150?u=rahul" style="width:55px;height:55px;border-radius:50%">
-        <span class="position-absolute bottom-0 end-0 bg-success border border-white rounded-circle" style="width:14px;height:14px"></span>
+        <img src="https://i.pravatar.cc/150?u=9" class="rounded-circle" width="50">
+        <span class="position-absolute bottom-0 end-0 online-dot"></span>
       </div>
-      <div class="flex-grow-1">
+      <div class="w-100">
         <div class="d-flex justify-content-between">
-          <h6 class="mb-0">Rahul Sharma</h6>
-          <small class="text-muted">10:45 AM</small>
+          <b class="small">Karan Johar</b>
+          <small class="text-muted">12:30 PM</small>
         </div>
-        <p class="text-muted small mb-0 text-truncate" style="max-width:200px">Bhai, kal ka kya plan hai? Milein kya?</p>
+        <p class="mb-0 text-muted small text-truncate" style="max-width: 200px;">Bhai party ka kya scene hai?</p>
       </div>
     </div>
-    
-    <div class="p-3 d-flex align-items-center border-bottom bg-light">
-      <img src="https://i.pravatar.cc/150?u=priya" style="width:55px;height:55px;border-radius:50%" class="me-3">
-      <div class="flex-grow-1">
+    <div class="list-item">
+      <img src="https://i.pravatar.cc/150?u=10" class="rounded-circle me-3" width="50">
+      <div class="w-100">
         <div class="d-flex justify-content-between">
-          <h6 class="mb-0 fw-bold">Priya Patel</h6>
-          <small class="text-danger fw-bold">2 New</small>
+          <b class="small">Priya Sharma</b>
+          <small class="text-danger fw-bold">●</small>
         </div>
-        <p class="text-dark small mb-0 fw-bold">Sent a photo</p>
+        <p class="mb-0 text-dark small fw-bold">See you tomorrow!</p>
       </div>
     </div>
   </div>
 </div>
+
+<div class="offcanvas offcanvas-end" id="profile">
+  <div class="back-bar">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <b>Profile</b>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="text-center p-4 bg-white border-bottom">
+      <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" style="width:90px;height:90px;border-radius:50%">
+      <h5 class="mt-2 mb-0">AnnA</h5>
+      <small class="text-muted">@anna_user</small>
+      <div class="d-flex justify-content-around mt-3">
+        <div><b>12</b><br><small>Posts</small></div>
+        <div><b>340</b><br><small>Followers</small></div>
+        <div><b>180</b><br><small>Following</small></div>
+      </div>
+    </div>
+    <div class="bg-white profile-menu">
+      <div onclick="alert('Settings')"><i class="fi fi-sr-settings"></i><span>Settings</span></div>
+      <div onclick="alert('Privacy')"><i class="fi fi-sr-shield-check"></i><span>Privacy</span></div>
+      <div class="text-danger" onclick="alert('Log Out')"><i class="fi fi-sr-sign-out-alt"></i><span>Logout</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-btn" onclick="closeAll()"><i class="fi fi-sr-home"></i></div>
+  <div class="nav-btn" onclick="toggleCanvas('search')"><i class="fi fi-rr-search"></i></div>
+  <div class="nav-btn"><div class="plus-btn"><i class="fi fi-sr-add"></i></div></div>
+  <div class="nav-btn" onclick="toggleCanvas('messages')"><i class="fi fi-sr-comment-alt"></i></div>
+  <div class="nav-btn" onclick="toggleCanvas('profile')">
+    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg">
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function toggleCanvas(id){
+  const el = document.getElementById(id);
+  let inst = bootstrap.Offcanvas.getInstance(el);
+  if(inst && el.classList.contains('show')){ inst.hide(); return; }
+  document.querySelectorAll('.offcanvas.show').forEach(o=>{
+    bootstrap.Offcanvas.getInstance(o)?.hide();
+  });
+  inst = inst || new bootstrap.Offcanvas(el);
+  inst.show();
+}
+function closeAll(){
+  document.querySelectorAll('.offcanvas.show').forEach(o=>{
+    bootstrap.Offcanvas.getInstance(o)?.hide();
+  });
+}
+</script>
+
+</body>
+</html>
