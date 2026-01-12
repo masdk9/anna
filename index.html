@@ -3,41 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Floating Nav</title>
+    <title>Complete Project Layout</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* CSS starts here */
+        /* 1. RESET & BASE STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
         body {
-            background-color: #f4f7f6;
+            background-color: #f8f9fa;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
             height: 100vh;
+            overflow: hidden; /* Main body scroll nahi hogi, sirf content hoga */
         }
 
-        /* Bottom Navigation Bar */
+        /* 2. HEADER */
+        header {
+            height: 60px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+            flex-shrink: 0;
+        }
+
+        /* 3. SCROLLABLE CONTENT AREA */
+        main {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 100px; /* FAB ke liye extra space */
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        /* 4. BOTTOM NAVIGATION BAR */
         .bottom-nav {
             position: fixed;
             bottom: 0;
             width: 100%;
-            max-width: 500px; /* Mobile view restrict karne ke liye */
             height: 70px;
             background-color: #ffffff;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
-            z-index: 100;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
         .nav-item {
@@ -46,10 +73,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #8e8e93;
-            cursor: pointer;
-            transition: 0.3s;
+            color: #999;
             text-decoration: none;
+            font-size: 0.8rem;
+            transition: 0.2s;
         }
 
         .nav-item.active {
@@ -58,89 +85,104 @@
 
         .nav-item i {
             font-size: 1.4rem;
+            margin-bottom: 2px;
         }
 
-        /* Floating Plus Button Styling */
-        .fab-container {
+        /* 5. FLOATING PLUS BUTTON (The "Half-In, Half-Out" Logic) */
+        .fab-wrapper {
             position: relative;
-            width: 70px;
+            width: 80px;
+            height: 100%;
             display: flex;
             justify-content: center;
         }
 
-        .plus-button {
+        .fab-button {
             position: absolute;
-            /* Yahan se aadha upar set hota hai */
-            top: -35px; 
+            top: -35px; /* Button ka exact aadha hissa upar */
             width: 65px;
             height: 65px;
-            background-color: #2563eb;
+            background: #2563eb;
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            border: 5px solid #f8f9fa; /* Body background se match karein */
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
             cursor: pointer;
-            /* White border se "cut-out" look aata hai */
-            border: 6px solid #f4f7f6; 
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-            transition: all 0.2s ease;
+            transition: transform 0.2s;
         }
 
-        .plus-button:active {
-            transform: scale(0.9);
-            background-color: #1d4ed8;
+        .fab-button:active {
+            transform: scale(0.9) translateY(5px);
         }
 
-        /* Optional: Content area padding */
-        .main-content {
-            text-align: center;
-            padding-bottom: 80px;
+        /* Simple Responsive tweak */
+        @media (min-width: 600px) {
+            .bottom-nav {
+                width: 400px;
+                left: 50%;
+                transform: translateX(-50%);
+                border-radius: 30px 30px 0 0;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-content">
-        <h2>Custom Tab Bar</h2>
-        <p>Plus button aadha upar, aadha neeche.</p>
-    </div>
+    <header>
+        <i class="fa-solid fa-bars" style="margin-right: 15px;"></i>
+        My Github Project
+    </header>
+
+    <main>
+        <div class="card">
+            <h3>Recent Activity</h3>
+            <p>Aapka github repo ka content yahan aayega.</p>
+        </div>
+        
+        <div class="card" style="height: 300px;">
+            <h3>Project Stats</h3>
+            <p>Scroll karke dekho, nav bar fixed rahegi.</p>
+        </div>
+
+        <div class="card" style="height: 300px;">
+            <h3>Settings</h3>
+            <p>Yahan baki configurations ho sakti hain.</p>
+        </div>
+    </main>
 
     <nav class="bottom-nav">
-        <a href="#" class="nav-item active" onclick="setActive(this)">
+        <a href="#" class="nav-item active" onclick="switchTab(this)">
             <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
         </a>
 
-        <div class="fab-container">
-            <div class="plus-button" id="fab">
+        <div class="fab-wrapper">
+            <div class="fab-button" id="mainPlusBtn">
                 <i class="fa-solid fa-plus"></i>
             </div>
         </div>
 
-        <a href="#" class="nav-item" onclick="setActive(this)">
+        <a href="#" class="nav-item" onclick="switchTab(this)">
             <i class="fa-solid fa-message"></i>
+            <span>Message</span>
         </a>
     </nav>
 
     <script>
-        // JavaScript starts here
-        
-        // Tab change karne ka logic
-        function setActive(element) {
-            // Purane active class ko remove karein
-            const items = document.querySelectorAll('.nav-item');
-            items.forEach(item => item.classList.remove('active'));
-            
-            // Naye tab ko active banayein
-            element.classList.add('active');
+        // Tab switching logic
+        function switchTab(el) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        // Plus button click event
-        const fab = document.getElementById('fab');
-        fab.addEventListener('click', () => {
-            alert('Plus button clicked!');
-        });
+        // Plus button action
+        document.getElementById('mainPlusBtn').onclick = function() {
+            alert('Adding new item...');
+        };
     </script>
 
 </body>
