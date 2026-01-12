@@ -13,233 +13,227 @@
 <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
 
 <style>
+:root{
+  --bg:#f4f7f6;
+  --card:#fff;
+  --border:#e5e5e5;
+  --accent:#ff2d55;
+}
 body{
-    margin:0;
-    background:#f4f7f6;
-    font-family:system-ui, -apple-system;
-    padding-bottom:90px;
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,-apple-system;
+  padding-bottom:90px;
 }
 
 /* TOP BAR */
 .top-nav{
-    background:#fff;
-    height:56px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 16px;
-    border-bottom:1px solid #ddd;
-    position:sticky;
-    top:0;
-    z-index:1000;
+  height:56px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:1000;
 }
 .logo{font-weight:800;font-size:20px}
 
 /* OFFCANVAS */
 .offcanvas-end{width:100%}
 .back-header{
-    height:56px;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    padding:0 12px;
-    border-bottom:1px solid #ddd;
+  height:56px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 12px;
+  border-bottom:1px solid var(--border);
 }
 .back-btn{
-    background:none;
-    border:none;
-    font-size:22px;
-    margin-right:10px;
+  background:none;border:none;font-size:22px;
 }
 
 /* PROFILE */
 .profile-card{
-    background:#fff;
-    margin:12px;
-    padding:20px;
-    border-radius:16px;
+  background:var(--card);
+  margin:12px;
+  padding:20px;
+  border-radius:16px;
 }
 .profile-dp{
-    width:80px;
-    height:80px;
-    border-radius:50%;
+  width:80px;height:80px;border-radius:50%;
 }
 .stats{
-    display:flex;
-    justify-content:space-around;
-    margin-top:15px;
+  display:flex;justify-content:space-around;margin-top:15px;
 }
 
 /* MENU */
 .menu-group{
-    background:#fff;
-    margin:12px;
-    border-radius:16px;
-    overflow:hidden;
+  background:var(--card);
+  margin:12px;
+  border-radius:16px;
+  overflow:hidden;
 }
 .menu-link{
-    display:flex;
-    align-items:center;
-    padding:16px;
-    border-bottom:1px solid #eee;
+  display:flex;align-items:center;
+  padding:16px;
+  border-bottom:1px solid #eee;
+  gap:14px;
 }
-.menu-link i{font-size:22px;margin-right:14px}
+.menu-link i{font-size:22px}
 
 /* BOTTOM NAV */
-.bottom-nav-container{
-    position:fixed;
-    bottom:0;
-    width:100%;
-    height:75px;
-    background:#fff;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    border-top:1px solid #ddd;
-    z-index:2000;
+.bottom-nav{
+  position:fixed;bottom:0;width:100%;
+  height:72px;background:#fff;
+  display:flex;justify-content:space-around;align-items:center;
+  border-top:1px solid var(--border);
+  z-index:2000;
 }
 .nav-item{
-    flex:1;
-    text-align:center;
-    font-size:10px;
-    color:#444;
+  flex:1;text-align:center;color:#333;
 }
-.nav-item i{
-    font-size:24px;
-    display:block;
-    margin-bottom:4px;
-}
-.plus-icon{
-    width:52px;
-    height:52px;
-    background:#ff2d55;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:26px;
-    margin-top:-20px;
+.nav-item i{font-size:24px}
+.plus{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;margin-top:-22px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- TOP BAR -->
 <div class="top-nav">
-    <div class="logo">Social</div>
-    <i class="fi fi-rr-bell" style="font-size:22px" onclick="openPage('notifSidebar')"></i>
+  <div class="logo">Social</div>
+  <i class="fi fi-rr-bell" style="font-size:22px" onclick="toggleOffcanvas('notif')"></i>
 </div>
 
-<!-- ================= NOTIFICATION ================= -->
-<div class="offcanvas offcanvas-end" id="notifSidebar">
-    <div class="back-header">
-        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-        <b>Notifications</b>
-    </div>
-    <div class="offcanvas-body text-center mt-5">
-        <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80">
-        <p class="text-muted mt-3">No new notifications</p>
-    </div>
+<!-- NOTIFICATIONS -->
+<div class="offcanvas offcanvas-end" id="notif">
+  <div class="back-header">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <b>Notifications</b>
+  </div>
+  <div class="offcanvas-body text-center mt-5">
+    <img src="https://cdn-icons-png.flaticon.com/128/3602/3602145.png" width="80">
+    <p class="text-muted mt-3">No new notifications</p>
+  </div>
 </div>
 
-<!-- ================= SEARCH ================= -->
-<div class="offcanvas offcanvas-end" id="searchSidebar">
-    <div class="back-header">
-        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-        <input class="form-control border-0 bg-light" placeholder="Search...">
-    </div>
+<!-- SEARCH -->
+<div class="offcanvas offcanvas-end" id="search">
+  <div class="back-header">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <input class="form-control border-0 bg-light" placeholder="Search...">
+  </div>
 </div>
 
-<!-- ================= MESSAGE ================= -->
-<div class="offcanvas offcanvas-end" id="messageSidebar">
-    <div class="back-header">
-        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-        <b>Messages</b>
-    </div>
-    <div class="offcanvas-body">
-        <p class="text-muted">No messages</p>
-    </div>
+<!-- MESSAGES -->
+<div class="offcanvas offcanvas-end" id="messages">
+  <div class="back-header">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <b>Messages</b>
+  </div>
+  <div class="offcanvas-body">
+    <p class="text-muted">No messages</p>
+  </div>
 </div>
 
-<!-- ================= PROFILE ================= -->
-<div class="offcanvas offcanvas-end" id="profileSidebar">
-    <div class="back-header">
-        <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
-        <b>Profile</b>
+<!-- PROFILE -->
+<div class="offcanvas offcanvas-end" id="profile">
+  <div class="back-header">
+    <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
+    <b>Profile</b>
+  </div>
+  <div class="offcanvas-body p-0">
+    <div class="profile-card text-center">
+      <img class="profile-dp"
+        src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg">
+      <h5 class="mt-2">AnnA</h5>
+      <small>@anna_user</small>
+      <div class="stats">
+        <div><b>12</b><br>Posts</div>
+        <div><b>340</b><br>Followers</div>
+        <div><b>180</b><br>Following</div>
+      </div>
     </div>
 
-    <div class="offcanvas-body p-0">
-        <div class="profile-card text-center">
-            <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg" class="profile-dp">
-            <h5 class="mt-2">AnnA</h5>
-            <small>@anna_user</small>
-
-            <div class="stats">
-                <div><b>12</b><br>Posts</div>
-                <div><b>340</b><br>Followers</div>
-                <div><b>180</b><br>Following</div>
-            </div>
+    <div class="menu-group">
+      <div class="menu-link">
+        <i class="fi fi-sr-user"></i>
+        <div>
+          <b>Account Centre</b><br>
+          <small class="text-muted">Customize your account details</small>
         </div>
-
-        <div class="menu-group">
-            <div class="menu-link">
-                <i class="fi fi-sr-user"></i>
-                <div>
-                    <b>Account Centre</b><br>
-                    <small class="text-muted">Customize your account details</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="menu-group">
-            <div class="menu-link"><i class="fi fi-sr-settings"></i>Settings</div>
-            <div class="menu-link"><i class="fi fi-sr-shield-check"></i>Privacy</div>
-            <div class="menu-link"><i class="fi fi-sr-question"></i>Help Centre</div>
-        </div>
+      </div>
     </div>
+
+    <div class="menu-group">
+      <div class="menu-link"><i class="fi fi-sr-settings"></i>Settings</div>
+      <div class="menu-link"><i class="fi fi-sr-shield-check"></i>Privacy</div>
+      <div class="menu-link"><i class="fi fi-sr-question"></i>Help Centre</div>
+    </div>
+  </div>
 </div>
 
-<!-- ================= BOTTOM NAV ================= -->
-<div class="bottom-nav-container">
+<!-- BOTTOM NAV (ICON ONLY) -->
+<div class="bottom-nav">
+  <div class="nav-item" onclick="closeAll()">
+    <i class="fi fi-sr-home"></i>
+  </div>
 
-    <div class="nav-item" onclick="location.reload()">
-        <i class="fi fi-sr-home"></i>
-        Home
+  <div class="nav-item" onclick="toggleOffcanvas('search')">
+    <i class="fi fi-rr-search"></i>
+  </div>
+
+  <div class="nav-item">
+    <div class="plus">
+      <i class="fi fi-sr-add"></i>
     </div>
+  </div>
 
-    <div class="nav-item" onclick="openPage('searchSidebar')">
-        <i class="fi fi-rr-search"></i>
-        Search
-    </div>
+  <div class="nav-item" onclick="toggleOffcanvas('messages')">
+    <i class="fi fi-sr-comment-alt"></i>
+  </div>
 
-    <div class="nav-item">
-        <div class="plus-icon">
-            <i class="fi fi-sr-add"></i>
-        </div>
-    </div>
-
-    <div class="nav-item" onclick="openPage('messageSidebar')">
-        <i class="fi fi-sr-comment-alt"></i>
-        Message
-    </div>
-
-    <div class="nav-item" onclick="openPage('profileSidebar')">
-        <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
-             style="width:26px;height:26px;border-radius:50%">
-        Profile
-    </div>
-
+  <div class="nav-item" onclick="toggleOffcanvas('profile')">
+    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
+         style="width:26px;height:26px;border-radius:50%">
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function openPage(id){
-    document.querySelectorAll('.offcanvas.show').forEach(el=>{
-        bootstrap.Offcanvas.getInstance(el)?.hide();
-    });
-    new bootstrap.Offcanvas(document.getElementById(id)).show();
+function toggleOffcanvas(id){
+  const el = document.getElementById(id);
+  let inst = bootstrap.Offcanvas.getInstance(el);
+
+  // अगर वही खुला है → बंद
+  if(inst && el.classList.contains('show')){
+    inst.hide();
+    return;
+  }
+
+  // पहले सब बंद
+  document.querySelectorAll('.offcanvas.show').forEach(o=>{
+    bootstrap.Offcanvas.getInstance(o)?.hide();
+  });
+
+  // फिर target खोल
+  inst = inst || new bootstrap.Offcanvas(el);
+  inst.show();
+}
+
+function closeAll(){
+  document.querySelectorAll('.offcanvas.show').forEach(o=>{
+    bootstrap.Offcanvas.getInstance(o)?.hide();
+  });
 }
 </script>
 
