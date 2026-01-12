@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social App - Profile Update</title>
+    <title>Social App Final v2</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -14,9 +14,10 @@
             --text-main: #050505;
             --text-sec: #65676b;
             --card-bg: #ffffff;
+            --danger: #ff3b30;
         }
 
-        /* Dark Mode Variables (Triggered via JS) */
+        /* Dark Mode Variables */
         body.dark-mode {
             --primary: #3b82f6;
             --bg: #18191a;
@@ -37,9 +38,9 @@
         .app-name { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
         .notification-btn { position: relative; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-main); }
         .notification-btn:active { background: rgba(0,0,0,0.05); }
-        .badge { position: absolute; top: 8px; right: 8px; width: 10px; height: 10px; background: #ff3b30; border-radius: 50%; border: 2px solid var(--card-bg); }
+        .badge { position: absolute; top: 8px; right: 8px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; border: 2px solid var(--card-bg); }
 
-        /* --- SUB-HEADER (For Profile/Settings Pages) --- */
+        /* --- SUB-HEADER --- */
         .sub-header {
             position: fixed; top: 0; width: 100%; height: 60px; background: var(--card-bg);
             display: flex; align-items: center; padding: 0 15px;
@@ -59,7 +60,7 @@
         .active-page { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- FULL SCREEN SUB-PAGES (Account/Settings) --- */
+        /* --- SUB-PAGES --- */
         .sub-page {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg); z-index: 1001; padding-top: 60px;
@@ -75,95 +76,89 @@
         .user-info span { font-size: 11px; color: var(--text-sec); }
         .post-text { padding: 5px 15px 10px; font-size: 14px; color: var(--text-main); line-height: 1.4; }
         .post-image { width: 100%; height: auto; display: block; }
+        .post-video { width: 100%; height: auto; background: black; display: block; }
         .action-bar { display: flex; justify-content: space-around; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; }
         .action-btn { color: var(--text-sec); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-        /* --- PROFILE PAGE SPECIFIC (Screenshot Match) --- */
-        .profile-card {
-            background: var(--card-bg); border-radius: 20px; padding: 25px 20px;
-            margin: 0 15px 15px; text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .profile-dp-large {
-            width: 90px; height: 90px; border-radius: 50%; object-fit: cover;
-            border: 3px solid var(--primary); padding: 2px; margin-bottom: 10px;
-        }
+        /* --- SEARCH STYLES --- */
+        .search-section { padding: 15px; background: var(--card-bg); margin-bottom: 10px; }
+        .search-title { font-size: 14px; font-weight: bold; color: var(--text-sec); margin-bottom: 10px; }
+        .tag-container { display: flex; flex-wrap: wrap; gap: 10px; }
+        .search-tag { background: var(--bg); padding: 8px 15px; border-radius: 20px; font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 5px; }
+        .trend-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+        /* --- NOTIFICATION STYLES --- */
+        .notif-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: white; font-size: 18px; }
+        .notif-text { flex: 1; font-size: 14px; color: var(--text-main); }
+        .notif-time { font-size: 11px; color: var(--text-sec); }
+
+        /* --- MESSAGE STYLES --- */
+        .msg-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
+        .msg-content { flex: 1; margin-left: 10px; }
+        .msg-name { font-size: 15px; font-weight: 600; color: var(--text-main); }
+        .msg-preview { font-size: 13px; color: var(--text-sec); display: flex; align-items: center; gap: 5px; }
+        .msg-status { font-size: 12px; }
+        .seen { color: #0084ff; }
+        .unseen { color: #ccc; }
+        .blocked { color: var(--danger); }
+
+        /* --- PROFILE STYLES --- */
+        .profile-card { background: var(--card-bg); border-radius: 20px; padding: 25px 20px; margin: 0 15px 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .profile-dp-large { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); padding: 2px; margin-bottom: 10px; }
         .profile-name { font-size: 20px; font-weight: bold; color: var(--text-main); }
         .profile-username { font-size: 14px; color: var(--text-sec); margin-bottom: 10px; }
         .profile-bio { font-size: 13px; color: var(--text-main); line-height: 1.4; margin-bottom: 20px; padding: 0 10px; }
-        
         .stats-row { display: flex; justify-content: space-around; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); }
         .stat-box { display: flex; flex-direction: column; align-items: center; }
         .stat-num { font-size: 18px; font-weight: bold; color: var(--text-main); }
         .stat-label { font-size: 12px; color: var(--text-sec); }
 
-        /* Profile Menu List */
-        .menu-list { margin: 0 15px; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .menu-item {
-            display: flex; align-items: center; padding: 15px 20px;
-            border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer;
-        }
+        .menu-list { margin: 0 15px 15px; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
         .menu-item:last-child { border-bottom: none; }
-        .menu-item:active { background: rgba(0,0,0,0.02); }
-        
         .menu-icon { width: 35px; height: 35px; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main); margin-right: 15px; }
         .menu-text { flex: 1; }
         .menu-title { font-size: 15px; font-weight: 600; color: var(--text-main); }
         .menu-sub { font-size: 12px; color: var(--text-sec); }
         .menu-arrow { color: var(--text-sec); font-size: 14px; }
 
-        /* --- FORMS (Account Centre) --- */
+        /* Logout Specific */
+        .logout-item { color: var(--danger); }
+        .logout-item .menu-icon, .logout-item .menu-title { color: var(--danger); }
+
+        /* --- FORMS & TOGGLES --- */
         .edit-form { padding: 20px; }
         .dp-change-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
         .change-photo-text { color: var(--primary); font-weight: 600; margin-top: 10px; font-size: 14px; cursor: pointer; }
-        
         .form-group { margin-bottom: 15px; }
         .form-label { font-size: 12px; color: var(--text-sec); margin-bottom: 5px; display: block; }
-        .form-input { 
-            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; 
-            background: var(--bg); color: var(--text-main); font-size: 15px; outline: none;
-        }
-        .form-input:focus { border-color: var(--primary); }
-        .save-btn {
-            width: 100%; padding: 14px; background: var(--primary); color: white;
-            border: none; border-radius: 10px; font-size: 16px; font-weight: 600;
-            margin-top: 10px; cursor: pointer;
-        }
-
-        /* --- SETTINGS TOGGLES --- */
-        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--card-bg); margin-bottom: 1px; }
-        .toggle-switch {
-            width: 45px; height: 24px; background: #ccc; border-radius: 20px;
-            position: relative; transition: 0.3s; cursor: pointer;
-        }
-        .toggle-circle {
-            width: 20px; height: 20px; background: white; border-radius: 50%;
-            position: absolute; top: 2px; left: 2px; transition: 0.3s;
-        }
+        .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: var(--bg); color: var(--text-main); font-size: 15px; outline: none; }
+        .save-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; margin-top: 10px; cursor: pointer; }
+        
+        .toggle-switch { width: 45px; height: 24px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s; cursor: pointer; }
+        .toggle-circle { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
         .toggle-active { background: var(--primary); }
         .toggle-active .toggle-circle { transform: translateX(21px); }
 
         /* --- BOTTOM NAV --- */
         .nav-container { position: fixed; bottom: 0; width: 100%; height: 80px; z-index: 1000; display: flex; justify-content: center; }
         .nav-bg-svg { position: absolute; bottom: 0; width: 100%; height: 65px; fill: var(--card-bg); filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.05)); transition: fill 0.3s; }
-        
         .fab { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.4); border: none; cursor: pointer; z-index: 20; transition: transform 0.2s; }
         .fab:active { transform: scale(0.9); }
-
         .nav-items { position: absolute; bottom: 0; width: 100%; height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; z-index: 15; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-sec); height: 100%; transition: color 0.3s; cursor: pointer;}
         .nav-item.active { color: var(--primary); }
         .nav-item i { font-size: 20px; margin-bottom: 4px; }
         .nav-item span { font-size: 10px; font-weight: 600; }
         .spacer { width: 80px; pointer-events: none; }
-
     </style>
 </head>
 <body>
 
     <header class="top-header" id="mainHeader">
         <div class="app-name">SocialVibe</div>
-        <div class="notification-btn">
+        <div class="notification-btn" onclick="openNotifications()">
             <i class="fa-regular fa-bell" style="font-size: 22px;"></i>
             <span class="badge"></span>
         </div>
@@ -185,7 +180,45 @@
                     <span>2 hours ago</span>
                 </div>
             </div>
-            <div class="post-text">Zindagi me risk wahi lete hain, jo code compile hone se pehle save nahi karte. 😎</div>
+            <div class="post-text" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; padding: 30px; font-weight: bold; text-align: center; margin: 0 10px 10px; border-radius: 10px;">
+                "Zindagi me risk wahi lete hain, jo code compile hone se pehle save nahi karte." 😎
+            </div>
+            <div class="action-bar">
+                <div class="action-btn"><i class="fa-regular fa-heart"></i> Like</div>
+                <div class="action-btn"><i class="fa-regular fa-comment"></i> Comment</div>
+                <div class="action-btn"><i class="fa-solid fa-share"></i> Share</div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div class="user-header">
+                <img src="https://ui-avatars.com/api/?name=Amit+S&background=random" class="avatar">
+                <div class="user-info">
+                    <h4>Amit Sharma</h4>
+                    <span>5 hours ago</span>
+                </div>
+            </div>
+            <div class="post-text">Aaj mausam bada suhana hai! 🏔️ #Travel</div>
+            <img src="https://picsum.photos/500/300" class="post-image" alt="Nature">
+            <div class="action-bar">
+                <div class="action-btn"><i class="fa-regular fa-heart"></i> Like</div>
+                <div class="action-btn"><i class="fa-regular fa-comment"></i> Comment</div>
+                <div class="action-btn"><i class="fa-solid fa-share"></i> Share</div>
+            </div>
+        </div>
+
+        <div class="post-card">
+            <div class="user-header">
+                <img src="https://ui-avatars.com/api/?name=Dev+Guru&background=random" class="avatar">
+                <div class="user-info">
+                    <h4>Dev Guru</h4>
+                    <span>Yesterday</span>
+                </div>
+            </div>
+            <div class="post-text">Check out this cool effect! 🔥</div>
+            <video class="post-video" controls>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+            </video>
             <div class="action-bar">
                 <div class="action-btn"><i class="fa-regular fa-heart"></i> Like</div>
                 <div class="action-btn"><i class="fa-regular fa-comment"></i> Comment</div>
@@ -194,261 +227,107 @@
         </div>
     </div>
 
-    <div id="search" class="page-container" style="background: var(--card-bg);">
-        <div style="padding: 20px; text-align: center; color: var(--text-sec);">Search functionality here...</div>
+    <div id="search" class="page-container">
+        <div class="search-section">
+            <div class="search-title">Recent Searches</div>
+            <div class="tag-container">
+                <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> Rifah UI Design</div>
+                <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> React Native</div>
+                <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> Viral Memes</div>
+                <div class="search-tag"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-title">Trending for you</div>
+            <div class="trend-row">
+                <div>
+                    <div style="font-weight: bold; color: var(--text-main);">#IndVsAus</div>
+                    <div style="font-size: 12px; color: var(--text-sec);">245K Posts</div>
+                </div>
+                <i class="fa-solid fa-arrow-trend-up" style="color: var(--primary);"></i>
+            </div>
+            <div class="trend-row">
+                <div>
+                    <div style="font-weight: bold; color: var(--text-main);">#CodingLife</div>
+                    <div style="font-size: 12px; color: var(--text-sec);">50K Posts</div>
+                </div>
+                <i class="fa-solid fa-arrow-trend-up" style="color: var(--primary);"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="notifications" class="page-container">
+        <div class="notif-row">
+            <div class="notif-icon" style="background: #ef4444;"><i class="fa-solid fa-heart"></i></div>
+            <div class="notif-text"><strong>Priya Singh</strong> liked your photo.</div>
+            <div class="notif-time">2m</div>
+        </div>
+        <div class="notif-row">
+            <div class="notif-icon" style="background: #3b82f6;"><i class="fa-solid fa-comment"></i></div>
+            <div class="notif-text"><strong>Rahul</strong> commented: "Bhai gazab!"</div>
+            <div class="notif-time">1h</div>
+        </div>
+        <div class="notif-row">
+            <div class="notif-icon" style="background: #10b981;"><i class="fa-solid fa-user-plus"></i></div>
+            <div class="notif-text"><strong>Design Hub</strong> started following you.</div>
+            <div class="notif-time">3h</div>
+        </div>
     </div>
 
     <div id="message" class="page-container">
-         <div style="padding: 20px; text-align: center; color: var(--text-sec);">Messages will appear here...</div>
+         <div class="msg-row">
+            <img src="https://ui-avatars.com/api/?name=Anjali&background=random" class="avatar">
+            <div class="msg-content">
+                <div class="msg-name">Anjali</div>
+                <div class="msg-preview" style="color: var(--text-main); font-weight: bold;">Hello, notes bhej do please?</div>
+            </div>
+            <div style="width: 10px; height: 10px; background: var(--primary); border-radius: 50%;"></div>
+        </div>
+        <div class="msg-row">
+            <img src="https://ui-avatars.com/api/?name=Rahul&background=random" class="avatar">
+            <div class="msg-content">
+                <div class="msg-name">Rahul</div>
+                <div class="msg-preview"><i class="fa-solid fa-check-double seen msg-status"></i> Ha bhai, pahuch gaya.</div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-sec);">10:30 AM</div>
+        </div>
+        <div class="msg-row">
+            <img src="https://ui-avatars.com/api/?name=Unknown&background=random" class="avatar">
+            <div class="msg-content">
+                <div class="msg-name">Unknown User</div>
+                <div class="msg-preview"><i class="fa-solid fa-circle-exclamation blocked msg-status"></i> Failed to send.</div>
+            </div>
+            <div style="font-size: 11px; color: var(--danger);">Failed</div>
+        </div>
     </div>
 
     <div id="profile" class="page-container">
-        
         <div class="profile-card">
             <img src="https://ui-avatars.com/api/?name=AnnA&background=random" class="profile-dp-large" id="profileDisplayPic">
             <div class="profile-name">AnnA</div>
             <div class="profile-username">@anna_user</div>
-            <div class="profile-bio">
-                Web App Developer | Learning Bootstrap & UI Design. Building the next big social platform for developers.
-            </div>
-            
+            <div class="profile-bio">Web App Developer | Building the next big thing.</div>
             <div class="stats-row">
-                <div class="stat-box">
-                    <span class="stat-num">12</span>
-                    <span class="stat-label">Posts</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-num">340</span>
-                    <span class="stat-label">Followers</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-num">180</span>
-                    <span class="stat-label">Following</span>
-                </div>
+                <div class="stat-box"><span class="stat-num">12</span><span class="stat-label">Posts</span></div>
+                <div class="stat-box"><span class="stat-num">340</span><span class="stat-label">Followers</span></div>
+                <div class="stat-box"><span class="stat-num">180</span><span class="stat-label">Following</span></div>
             </div>
         </div>
 
         <div class="menu-list">
-            
             <div class="menu-item" onclick="openSubPage('accountPage', 'Account Centre')">
                 <div class="menu-icon"><i class="fa-regular fa-circle-user"></i></div>
-                <div class="menu-text">
-                    <div class="menu-title">Account Centre</div>
-                    <div class="menu-sub">Customize your account details</div>
-                </div>
+                <div class="menu-text"><div class="menu-title">Account Centre</div><div class="menu-sub">Personal details</div></div>
                 <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </div>
-
             <div class="menu-item" onclick="openSubPage('settingsPage', 'Settings')">
                 <div class="menu-icon"><i class="fa-solid fa-gear"></i></div>
-                <div class="menu-text">
-                    <div class="menu-title">Settings</div>
-                </div>
+                <div class="menu-text"><div class="menu-title">Settings</div></div>
                 <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </div>
-
             <div class="menu-item">
                 <div class="menu-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="menu-text">
-                    <div class="menu-title">Privacy</div>
-                </div>
+                <div class="menu-text"><div class="menu-title">Privacy</div></div>
                 <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-
-            <div class="menu-item">
-                <div class="menu-icon"><i class="fa-regular fa-circle-question"></i></div>
-                <div class="menu-text">
-                    <div class="menu-title">Help Centre</div>
-                </div>
-                <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-
-        </div>
-    </div>
-
-    <div id="accountPage" class="sub-page">
-        <div class="edit-form">
-            
-            <div class="dp-change-wrapper">
-                <img src="https://ui-avatars.com/api/?name=AnnA&background=random" style="width: 80px; height: 80px; border-radius: 50%;" id="editDisplayPic">
-                <div class="change-photo-text" onclick="document.getElementById('fileInput').click()">Change Profile Photo</div>
-                <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewImage(this)">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Name</label>
-                <input type="text" class="form-input" value="AnnA">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Username</label>
-                <input type="text" class="form-input" value="anna_user">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Gender</label>
-                <select class="form-input">
-                    <option>Female</option>
-                    <option>Male</option>
-                    <option>Other</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Birthday</label>
-                <input type="date" class="form-input" value="2000-01-01">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-input" value="anna@example.com">
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Mobile</label>
-                <input type="tel" class="form-input" value="+91 98765 43210">
-            </div>
-
-            <button class="save-btn" onclick="closeSubPage()">Save Changes</button>
-
-        </div>
-    </div>
-
-    <div id="settingsPage" class="sub-page">
-        
-        <div class="setting-row">
-            <div class="menu-text">
-                <div class="menu-title">Dark Mode</div>
-                <div class="menu-sub">Reduce eye strain</div>
-            </div>
-            <div class="toggle-switch" onclick="toggleDarkMode(this)">
-                <div class="toggle-circle"></div>
-            </div>
-        </div>
-
-        <div class="setting-row">
-            <div class="menu-text">
-                <div class="menu-title">Download over Wi-Fi only</div>
-                <div class="menu-sub">Save mobile data</div>
-            </div>
-            <div class="toggle-switch" onclick="toggleSwitch(this)">
-                <div class="toggle-circle"></div>
-            </div>
-        </div>
-
-        <div class="setting-row">
-            <div class="menu-text">
-                <div class="menu-title">Data Saver</div>
-                <div class="menu-sub">Lower image quality</div>
-            </div>
-            <div class="toggle-switch" onclick="toggleSwitch(this)">
-                <div class="toggle-circle"></div>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px; padding: 0 15px;">
-            <div class="menu-item" style="color: #ff3b30;" onclick="alert('Account Deleted!')">
-                <div class="menu-icon" style="color: #ff3b30;"><i class="fa-solid fa-trash"></i></div>
-                <div class="menu-text">
-                    <div class="menu-title" style="color: #ff3b30;">Delete Account</div>
-                    <div class="menu-sub">Permanently delete your data</div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="nav-container">
-        <svg class="nav-bg-svg" viewBox="0 0 375 65" preserveAspectRatio="none">
-            <path d="M 0,0 H 138 C 150,0 160,40 187.5,40 C 215,40 225,0 237,0 H 375 V 65 H 0 Z"></path>
-        </svg>
-
-        <button class="fab">
-            <i class="fa-solid fa-plus"></i>
-        </button>
-
-        <div class="nav-items">
-            <div class="nav-item active" data-target="home" onclick="switchTab(this)">
-                <i class="fa-solid fa-house"></i>
-                <span>Home</span>
-            </div>
-            <div class="nav-item" data-target="search" onclick="switchTab(this)">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <span>Search</span>
-            </div>
-            <div class="spacer"></div>
-            <div class="nav-item" data-target="message" onclick="switchTab(this)">
-                <i class="fa-brands fa-facebook-messenger" style="font-size: 24px;"></i>
-                <span>Chat</span>
-            </div>
-            <div class="nav-item" data-target="profile" onclick="switchTab(this)">
-                <i class="fa-solid fa-user"></i>
-                <span>Profile</span>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // --- Tab Switch Logic ---
-        function switchTab(element) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
-
-            const targetId = element.getAttribute('data-target');
-            document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active-page'));
-            document.getElementById(targetId).classList.add('active-page');
-            
-            // Close any open sub-pages when switching main tabs
-            closeSubPage();
-        }
-
-        // --- Sub Page Logic (Account / Settings) ---
-        function openSubPage(pageId, title) {
-            // Show the sub-page
-            document.getElementById(pageId).classList.add('active');
-            
-            // Show the sub-header and update title
-            const subHeader = document.getElementById('subHeader');
-            document.getElementById('subPageTitle').innerText = title;
-            subHeader.classList.add('visible');
-
-            // Hide main header for cleanliness
-            document.getElementById('mainHeader').style.transform = "translateY(-100%)";
-        }
-
-        function closeSubPage() {
-            // Hide all sub-pages
-            document.querySelectorAll('.sub-page').forEach(page => page.classList.remove('active'));
-            
-            // Hide sub-header
-            document.getElementById('subHeader').classList.remove('visible');
-
-            // Bring back main header
-            document.getElementById('mainHeader').style.transform = "translateY(0)";
-        }
-
-        // --- DP Change Preview ---
-        function previewImage(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('editDisplayPic').src = e.target.result;
-                    document.getElementById('profileDisplayPic').src = e.target.result; // Update main profile too
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        // --- Toggle Logic ---
-        function toggleSwitch(element) {
-            element.classList.toggle('toggle-active');
-        }
-
-        function toggleDarkMode(element) {
-            element.classList.toggle('toggle-active');
-            document.body.classList.toggle('dark-mode');
-        }
-    </script>
-
-</body>
-</html>
+  
