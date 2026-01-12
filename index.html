@@ -97,6 +97,18 @@ body{
   color:#fff;
   font-size:26px;
 }
+
+/* ---------- PROFILE MENU ITEMS ---------- */
+.profile-menu div{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-bottom:1px solid #eee;
+  cursor:pointer;
+}
+.profile-menu div span{font-size:16px;}
+.profile-menu div.text-danger{color:#ff3b30;}
 </style>
 </head>
 
@@ -142,10 +154,48 @@ body{
     <button class="back-btn" data-bs-dismiss="offcanvas">←</button>
     <b>Profile</b>
   </div>
-  <div class="offcanvas-body text-center">
-    <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
-         style="width:90px;height:90px;border-radius:50%">
-    <h5 class="mt-2">AnnA</h5>
+
+  <div class="offcanvas-body p-0">
+
+    <!-- PROFILE HEADER -->
+    <div class="text-center p-4 bg-white border-bottom">
+      <img src="https://raw.githubusercontent.com/masdk9/anna/main/assets/images/profile/dp.jpg"
+           style="width:90px;height:90px;border-radius:50%">
+      <h5 class="mt-2 mb-0">AnnA</h5>
+      <small class="text-muted">@anna_user</small>
+
+      <div class="d-flex justify-content-around mt-3">
+        <div><b>12</b><br><small>Posts</small></div>
+        <div><b>340</b><br><small>Followers</small></div>
+        <div><b>180</b><br><small>Following</small></div>
+      </div>
+    </div>
+
+    <!-- PROFILE MENU -->
+    <div class="bg-white profile-menu">
+
+      <div onclick="alert('Account Settings')">
+        <i class="fi fi-sr-settings" style="font-size:22px"></i>
+        <span>Settings</span>
+      </div>
+
+      <div onclick="alert('Privacy Options')">
+        <i class="fi fi-sr-shield-check" style="font-size:22px"></i>
+        <span>Privacy</span>
+      </div>
+
+      <div onclick="alert('Help Center')">
+        <i class="fi fi-sr-question" style="font-size:22px"></i>
+        <span>Help</span>
+      </div>
+
+      <div class="text-danger" onclick="alert('Logging Out')">
+        <i class="fi fi-sr-sign-out-alt" style="font-size:22px"></i>
+        <span>Logout</span>
+      </div>
+
+    </div>
+
   </div>
 </div>
 
