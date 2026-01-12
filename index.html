@@ -330,4 +330,127 @@
                 <div class="menu-icon"><i class="fa-solid fa-shield-halved"></i></div>
                 <div class="menu-text"><div class="menu-title">Privacy</div></div>
                 <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-  
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"><i class="fa-regular fa-circle-question"></i></div>
+                <div class="menu-text"><div class="menu-title">Help Centre</div></div>
+                <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            </div>
+            
+            <div class="menu-item logout-item" onclick="alert('Logged Out Successfully!')">
+                <div class="menu-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+                <div class="menu-text"><div class="menu-title">Logout</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="accountPage" class="sub-page">
+        <div class="edit-form">
+            <div class="dp-change-wrapper">
+                <img src="https://ui-avatars.com/api/?name=AnnA&background=random" style="width: 80px; height: 80px; border-radius: 50%;" id="editDisplayPic">
+                <div class="change-photo-text" onclick="document.getElementById('fileInput').click()">Change Profile Photo</div>
+                <input type="file" id="fileInput" style="display: none;" accept="image/*" onchange="previewImage(this)">
+            </div>
+            <div class="form-group"><label class="form-label">Name</label><input type="text" class="form-input" value="AnnA"></div>
+            <div class="form-group"><label class="form-label">Username</label><input type="text" class="form-input" value="anna_user"></div>
+            <div class="form-group"><label class="form-label">Gender</label><select class="form-input"><option>Female</option><option>Male</option></select></div>
+            <button class="save-btn" onclick="closeSubPage()">Save Changes</button>
+        </div>
+    </div>
+
+    <div id="settingsPage" class="sub-page">
+        <div class="setting-row" style="background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.05);">
+            <div class="menu-text"><div class="menu-title" style="color: var(--text-main);">Dark Mode</div></div>
+            <div class="toggle-switch" onclick="toggleDarkMode(this)"><div class="toggle-circle"></div></div>
+        </div>
+        <div class="setting-row" style="background: var(--card-bg); padding: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <div class="menu-text"><div class="menu-title" style="color: var(--text-main);">Data Saver</div></div>
+            <div class="toggle-switch" onclick="toggleSwitch(this)"><div class="toggle-circle"></div></div>
+        </div>
+        <div style="margin-top: 30px; padding: 0 15px;">
+            <div class="menu-item" style="color: var(--danger);" onclick="alert('Account Deleted!')">
+                <div class="menu-icon" style="color: var(--danger);"><i class="fa-solid fa-trash"></i></div>
+                <div class="menu-text"><div class="menu-title" style="color: var(--danger);">Delete Account</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-container">
+        <svg class="nav-bg-svg" viewBox="0 0 375 65" preserveAspectRatio="none">
+            <path d="M 0,0 H 138 C 150,0 160,40 187.5,40 C 215,40 225,0 237,0 H 375 V 65 H 0 Z"></path>
+        </svg>
+
+        <button class="fab">
+            <i class="fa-solid fa-plus"></i>
+        </button>
+
+        <div class="nav-items">
+            <div class="nav-item active" data-target="home" onclick="switchTab(this)">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </div>
+            <div class="nav-item" data-target="search" onclick="switchTab(this)">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Search</span>
+            </div>
+            <div class="spacer"></div>
+            <div class="nav-item" data-target="message" onclick="switchTab(this)">
+                <i class="fa-brands fa-facebook-messenger" style="font-size: 24px;"></i>
+                <span>Chat</span>
+            </div>
+            <div class="nav-item" data-target="profile" onclick="switchTab(this)">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(element) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            const targetId = element.getAttribute('data-target');
+            document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active-page'));
+            document.getElementById(targetId).classList.add('active-page');
+            closeSubPage();
+        }
+
+        function openNotifications() {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.page-container').forEach(page => page.classList.remove('active-page'));
+            document.getElementById('notifications').classList.add('active-page');
+        }
+
+        function openSubPage(pageId, title) {
+            document.getElementById(pageId).classList.add('active');
+            const subHeader = document.getElementById('subHeader');
+            document.getElementById('subPageTitle').innerText = title;
+            subHeader.classList.add('visible');
+            document.getElementById('mainHeader').style.transform = "translateY(-100%)";
+        }
+
+        function closeSubPage() {
+            document.querySelectorAll('.sub-page').forEach(page => page.classList.remove('active'));
+            document.getElementById('subHeader').classList.remove('visible');
+            document.getElementById('mainHeader').style.transform = "translateY(0)";
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('editDisplayPic').src = e.target.result;
+                    document.getElementById('profileDisplayPic').src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function toggleSwitch(element) { element.classList.toggle('toggle-active'); }
+        function toggleDarkMode(element) {
+            element.classList.toggle('toggle-active');
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+</html>
