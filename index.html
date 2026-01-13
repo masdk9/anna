@@ -3,156 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social App Final v2</title>
+    <title>Social App v3</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        /* --- BASE STYLES --- */
-        :root {
-            --primary: #2563eb;
-            --bg: #f0f2f5;
-            --text-main: #050505;
-            --text-sec: #65676b;
-            --card-bg: #ffffff;
-            --danger: #ff3b30;
-        }
+<style>
+/* --- BASE STYLES --- */
+:root {
+    --primary: #2563eb;
+    --bg: #f0f2f5;
+    --text-main: #050505;
+    --text-sec: #65676b;
+    --card-bg: #ffffff;
+    --danger: #ff3b30;
+}
 
-        /* Dark Mode Variables */
-        body.dark-mode {
-            --primary: #3b82f6;
-            --bg: #18191a;
-            --text-main: #e4e6eb;
-            --text-sec: #b0b3b8;
-            --card-bg: #242526;
-        }
+/* Dark Mode Variables */
+body.dark-mode {
+    --primary: #3b82f6;
+    --bg: #18191a;
+    --text-main: #e4e6eb;
+    --text-sec: #b0b3b8;
+    --card-bg: #242526;
+}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg); color: var(--text-main); height: 100vh; display: flex; flex-direction: column; overflow: hidden; transition: background 0.3s; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        /* --- HEADER --- */
-        .top-header {
-            position: fixed; top: 0; width: 100%; height: 60px; background: var(--card-bg);
-            display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 1001; transition: background 0.3s;
-        }
-        .app-name { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-        .notification-btn { position: relative; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-main); }
-        .notification-btn:active { background: rgba(0,0,0,0.05); }
-        .badge { position: absolute; top: 8px; right: 8px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; border: 2px solid var(--card-bg); }
+body { 
+    background-color: var(--bg); 
+    color: var(--text-main); 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; /* Important: Body scroll band, sirf page container scroll hoga */
+    transition: background 0.3s; 
+}
 
-        /* --- SUB-HEADER --- */
-        .sub-header {
-            position: fixed; top: 0; width: 100%; height: 60px; background: var(--card-bg);
-            display: flex; align-items: center; padding: 0 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 1002;
-            transform: translateX(100%); transition: transform 0.3s ease;
-        }
-        .sub-header.visible { transform: translateX(0); }
-        .back-btn { font-size: 20px; padding: 10px; margin-right: 10px; cursor: pointer; color: var(--text-main); }
-        .page-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
+/* --- HEADER --- */
+.top-header {
+    position: fixed; top: 0; width: 100%; height: 60px; background: var(--card-bg);
+    display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    z-index: 2000; /* Sabse upar */
+    transition: background 0.3s;
+}
+.app-name { font-size: 22px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+.notification-btn { position: relative; cursor: pointer; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--text-main); }
+.notification-btn:active { background: rgba(0,0,0,0.05); }
+.badge { position: absolute; top: 8px; right: 8px; width: 10px; height: 10px; background: var(--danger); border-radius: 50%; border: 2px solid var(--card-bg); }
 
-        /* --- PAGE LAYOUT --- */
-        .page-container {
-            flex: 1; width: 100%; overflow-y: auto;
-            padding-top: 70px; padding-bottom: 100px;
-            display: none; 
-        }
-        .active-page { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+/* --- SUB-HEADER --- */
+.sub-header {
+    position: fixed; top: 0; width: 100%; height: 60px; background: var(--card-bg);
+    display: flex; align-items: center; padding: 0 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+    z-index: 2001; /* Header se bhi upar */
+    transform: translateX(100%); transition: transform 0.3s ease;
+}
+.sub-header.visible { transform: translateX(0); }
+.back-btn { font-size: 20px; padding: 10px; margin-right: 10px; cursor: pointer; color: var(--text-main); }
+.page-title { font-size: 18px; font-weight: 600; color: var(--text-main); }
 
-        /* --- SUB-PAGES --- */
-        .sub-page {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg); z-index: 1001; padding-top: 60px;
-            overflow-y: auto; transform: translateX(100%); transition: transform 0.3s ease;
-        }
-        .sub-page.active { transform: translateX(0); }
+/* --- PAGE LAYOUT --- */
+.page-container {
+    flex: 1; width: 100%; overflow-y: auto;
+    padding-top: 70px; padding-bottom: 100px; /* Nav bar ke liye jagah */
+    display: none; 
+}
+.active-page { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- FEED STYLES --- */
-        .post-card { background: var(--card-bg); margin-bottom: 15px; padding-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-        .user-header { display: flex; align-items: center; padding: 10px 15px; }
-        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #ddd; object-fit: cover; margin-right: 10px; }
-        .user-info h4 { font-size: 14px; margin-bottom: 2px; color: var(--text-main); }
-        .user-info span { font-size: 11px; color: var(--text-sec); }
-        .post-text { padding: 5px 15px 10px; font-size: 14px; color: var(--text-main); line-height: 1.4; }
-        .post-image { width: 100%; height: auto; display: block; }
-        .post-video { width: 100%; height: auto; background: black; display: block; }
-        .action-bar { display: flex; justify-content: space-around; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; }
-        .action-btn { color: var(--text-sec); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+/* --- SUB-PAGES (Full Screen) --- */
+.sub-page {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: var(--bg); 
+    z-index: 2002; /* Sabse top layer */
+    padding-top: 60px;
+    overflow-y: auto; transform: translateX(100%); transition: transform 0.3s ease;
+}
+.sub-page.active { transform: translateX(0); }
 
-        /* --- SEARCH STYLES --- */
-        .search-section { padding: 15px; background: var(--card-bg); margin-bottom: 10px; }
-        .search-title { font-size: 14px; font-weight: bold; color: var(--text-sec); margin-bottom: 10px; }
-        .tag-container { display: flex; flex-wrap: wrap; gap: 10px; }
-        .search-tag { background: var(--bg); padding: 8px 15px; border-radius: 20px; font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 5px; }
-        .trend-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
+/* --- FEED STYLES --- */
+.post-card { background: var(--card-bg); margin-bottom: 15px; padding-bottom: 10px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.user-header { display: flex; align-items: center; padding: 10px 15px; }
+.avatar { width: 40px; height: 40px; border-radius: 50%; background: #ddd; object-fit: cover; margin-right: 10px; }
+.user-info h4 { font-size: 14px; margin-bottom: 2px; color: var(--text-main); }
+.user-info span { font-size: 11px; color: var(--text-sec); }
+.post-text { padding: 5px 15px 10px; font-size: 14px; color: var(--text-main); line-height: 1.4; }
+.post-image { width: 100%; height: auto; display: block; }
+.post-video { width: 100%; height: auto; background: black; display: block; }
+.action-bar { display: flex; justify-content: space-around; padding-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); margin-top: 5px; }
+.action-btn { color: var(--text-sec); font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-        /* --- NOTIFICATION STYLES --- */
-        .notif-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); }
-        .notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: white; font-size: 18px; }
-        .notif-text { flex: 1; font-size: 14px; color: var(--text-main); }
-        .notif-time { font-size: 11px; color: var(--text-sec); }
+/* --- SEARCH STYLES --- */
+.search-section { padding: 15px; background: var(--card-bg); margin-bottom: 10px; }
+.search-title { font-size: 14px; font-weight: bold; color: var(--text-sec); margin-bottom: 10px; }
+.tag-container { display: flex; flex-wrap: wrap; gap: 10px; }
+.search-tag { background: var(--bg); padding: 8px 15px; border-radius: 20px; font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 5px; }
+.trend-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
 
-        /* --- MESSAGE STYLES --- */
-        .msg-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
-        .msg-content { flex: 1; margin-left: 10px; }
-        .msg-name { font-size: 15px; font-weight: 600; color: var(--text-main); }
-        .msg-preview { font-size: 13px; color: var(--text-sec); display: flex; align-items: center; gap: 5px; }
-        .msg-status { font-size: 12px; }
-        .seen { color: #0084ff; }
-        .unseen { color: #ccc; }
-        .blocked { color: var(--danger); }
+/* --- NOTIFICATION STYLES --- */
+.notif-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); }
+.notif-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: white; font-size: 18px; }
+.notif-text { flex: 1; font-size: 14px; color: var(--text-main); }
+.notif-time { font-size: 11px; color: var(--text-sec); }
 
-        /* --- PROFILE STYLES --- */
-        .profile-card { background: var(--card-bg); border-radius: 20px; padding: 25px 20px; margin: 0 15px 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .profile-dp-large { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); padding: 2px; margin-bottom: 10px; }
-        .profile-name { font-size: 20px; font-weight: bold; color: var(--text-main); }
-        .profile-username { font-size: 14px; color: var(--text-sec); margin-bottom: 10px; }
-        .profile-bio { font-size: 13px; color: var(--text-main); line-height: 1.4; margin-bottom: 20px; padding: 0 10px; }
-        .stats-row { display: flex; justify-content: space-around; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); }
-        .stat-box { display: flex; flex-direction: column; align-items: center; }
-        .stat-num { font-size: 18px; font-weight: bold; color: var(--text-main); }
-        .stat-label { font-size: 12px; color: var(--text-sec); }
+/* --- MESSAGE STYLES --- */
+.msg-row { display: flex; align-items: center; padding: 15px; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
+.msg-content { flex: 1; margin-left: 10px; }
+.msg-name { font-size: 15px; font-weight: 600; color: var(--text-main); }
+.msg-preview { font-size: 13px; color: var(--text-sec); display: flex; align-items: center; gap: 5px; }
+.msg-status { font-size: 12px; }
+.seen { color: #0084ff; }
+.unseen { color: #ccc; }
+.blocked { color: var(--danger); }
 
-        .menu-list { margin: 0 15px 15px; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
-        .menu-item:last-child { border-bottom: none; }
-        .menu-icon { width: 35px; height: 35px; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main); margin-right: 15px; }
-        .menu-text { flex: 1; }
-        .menu-title { font-size: 15px; font-weight: 600; color: var(--text-main); }
-        .menu-sub { font-size: 12px; color: var(--text-sec); }
-        .menu-arrow { color: var(--text-sec); font-size: 14px; }
+/* --- PROFILE STYLES --- */
+.profile-card { background: var(--card-bg); border-radius: 20px; padding: 25px 20px; margin: 0 15px 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.profile-dp-large { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); padding: 2px; margin-bottom: 10px; }
+.profile-name { font-size: 20px; font-weight: bold; color: var(--text-main); }
+.profile-username { font-size: 14px; color: var(--text-sec); margin-bottom: 10px; }
+.profile-bio { font-size: 13px; color: var(--text-main); line-height: 1.4; margin-bottom: 20px; padding: 0 10px; }
+.stats-row { display: flex; justify-content: space-around; padding-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); }
+.stat-box { display: flex; flex-direction: column; align-items: center; }
+.stat-num { font-size: 18px; font-weight: bold; color: var(--text-main); }
+.stat-label { font-size: 12px; color: var(--text-sec); }
 
-        /* Logout Specific */
-        .logout-item { color: var(--danger); }
-        .logout-item .menu-icon, .logout-item .menu-title { color: var(--danger); }
+.menu-list { margin: 0 15px 15px; background: var(--card-bg); border-radius: 15px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.menu-item { display: flex; align-items: center; padding: 15px 20px; border-bottom: 1px solid rgba(0,0,0,0.05); cursor: pointer; }
+.menu-item:last-child { border-bottom: none; }
+.menu-icon { width: 35px; height: 35px; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-main); margin-right: 15px; }
+.menu-text { flex: 1; }
+.menu-title { font-size: 15px; font-weight: 600; color: var(--text-main); }
+.menu-sub { font-size: 12px; color: var(--text-sec); }
+.menu-arrow { color: var(--text-sec); font-size: 14px; }
 
-        /* --- FORMS & TOGGLES --- */
-        .edit-form { padding: 20px; }
-        .dp-change-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
-        .change-photo-text { color: var(--primary); font-weight: 600; margin-top: 10px; font-size: 14px; cursor: pointer; }
-        .form-group { margin-bottom: 15px; }
-        .form-label { font-size: 12px; color: var(--text-sec); margin-bottom: 5px; display: block; }
-        .form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: var(--bg); color: var(--text-main); font-size: 15px; outline: none; }
-        .save-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; margin-top: 10px; cursor: pointer; }
-        
-        .toggle-switch { width: 45px; height: 24px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s; cursor: pointer; }
-        .toggle-circle { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
-        .toggle-active { background: var(--primary); }
-        .toggle-active .toggle-circle { transform: translateX(21px); }
+.logout-item { color: var(--danger); }
+.logout-item .menu-icon, .logout-item .menu-title { color: var(--danger); }
 
-        /* --- BOTTOM NAV --- */
-        .nav-container { position: fixed; bottom: 0; width: 100%; height: 80px; z-index: 1000; display: flex; justify-content: center; }
-        .nav-bg-svg { position: absolute; bottom: 0; width: 100%; height: 65px; fill: var(--card-bg); filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.05)); transition: fill 0.3s; }
-        .fab { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.4); border: none; cursor: pointer; z-index: 20; transition: transform 0.2s; }
-        .fab:active { transform: scale(0.9); }
-        .nav-items { position: absolute; bottom: 0; width: 100%; height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; z-index: 15; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-sec); height: 100%; transition: color 0.3s; cursor: pointer;}
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
-        .nav-item span { font-size: 10px; font-weight: 600; }
-        .spacer { width: 80px; pointer-events: none; }
-    </style>
+/* --- FORMS & TOGGLES --- */
+.edit-form { padding: 20px; }
+.dp-change-wrapper { display: flex; flex-direction: column; align-items: center; margin-bottom: 20px; }
+.change-photo-text { color: var(--primary); font-weight: 600; margin-top: 10px; font-size: 14px; cursor: pointer; }
+.form-group { margin-bottom: 15px; }
+.form-label { font-size: 12px; color: var(--text-sec); margin-bottom: 5px; display: block; }
+.form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: var(--bg); color: var(--text-main); font-size: 15px; outline: none; }
+.save-btn { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; margin-top: 10px; cursor: pointer; }
+
+.toggle-switch { width: 45px; height: 24px; background: #ccc; border-radius: 20px; position: relative; transition: 0.3s; cursor: pointer; }
+.toggle-circle { width: 20px; height: 20px; background: white; border-radius: 50%; position: absolute; top: 2px; left: 2px; transition: 0.3s; }
+.toggle-active { background: var(--primary); }
+.toggle-active .toggle-circle { transform: translateX(21px); }
+
+/* --- BOTTOM NAV FIXED (Important) --- */
+.nav-container { 
+    position: fixed; 
+    bottom: 0; 
+    width: 100%; 
+    height: 80px; 
+    z-index: 1000; /* High Z-Index ensures visibility */
+    display: flex; 
+    justify-content: center; 
+}
+.nav-bg-svg { position: absolute; bottom: 0; width: 100%; height: 65px; fill: var(--card-bg); filter: drop-shadow(0 -5px 10px rgba(0,0,0,0.05)); transition: fill 0.3s; }
+.fab { position: absolute; bottom: 35px; left: 50%; transform: translateX(-50%); width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 28px; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.4); border: none; cursor: pointer; z-index: 20; transition: transform 0.2s; }
+.fab:active { transform: scale(0.9); }
+.nav-items { position: absolute; bottom: 0; width: 100%; height: 65px; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; z-index: 15; }
+.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-sec); height: 100%; transition: color 0.3s; cursor: pointer;}
+.nav-item.active { color: var(--primary); }
+.nav-item i { font-size: 20px; margin-bottom: 4px; }
+.nav-item span { font-size: 10px; font-weight: 600; }
+.spacer { width: 80px; pointer-events: none; }
+
+</style>
 </head>
 <body>
 
@@ -233,7 +255,6 @@
             <div class="tag-container">
                 <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> Rifah UI Design</div>
                 <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> React Native</div>
-                <div class="search-tag"><i class="fa-solid fa-clock-rotate-left"></i> Viral Memes</div>
                 <div class="search-tag"><i class="fa-solid fa-xmark"></i></div>
             </div>
         </div>
@@ -268,15 +289,10 @@
             <div class="notif-text"><strong>Rahul</strong> commented: "Bhai gazab!"</div>
             <div class="notif-time">1h</div>
         </div>
-        <div class="notif-row">
-            <div class="notif-icon" style="background: #10b981;"><i class="fa-solid fa-user-plus"></i></div>
-            <div class="notif-text"><strong>Design Hub</strong> started following you.</div>
-            <div class="notif-time">3h</div>
-        </div>
     </div>
 
     <div id="message" class="page-container">
-         <div class="msg-row">
+        <div class="msg-row">
             <img src="https://ui-avatars.com/api/?name=Anjali&background=random" class="avatar">
             <div class="msg-content">
                 <div class="msg-name">Anjali</div>
@@ -329,11 +345,6 @@
             <div class="menu-item">
                 <div class="menu-icon"><i class="fa-solid fa-shield-halved"></i></div>
                 <div class="menu-text"><div class="menu-title">Privacy</div></div>
-                <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
-            </div>
-            <div class="menu-item">
-                <div class="menu-icon"><i class="fa-regular fa-circle-question"></i></div>
-                <div class="menu-text"><div class="menu-title">Help Centre</div></div>
                 <div class="menu-arrow"><i class="fa-solid fa-chevron-right"></i></div>
             </div>
             
