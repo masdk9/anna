@@ -191,3 +191,102 @@ window.addEventListener('scroll', function (event) {
         fabBtn.classList.remove('hide');
     }, 250);
 }, false);
+
+
+
+
+
+// ==========================================
+//  4. POSTS LOGIC (CREATE & LOAD)
+// ==========================================
+
+// --- SAVE POST (Jab Post button dabega) ---
+function savePost() {
+    const text = document.getElementById('post-text').value;
+    const user = auth.currentUser;
+
+    if (!text.trim()) return alert("Post cannot be empty!");
+
+    // Button ko disable karo (Safety)
+    const postBtn = document.querySelector('#createPostModal .btn-primary');
+    postBtn.disabled = true;
+    postBtn.innerText = "Posting...";
+
+    // Firestore Database mein data bhejo
+    db.collection("posts").add({
+        text: text,
+        userName: user.displayName || "Anonymous",
+        userEmail: user.email,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        likes: 0
+    }).then(() => {
+        // Success!
+        console.log("Post Saved!");
+        document.getElementById('post-text').value = ""; // Box khali karo
+        
+        // Modal Band karne ka tareeka (Bootstrap 5)
+        const modalEl = document.getElementById('createPostModal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+        
+        postBtn.disabled = false;
+        postBtn.innerText = "Post";
+    }).catch((error) => {
+        console.error("Error writing post: ", error);
+        alert("Error: " + error.message);
+        postBtn.disabled = false;
+        postBtn.innerText = "Post";
+    });
+}
+
+// --- LOAD POSTS (Screen par dikhane ke liye) ---
+function loadPosts() {
+    const container = document.getElementById('posts-container');
+    
+    // Real-time listener
+    db.collection("posts")
+        .orderBy("timestamp", "desc") // Latest post upar
+        .onSnapshot((snapshot) => {
+            
+            if(snapshot.empty) {
+                container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Be the first to post!</p></div>`;
+                return;
+            }
+
+            let html = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                // Time formatter
+                let timeString = "Just now";
+                if(data.timestamp) {
+                    const date = data.timestamp.toDate();
+                    timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+
+                // Random DP generate (User ke naam se)
+                const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff`;
+
+                // HTML Card Template
+                html += `
+                <div class="app-card">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
+                        <div>
+                            <h6 class="m-0 fw-bold">${data.userName}</h6>
+                            <small class="text-muted">${timeString}</small>
+                        </div>
+                    </div>
+                    <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
+                    
+                    <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                        <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
+                        <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
+                        <div class="action-btn"><i class="bi bi-share"></i> Share</div>
+                    </div>
+                </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        });
+}
