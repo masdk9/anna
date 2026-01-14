@@ -1,262 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Android Native App</title>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Social App</title>
 
-    <style>
-        :root {
-            --app-primary: #0d6efd;
-            --app-bg: #f2f4f7;
-            --nav-height: 65px;
-        }
-        body {
-            background-color: var(--app-bg);
-            padding-bottom: 90px;
-            font-family: 'Segoe UI', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            overflow-x: hidden;
-            color: #212529;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css">
 
-        /* Header */
-        .app-header {
-            position: sticky;
-            top: 0;
-            z-index: 1020;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            padding: 10px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 60px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        .app-logo { font-size:1.3rem; font-weight:700; color:var(--app-primary); display:flex; align-items:center; gap:8px; }
-        .header-icon { font-size:1.4rem; color:#495057; cursor:pointer; }
-
-        /* Cards */
-        .app-card { background:white; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.03); margin-bottom:15px; padding:16px; border:none; position:relative; }
-        .user-dp-small { width:42px; height:42px; border-radius:50%; background-color:#e9ecef; background-size:cover; }
-        .post-image { width:100%; border-radius:10px; margin-top:10px; border:1px solid #f8f9fa; }
-
-        .action-btn { display:flex; align-items:center; gap:6px; color:#6c757d; cursor:pointer; font-weight:500; font-size:0.95rem; }
-        .action-btn i { font-size:1.2rem; }
-        .action-btn:hover { color:var(--app-primary); }
-
-        .save-icon-absolute { position:absolute; top:16px; right:16px; font-size:1.3rem; color:#6c757d; cursor:pointer; z-index:10; }
-
-        /* Profile */
-        .profile-section-container { padding:10px 5px; }
-        .profile-img-container { width:100px; height:100px; margin:0 auto; padding:3px; border:3px solid var(--app-primary); border-radius:50%; position:relative; }
-        .profile-img { width:100%; height:100%; border-radius:50%; object-fit:cover; }
-        .settings-list .list-group-item { padding:16px; border:none; border-bottom:1px solid #f0f0f0; cursor:pointer; }
-        .settings-list .list-group-item:last-child { border-bottom:none; }
-        .settings-list .list-group-item:active { background-color:#f8f9fa; }
-
-        /* Bottom nav */
-        .nav-wrapper { position:fixed; bottom:0; left:0; width:100%; height:var(--nav-height); z-index:1030; background:white; border-top:1px solid #dee2e6; display:flex; justify-content:space-around; align-items:center; }
-        .nav-item-btn { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#adb5bd; cursor:pointer; height:100%; background:transparent; border:none; transition: all 0.2s; }
-        .nav-item-btn i { font-size:1.5rem; margin-bottom:2px; }
-        .nav-item-btn span { font-size:10px; font-weight:600; display:none; }
-        .nav-item-btn.active { color:var(--app-primary); }
-        .nav-item-btn.active span { display:block; }
-
-        /* FAB */
-        .fab-main { position:fixed; bottom:85px; right:20px; width:58px; height:58px; background:linear-gradient(135deg,#0d6efd,#0a58ca); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:0 4px 15px rgba(13,110,253,0.4); cursor:pointer; z-index:1040; transition: transform 0.3s, opacity 0.3s; }
-        .fab-main.hide { transform:translateY(100px); opacity:0; pointer-events:none; }
-
-        /* Screens */
-        .screen { display:none; }
-        .screen.active { display:block; animation:fadeIn 0.2s; }
-        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-
-        /* Offcanvas */
-        .offcanvas-fullscreen-custom { width:100%; background-color:#f2f4f7; }
-        .offcanvas-header { background:white; border-bottom:1px solid #dee2e6; }
-        .input-group-text { background:white; border-right:none; }
-        .form-control { border-left:none; }
-        .form-control:focus { box-shadow:none; border-color:#ced4da; }
-        .group-focus:focus-within { border-color:var(--app-primary); box-shadow:0 0 0 0.25rem rgba(13,110,253,0.25); }
-
-        /* Auth modal */
-        #authBox { position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); display:none; align-items:center; justify-content:center; z-index:2000; }
-        #authBox .auth-card { background:#fff; width:90%; max-width:360px; padding:25px; border-radius:16px; box-shadow:0 15px 40px rgba(0,0,0,0.25); }
-    </style>
+<style>
+:root{--app-primary:#0d6efd;--app-bg:#f2f4f7;--nav-height:65px;}
+body{background:var(--app-bg);padding-bottom:90px;font-family:'Segoe UI',sans-serif;overflow-x:hidden;color:#212529;}
+.app-header{position:sticky;top:0;z-index:1020;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:10px 15px;display:flex;justify-content:space-between;align-items:center;height:60px;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+.app-logo{font-size:1.3rem;font-weight:700;color:var(--app-primary);display:flex;align-items:center;gap:8px;}
+.header-icon{font-size:1.4rem;color:#495057;cursor:pointer;}
+.app-card{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.03);margin-bottom:15px;padding:16px;border:none;position:relative;}
+.user-dp-small{width:42px;height:42px;border-radius:50%;background-color:#e9ecef;background-size:cover;}
+.post-image{width:100%;border-radius:10px;margin-top:10px;border:1px solid #f8f9fa;}
+.action-btn{display:flex;align-items:center;gap:6px;color:#6c757d;cursor:pointer;font-weight:500;font-size:0.95rem;}
+.action-btn i{font-size:1.2rem;}
+.action-btn:hover{color:var(--app-primary);}
+.save-icon-absolute{position:absolute;top:16px;right:16px;font-size:1.3rem;color:#6c757d;cursor:pointer;z-index:10;}
+.profile-section-container{padding:10px 5px;}
+.profile-img-container{width:100px;height:100px;margin:0 auto;padding:3px;border:3px solid var(--app-primary);border-radius:50%;position:relative;}
+.profile-img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.settings-list .list-group-item{padding:16px;border:none;border-bottom:1px solid #f0f0f0;cursor:pointer;}
+.settings-list .list-group-item:last-child{border-bottom:none;}
+.settings-list .list-group-item:active{background-color:#f8f9fa;}
+.nav-wrapper{position:fixed;bottom:0;left:0;width:100%;height:var(--nav-height);z-index:1030;background:white;border-top:1px solid #dee2e6;display:flex;justify-content:space-around;align-items:center;}
+.nav-item-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#adb5bd;cursor:pointer;height:100%;background:transparent;border:none;transition: all 0.2s;}
+.nav-item-btn i{font-size:1.5rem;margin-bottom:2px;}
+.nav-item-btn span{font-size:10px;font-weight:600;display:none;}
+.nav-item-btn.active{color:var(--app-primary);}
+.nav-item-btn.active span{display:block;}
+.fab-main{position:fixed;bottom:85px;right:20px;width:58px;height:58px;background:linear-gradient(135deg,#0d6efd,#0a58ca);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 15px rgba(13,110,253,0.4);cursor:pointer;z-index:1040;transition: transform 0.3s, opacity 0.3s;}
+.fab-main.hide{transform:translateY(100px);opacity:0;pointer-events:none;}
+.screen{display:none;}
+.screen.active{display:block;animation:fadeIn 0.2s;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.offcanvas-fullscreen-custom{width:100%;background-color:#f2f4f7;}
+.offcanvas-header{background:white;border-bottom:1px solid #dee2e6;}
+.input-group-text{background:white;border-right:none;}
+.form-control{border-left:none;}
+.form-control:focus{box-shadow:none;border-color:#ced4da;}
+.group-focus:focus-within{border-color:var(--app-primary);box-shadow:0 0 0 0.25rem rgba(13,110,253,0.25);}
+#authBox{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:2000;}
+#authBox .auth-card{background:#fff;width:90%;max-width:360px;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
+</style>
 </head>
 <body>
 
-    <!-- Header -->
-    <div class="app-header">
-        <div class="app-logo"><i class="fi fi-br-square-m"></i></div>
-        <i class="bi bi-bell header-icon" onclick="openScreen('notification')"></i>
-    </div>
+<div class="app-header">
+    <div class="app-logo"><i class="fi fi-br-square-m"></i></div>
+    <i class="bi bi-bell header-icon" onclick="openScreen('notification')"></i>
+</div>
 
-    <!-- Main container -->
-    <div class="container px-3 mt-3">
-
-        <!-- Home Screen -->
-        <div id="home-screen" class="screen active">
-            <!-- Example Posts -->
-            <div class="app-card">
-                <i class="bi bi-bookmark save-icon-absolute"></i>
-                <div class="d-flex align-items-center gap-2 mb-3">
-                    <div class="user-dp-small" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
-                    <div>
-                        <h6 class="m-0 fw-bold">Aryan Gupta</h6>
-                        <small class="text-muted">2 mins ago</small>
-                    </div>
-                </div>
-                <div class="mb-2">Fixed the save icon! Now it stays in the corner. 📌</div>
-                <div class="d-flex justify-content-between border-top pt-3 mt-2">
-                    <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Clap</div>
-                    <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
-                    <div class="action-btn"><i class="bi bi-send"></i> Share</div>
+<div class="container px-3 mt-3">
+    <!-- Home -->
+    <div id="home-screen" class="screen active">
+        <div class="app-card">
+            <i class="bi bi-bookmark save-icon-absolute"></i>
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="user-dp-small" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                <div>
+                    <h6 class="m-0 fw-bold">Aryan Gupta</h6>
+                    <small class="text-muted">2 mins ago</small>
                 </div>
             </div>
-            <!-- More posts similar to original file -->
-            <div style="height:50px;"></div>
-        </div>
-
-        <!-- Search Screen -->
-        <div id="search-screen" class="screen">
-            <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height:50px;" placeholder="Search...">
-        </div>
-
-        <!-- Message Screen -->
-        <div id="message-screen" class="screen">
-            <h5 class="fw-bold mb-3">Messages</h5>
-        </div>
-
-        <!-- Profile Screen -->
-        <div id="profile-screen" class="screen">
-            <div class="profile-section-container">
-                <div class="text-center mb-4">
-                    <div class="profile-img-container">
-                        <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
-                        <div class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 border">
-                            <i class="bi bi-camera-fill text-primary"></i>
-                        </div>
-                    </div>
-                    <h4 class="fw-bold mt-3 mb-0">Rahul Sharma</h4>
-                    <small class="text-muted">@rahul_dev</small>
-                    <div class="d-flex justify-content-center gap-4 mt-4">
-                        <div class="text-center"><h5 class="fw-bold mb-0">120</h5><small class="text-muted">Posts</small></div>
-                        <div class="text-center"><h5 class="fw-bold mb-0">1.5k</h5><small class="text-muted">Followers</small></div>
-                        <div class="text-center"><h5 class="fw-bold mb-0">400</h5><small class="text-muted">Following</small></div>
-                    </div>
-                </div>
-                <div class="d-grid px-2 mb-4">
-                    <button class="btn btn-outline-danger rounded-pill py-2 fw-bold">Logout</button>
-                </div>
+            <div class="mb-2">First post example. ✔️</div>
+            <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Clap</div>
+                <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
+                <div class="action-btn"><i class="bi bi-send"></i> Share</div>
             </div>
         </div>
+    </div>
 
-        <!-- Notification Screen -->
-        <div id="notification-screen" class="screen">
-            <h5 class="fw-bold mb-3">Notifications</h5>
+    <!-- Search -->
+    <div id="search-screen" class="screen">
+        <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height:50px;" placeholder="Search...">
+    </div>
+
+    <!-- Message -->
+    <div id="message-screen" class="screen">
+        <h5 class="fw-bold mb-3">Messages</h5>
+    </div>
+
+    <!-- Profile -->
+    <div id="profile-screen" class="screen">
+        <div class="profile-section-container">
+            <div class="text-center mb-4">
+                <div class="profile-img-container">
+                    <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
+                    <div class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 border">
+                        <i class="bi bi-camera-fill text-primary"></i>
+                    </div>
+                </div>
+                <h4 class="fw-bold mt-3 mb-0">User</h4>
+                <small class="text-muted">@username</small>
+                <div class="d-flex justify-content-center gap-4 mt-4">
+                    <div class="text-center"><h5 class="fw-bold mb-0">120</h5><small class="text-muted">Posts</small></div>
+                    <div class="text-center"><h5 class="fw-bold mb-0">1.5k</h5><small class="text-muted">Followers</small></div>
+                    <div class="text-center"><h5 class="fw-bold mb-0">400</h5><small class="text-muted">Following</small></div>
+                </div>
+            </div>
+            <div class="d-grid px-2 mb-4">
+                <button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="logout()">Logout</button>
+            </div>
         </div>
-
     </div>
 
-    <!-- FAB -->
-    <div id="fab-btn" class="fab-main" onclick="alert('Create Post')"><i class="bi bi-plus-lg"></i></div>
-
-    <!-- Bottom Nav -->
-    <div class="nav-wrapper">
-        <button class="nav-item-btn active" onclick="switchTab('home', this)"><i class="bi bi-house-door-fill"></i><span>Home</span></button>
-        <button class="nav-item-btn" onclick="switchTab('search', this)"><i class="bi bi-search"></i><span>Search</span></button>
-        <button class="nav-item-btn" onclick="switchTab('message', this)"><i class="bi bi-envelope"></i><span>Chat</span></button>
-        <button class="nav-item-btn" onclick="switchTab('profile', this)"><i class="bi bi-person"></i><span>Profile</span></button>
+    <!-- Notification -->
+    <div id="notification-screen" class="screen">
+        <h5 class="fw-bold mb-3">Notifications</h5>
     </div>
 
-    <!-- Auth Modal -->
-    <div id="authBox">
-      <div class="auth-card">
-        <h3 class="text-center mb-4">Login / Signup</h3>
-        <input id="email" class="form-control mb-3" type="email" placeholder="Email">
-        <input id="password" class="form-control mb-4" type="password" placeholder="Password">
-        <button class="btn btn-primary w-100 mb-2" onclick="signup()">Sign Up</button>
-        <button class="btn btn-outline-primary w-100" onclick="login()">Login</button>
-      </div>
-    </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div id="fab-btn" class="fab-main" onclick="alert('Create Post')"><i class="bi bi-plus-lg"></i></div>
 
-    <script>
-        function switchTab(screenId, navEl){
-            document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
-            document.getElementById(screenId+'-screen').classList.add('active');
-            document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
-            navEl.classList.add('active');
-            const fab = document.getElementById('fab-btn');
-            if(screenId==='home'){ fab.style.display='flex'; setTimeout(()=>fab.classList.remove('hide'),100); }
-            else{ fab.classList.add('hide'); setTimeout(()=>fab.style.display='none',300); }
-        }
-        function openScreen(screenId){
-            document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
-            document.getElementById(screenId+'-screen').classList.add('active');
-            document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
-            document.getElementById('fab-btn').classList.add('hide');
-        }
-    </script>
+<div class="nav-wrapper">
+    <button class="nav-item-btn active" onclick="switchTab('home', this)"><i class="bi bi-house-door-fill"></i><span>Home</span></button>
+    <button class="nav-item-btn" onclick="switchTab('search', this)"><i class="bi bi-search"></i><span>Search</span></button>
+    <button class="nav-item-btn" onclick="switchTab('message', this)"><i class="bi bi-envelope"></i><span>Chat</span></button>
+    <button class="nav-item-btn" onclick="switchTab('profile', this)"><i class="bi bi-person"></i><span>Profile</span></button>
+</div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+<!-- Auth -->
+<div id="authBox">
+  <div class="auth-card">
+    <h3 class="text-center mb-4">Login / Signup</h3>
+    <input id="email" class="form-control mb-3" type="email" placeholder="Email">
+    <input id="password" class="form-control mb-4" type="password" placeholder="Password">
+    <button class="btn btn-primary w-100 mb-2" onclick="signup()">Sign Up</button>
+    <button class="btn btn-outline-primary w-100" onclick="login()">Login</button>
+  </div>
+</div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
-            authDomain: "masd-repo-git.firebaseapp.com",
-            projectId: "masd-repo-git",
-            storageBucket: "masd-repo-git.firebasestorage.app",
-            messagingSenderId: "317994984658",
-            appId: "1:317994984658:web:c55231ca09e70341c8f90b"
-        };
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function switchTab(screenId, navEl){
+    document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+    document.getElementById(screenId+'-screen').classList.add('active');
+    document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
+    navEl.classList.add('active');
+    const fab=document.getElementById('fab-btn');
+    if(screenId==='home'){fab.style.display='flex'; setTimeout(()=>fab.classList.remove('hide'),100);}
+    else{fab.classList.add('hide'); setTimeout(()=>fab.style.display='none',300);}
+}
+function openScreen(screenId){
+    document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
+    document.getElementById(screenId+'-screen').classList.add('active');
+    document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
+    document.getElementById('fab-btn').classList.add('hide');
+}
+</script>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-        window.signup = async ()=>{
-            const email=document.getElementById('email').value;
-            const password=document.getElementById('password').value;
-            try{
-                await createUserWithEmailAndPassword(auth,email,password);
-                alert("Signup successful!");
-            }catch(e){ alert(e.message);}
-        }
+const firebaseConfig = {
+    apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
+    authDomain: "masd-repo-git.firebaseapp.com",
+    projectId: "masd-repo-git",
+    storageBucket: "masd-repo-git.firebasestorage.app",
+    messagingSenderId: "317994984658",
+    appId: "1:317994984658:web:c55231ca09e70341c8f90b"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-        window.login = async ()=>{
-            const email=document.getElementById('email').value;
-            const password=document.getElementById('password').value;
-            try{
-                await signInWithEmailAndPassword(auth,email,password);
-            }catch(e){ alert(e.message);}
-        }
+window.signup=async()=>{
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('password').value;
+    try{await createUserWithEmailAndPassword(auth,email,password); alert("Signup successful!");}
+    catch(e){alert(e.message);}
+}
 
-        window.logout = async ()=>{
-            try{ await signOut(auth); }catch(e){ console.error(e.message);}
-        }
+window.login=async()=>{
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('password').value;
+    try{await signInWithEmailAndPassword(auth,email,password);}
+    catch(e){alert(e.message);}
+}
 
-        onAuthStateChanged(auth, user=>{
-            if(user){
-                document.getElementById("authBox").style.display="none";
-                const profileName=document.querySelector('#profile-screen h4');
-                if(profileName) profileName.textContent=user.email.split('@')[0];
-            }else{
-                document.getElementById("authBox").style.display="flex";
-            }
-        });
+window.logout=async()=>{try{await signOut(auth);}catch(e){console.error(e.message);}}
 
-        document.querySelector("#profile-screen .btn-outline-danger")?.addEventListener("click", logout);
-
-    </script>
+onAuthStateChanged(auth,user=>{
+    if(user){
+        document.getElementById("authBox").style.display="none";
+        const profileName=document.querySelector('#profile-screen h4');
+        if(profileName) profileName.textContent=user.email.split('@')[0];
+    }else{
+        document.getElementById("authBox").style.display="flex";
+    }
+});
+</script>
 </body>
 </html>
