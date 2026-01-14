@@ -1,5 +1,5 @@
 // ==========================================
-//  1. FIREBASE CONFIGURATION (Fixed for Browser)
+//  1. FIREBASE CONFIGURATION
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
@@ -10,8 +10,7 @@ const firebaseConfig = {
   appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
 
-// Initialize Firebase
-// (Ye check karta hai ki firebase pehle se load to nahi hai)
+// Initialize Firebase (Check karta hai taaki double load na ho)
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -32,7 +31,8 @@ auth.onAuthStateChanged((user) => {
         // --- LOGGED IN ---
         console.log("User Logged In:", user.email);
 
-         loadPosts();
+        // 👇 Yahan Posts load honge (Emoji hata diya hai ✅)
+        loadPosts(); 
         
         body.classList.remove('not-logged-in');
         authScreen.classList.remove('active');
@@ -83,7 +83,7 @@ function handleLogin() {
     auth.signInWithEmailAndPassword(email, pass)
         .then(() => {
             console.log("Login Success");
-            // onAuthStateChanged automatically handles the screen switch
+            // Screen apne aap change hogi (onAuthStateChanged ki wajah se)
         })
         .catch((error) => {
             console.error("Login Error:", error);
@@ -123,7 +123,7 @@ function handleLogout() {
     }
 }
 
-// Error Message Cleaner (Firebase ke error message ko sundar banana)
+// Error Message Cleaner
 function cleanErrorMessage(msg) {
     return msg.replace('Firebase: ', '').replace(' (auth/wrong-password).', '').replace(' (auth/user-not-found).', '');
 }
@@ -196,9 +196,6 @@ window.addEventListener('scroll', function (event) {
 }, false);
 
 
-
-
-
 // ==========================================
 //  4. POSTS LOGIC (CREATE & LOAD)
 // ==========================================
@@ -210,7 +207,7 @@ function savePost() {
 
     if (!text.trim()) return alert("Post cannot be empty!");
 
-    // Button ko disable karo (Safety)
+    // Button ko disable karo
     const postBtn = document.querySelector('#createPostModal .btn-primary');
     postBtn.disabled = true;
     postBtn.innerText = "Posting...";
@@ -223,11 +220,10 @@ function savePost() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         likes: 0
     }).then(() => {
-        // Success!
         console.log("Post Saved!");
         document.getElementById('post-text').value = ""; // Box khali karo
         
-        // Modal Band karne ka tareeka (Bootstrap 5)
+        // Modal Band karo
         const modalEl = document.getElementById('createPostModal');
         const modal = bootstrap.Modal.getInstance(modalEl);
         modal.hide();
@@ -271,20 +267,20 @@ function loadPosts() {
 
                 // HTML Card Template
                 html += `
-  <div class="app-card">
-  <div class="d-flex align-items-center gap-2 mb-3">
- <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
+                <div class="app-card">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
                         <div>
-        <h6 class="m-0 fw-bold">${data.userName}</h6>
-         <small class="text-muted">${timeString}</small>
+                            <h6 class="m-0 fw-bold">${data.userName}</h6>
+                            <small class="text-muted">${timeString}</small>
                         </div>
                     </div>
- <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
+                    <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
                     
-   <div class="d-flex justify-content-between border-top pt-3 mt-2">
-  <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
-  <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
-<div class="action-btn"><i class="bi bi-share"></i> Share</div>
+                    <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                        <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
+                        <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
+                        <div class="action-btn"><i class="bi bi-share"></i> Share</div>
                     </div>
                 </div>
                 `;
