@@ -33,9 +33,9 @@
                     <input type="password" id="login-pass" class="form-control form-control-lg bg-light border-0">
                 </div>
                 <div class="d-grid mb-3">
-                    <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleLogin()">Sign In</button>
+                <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleLogin()">Sign In</button>
                 </div>
-                <p class="text-center text-muted">Don't have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuth('signup')">Sign Up</a></p>
+<p class="text-center text-muted">Don't have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuth('signup')">Sign Up</a></p>
             </div>
 
             <div id="signup-box" style="display: none;">
@@ -81,7 +81,7 @@
             <div class="app-card p-0">
                 <div class="list-group list-group-flush rounded-3">
                     <div class="list-group-item py-3">#AnnaApp <span class="float-end text-muted small">New</span></div>
-                    <div class="list-group-item py-3">#WebDev <span class="float-end text-muted small">Trending</span></div>
+                 <div class="list-group-item py-3">#WebDev <span class="float-end text-muted small">Trending</span></div>
                 </div>
             </div>
         </div>
@@ -102,7 +102,7 @@
                         <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
                     </div>
                     <h4 class="fw-bold mt-3 mb-0" id="profile-name-display">User</h4>
-                    <small class="text-muted" id="profile-email-display">@user</small>
+                 <small class="text-muted" id="profile-email-display">@user</small>
                 </div>
 
                 <div class="app-card p-0 mb-4 overflow-hidden">
@@ -146,6 +146,8 @@
         <button class="nav-item-btn active" onclick="switchTab('home', this)">
             <i class="bi bi-house-door-fill"></i><span>Home</span>
         </button>
+
+	    
         <button class="nav-item-btn" onclick="switchTab('search', this)">
             <i class="bi bi-search"></i><span>Search</span>
         </button>
@@ -157,6 +159,32 @@
         </button>
     </div>
 
+
+	
+
+<div class="modal fade" id="createPostModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold">Create Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="post-text" class="form-control border-0 fs-5" rows="5" placeholder="What's on your mind?"></textarea>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" onclick="savePost()">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+	
+
+
+
+
+
+	
     <div class="offcanvas offcanvas-end offcanvas-fullscreen-custom" tabindex="-1" id="accountOffcanvas">
         <div class="offcanvas-header">
             <div class="d-flex align-items-center gap-3"><button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button><h5 class="offcanvas-title fw-bold">Personal Info</h5></div>
