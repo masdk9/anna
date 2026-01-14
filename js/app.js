@@ -1,6 +1,7 @@
 // ==========================================
 //  PASTE YOUR FIREBASE CONFIG HERE 👇
 // ==========================================
+
 const firebaseConfig = {
   apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
   authDomain: "masd-repo-git.firebaseapp.com",
@@ -9,6 +10,7 @@ const firebaseConfig = {
   messagingSenderId: "317994984658",
   appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
+
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
