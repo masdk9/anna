@@ -31,6 +31,9 @@ auth.onAuthStateChanged((user) => {
     if (user) {
         // --- LOGGED IN ---
         console.log("User Logged In:", user.email);
+
+         loadPosts(); 👉 ye line add Kiya hai
+        
         body.classList.remove('not-logged-in');
         authScreen.classList.remove('active');
         
@@ -268,20 +271,20 @@ function loadPosts() {
 
                 // HTML Card Template
                 html += `
-                <div class="app-card">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
+  <div class="app-card">
+  <div class="d-flex align-items-center gap-2 mb-3">
+ <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
                         <div>
-                            <h6 class="m-0 fw-bold">${data.userName}</h6>
-                            <small class="text-muted">${timeString}</small>
+        <h6 class="m-0 fw-bold">${data.userName}</h6>
+         <small class="text-muted">${timeString}</small>
                         </div>
                     </div>
-                    <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
+ <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
                     
-                    <div class="d-flex justify-content-between border-top pt-3 mt-2">
-                        <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
-                        <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
-                        <div class="action-btn"><i class="bi bi-share"></i> Share</div>
+   <div class="d-flex justify-content-between border-top pt-3 mt-2">
+  <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
+  <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
+<div class="action-btn"><i class="bi bi-share"></i> Share</div>
                     </div>
                 </div>
                 `;
