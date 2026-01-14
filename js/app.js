@@ -32,7 +32,7 @@ auth.onAuthStateChanged((user) => {
         // --- LOGGED IN ---
         console.log("User Logged In:", user.email);
 
-         loadPosts(); 👉 ye line add Kiya hai
+         loadPosts();
         
         body.classList.remove('not-logged-in');
         authScreen.classList.remove('active');
