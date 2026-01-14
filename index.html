@@ -169,6 +169,40 @@
         .form-control:focus { box-shadow: none; border-color: #ced4da; }
         .group-focus:focus-within { border-color: var(--app-primary); box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); }
 
+
+/* ===== AUTH MODAL FIX ===== */
+#authBox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+#authBox .auth-card {
+  background: #fff;
+  width: 90%;
+  max-width: 360px;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+}
+
+
+
+
+
+
+
+
+
+
+
     </style>
 
 
@@ -632,35 +666,17 @@
 
 
 
-<div id="authBox" style="
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: none;
-  z-index: 2000;
-  align-items: center;
-  justify-content: center;
-">
+<div id="authBox">
+  <div class="auth-card">
+    <h3 class="text-center mb-4">Login / Signup</h3>
 
-  <div style="
-    background: #ffffff;
-    width: 90%;
-    max-width: 360px;
-    padding: 24px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-  ">
-    <h4 class="fw-bold mb-3 text-center">Login / Signup</h4>
+    <input id="email" class="form-control mb-3" type="email" placeholder="Email">
 
-    <input id="email" class="form-control mb-3" placeholder="Email">
-    <input id="password" type="password" class="form-control mb-3" placeholder="Password">
+    <input id="password" class="form-control mb-4" type="password" placeholder="Password">
 
-    <div class="d-grid gap-2">
-      <button class="btn btn-primary rounded-pill" onclick="signup()">Sign Up</button>
-      <button class="btn btn-outline-primary rounded-pill" onclick="login()">Login</button>
-    </div>
+    <button class="btn btn-primary w-100 mb-2" onclick="signup()">Sign Up</button>
+    <button class="btn btn-outline-primary w-100" onclick="login()">Login</button>
   </div>
-
 </div>
 
 
