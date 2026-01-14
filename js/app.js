@@ -2,12 +2,12 @@
 //  PASTE YOUR FIREBASE CONFIG HERE 👇
 // ==========================================
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
+  apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
+  authDomain: "masd-repo-git.firebaseapp.com",
+  projectId: "masd-repo-git",
+  storageBucket: "masd-repo-git.firebasestorage.app",
+  messagingSenderId: "317994984658",
+  appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
 
 // Initialize Firebase
