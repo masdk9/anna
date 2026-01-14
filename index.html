@@ -1,202 +1,487 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Social App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anna Social App</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-bold-rounded/css/uicons-bold-rounded.css">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-<style>
-:root{--app-primary:#0d6efd;--app-bg:#f2f4f7;--nav-height:65px;}
-body{background:var(--app-bg);padding-bottom:90px;font-family:'Segoe UI',sans-serif;overflow-x:hidden;color:#212529;}
-.app-header{position:sticky;top:0;z-index:1020;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);padding:10px 15px;display:flex;justify-content:space-between;align-items:center;height:60px;box-shadow:0 1px 3px rgba(0,0,0,0.05);}
-.app-logo{font-size:1.3rem;font-weight:700;color:var(--app-primary);display:flex;align-items:center;gap:8px;}
-.header-icon{font-size:1.4rem;color:#495057;cursor:pointer;}
-.app-card{background:white;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.03);margin-bottom:15px;padding:16px;border:none;position:relative;}
-.user-dp-small{width:42px;height:42px;border-radius:50%;background-color:#e9ecef;background-size:cover;}
-.post-image{width:100%;border-radius:10px;margin-top:10px;border:1px solid #f8f9fa;}
-.action-btn{display:flex;align-items:center;gap:6px;color:#6c757d;cursor:pointer;font-weight:500;font-size:0.95rem;}
-.action-btn i{font-size:1.2rem;}
-.action-btn:hover{color:var(--app-primary);}
-.save-icon-absolute{position:absolute;top:16px;right:16px;font-size:1.3rem;color:#6c757d;cursor:pointer;z-index:10;}
-.profile-section-container{padding:10px 5px;}
-.profile-img-container{width:100px;height:100px;margin:0 auto;padding:3px;border:3px solid var(--app-primary);border-radius:50%;position:relative;}
-.profile-img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
-.settings-list .list-group-item{padding:16px;border:none;border-bottom:1px solid #f0f0f0;cursor:pointer;}
-.settings-list .list-group-item:last-child{border-bottom:none;}
-.settings-list .list-group-item:active{background-color:#f8f9fa;}
-.nav-wrapper{position:fixed;bottom:0;left:0;width:100%;height:var(--nav-height);z-index:1030;background:white;border-top:1px solid #dee2e6;display:flex;justify-content:space-around;align-items:center;}
-.nav-item-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#adb5bd;cursor:pointer;height:100%;background:transparent;border:none;transition: all 0.2s;}
-.nav-item-btn i{font-size:1.5rem;margin-bottom:2px;}
-.nav-item-btn span{font-size:10px;font-weight:600;display:none;}
-.nav-item-btn.active{color:var(--app-primary);}
-.nav-item-btn.active span{display:block;}
-.fab-main{position:fixed;bottom:85px;right:20px;width:58px;height:58px;background:linear-gradient(135deg,#0d6efd,#0a58ca);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 15px rgba(13,110,253,0.4);cursor:pointer;z-index:1040;transition: transform 0.3s, opacity 0.3s;}
-.fab-main.hide{transform:translateY(100px);opacity:0;pointer-events:none;}
-.screen{display:none;}
-.screen.active{display:block;animation:fadeIn 0.2s;}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-.offcanvas-fullscreen-custom{width:100%;background-color:#f2f4f7;}
-.offcanvas-header{background:white;border-bottom:1px solid #dee2e6;}
-.input-group-text{background:white;border-right:none;}
-.form-control{border-left:none;}
-.form-control:focus{box-shadow:none;border-color:#ced4da;}
-.group-focus:focus-within{border-color:var(--app-primary);box-shadow:0 0 0 0.25rem rgba(13,110,253,0.25);}
-#authBox{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:2000;}
-#authBox .auth-card{background:#fff;width:90%;max-width:360px;padding:25px;border-radius:16px;box-shadow:0 15px 40px rgba(0,0,0,0.25);}
-</style>
+    <style>
+        :root {
+            --app-primary: #0d6efd;
+            --app-bg: #f2f4f7;
+            --nav-height: 65px;
+        }
+
+        body {
+            background-color: var(--app-bg);
+            padding-bottom: 90px; /* Space for bottom nav */
+            font-family: 'Segoe UI', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            color: #212529;
+        }
+
+        /* --- AUTH SCREEN STYLES (New) --- */
+        .auth-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px;
+            background: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 2000; /* Above everything */
+        }
+        .auth-logo {
+            font-size: 3rem;
+            color: var(--app-primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* --- Header --- */
+        .app-header {
+            position: sticky;
+            top: 0;
+            z-index: 1020;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .app-logo { font-size: 1.3rem; font-weight: 700; color: var(--app-primary); display: flex; align-items: center; gap: 8px; }
+        .header-icon { font-size: 1.4rem; color: #495057; cursor: pointer; }
+
+        /* --- Cards --- */
+        .app-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            margin-bottom: 15px;
+            padding: 16px;
+            border: none;
+            position: relative;
+        }
+        .user-dp-small { width: 42px; height: 42px; border-radius: 50%; background-color: #e9ecef; background-size: cover; }
+        .post-image { width: 100%; border-radius: 10px; margin-top: 10px; border: 1px solid #f8f9fa; }
+        
+        .action-btn { display: flex; align-items: center; gap: 6px; color: #6c757d; cursor: pointer; font-weight: 500; font-size: 0.95rem; }
+        .action-btn i { font-size: 1.2rem; }
+        .action-btn:hover { color: var(--app-primary); }
+
+        .save-icon-absolute { position: absolute; top: 16px; right: 16px; font-size: 1.3rem; color: #6c757d; cursor: pointer; z-index: 10; }
+
+        /* --- Profile --- */
+        .profile-section-container { padding: 10px 5px; }
+        .profile-img-container { width: 100px; height: 100px; margin: 0 auto; padding: 3px; border: 3px solid var(--app-primary); border-radius: 50%; position: relative; }
+        .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        
+        .settings-list .list-group-item { padding: 16px; border: none; border-bottom: 1px solid #f0f0f0; cursor: pointer; }
+        .settings-list .list-group-item:last-child { border-bottom: none; }
+        .settings-list .list-group-item:active { background-color: #f8f9fa; }
+
+        /* --- Bottom Navigation --- */
+        .nav-wrapper {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1030;
+            background: white;
+            border-top: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        .nav-wrapper.hidden { transform: translateY(100%); }
+
+        .nav-item-btn {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #adb5bd; cursor: pointer; height: 100%; background: transparent; border: none; transition: all 0.2s;
+        }
+        .nav-item-btn i { font-size: 1.5rem; margin-bottom: 2px; }
+        .nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
+        .nav-item-btn.active { color: var(--app-primary); }
+        .nav-item-btn.active span { display: block; }
+
+        /* --- FAB --- */
+        .fab-main {
+            position: fixed; bottom: 85px; right: 20px; width: 58px; height: 58px;
+            background: linear-gradient(135deg, #0d6efd, #0a58ca); color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-size: 28px;
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4); cursor: pointer; z-index: 1040;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .fab-main.hide { transform: translateY(100px); opacity: 0; pointer-events: none; }
+
+        /* Screen Logic */
+        .screen { display: none; }
+        .screen.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Offcanvas Custom */
+        .offcanvas-fullscreen-custom { width: 100%; background-color: #f2f4f7; }
+        .offcanvas-header { background: white; border-bottom: 1px solid #dee2e6; }
+        .clickable { cursor: pointer; }
+
+        /* Hide specific elements when not logged in */
+        body.not-logged-in .app-header,
+        body.not-logged-in .nav-wrapper,
+        body.not-logged-in #fab-btn {
+            display: none !important;
+        }
+        body.not-logged-in {
+            padding-bottom: 0;
+            background-color: white; /* Auth screen bg */
+        }
+    </style>
+
 </head>
-<body>
-
-<div class="app-header">
-    <div class="app-logo"><i class="fi fi-br-square-m"></i></div>
-    <i class="bi bi-bell header-icon" onclick="openScreen('notification')"></i>
-</div>
-
-<div class="container px-3 mt-3">
-    <!-- Home -->
-    <div id="home-screen" class="screen active">
-        <div class="app-card">
-            <i class="bi bi-bookmark save-icon-absolute"></i>
-            <div class="d-flex align-items-center gap-2 mb-3">
-                <div class="user-dp-small" style="background-image:url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
-                <div>
-                    <h6 class="m-0 fw-bold">Aryan Gupta</h6>
-                    <small class="text-muted">2 mins ago</small>
+<body class="not-logged-in"> <div id="auth-screen" class="screen active">
+        <div class="auth-container">
+            <div class="auth-logo">
+                <i class="fi fi-br-square-m"></i>
+                <h3 class="fw-bold text-dark mt-2">Anna</h3>
+            </div>
+            
+            <div id="login-form-box">
+                <h4 class="fw-bold mb-1">Welcome Back</h4>
+                <p class="text-muted mb-4">Please sign in to continue.</p>
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">EMAIL</label>
+                    <input type="email" id="login-email" class="form-control form-control-lg bg-light border-0">
                 </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">PASSWORD</label>
+                    <input type="password" id="login-pass" class="form-control form-control-lg bg-light border-0">
+                </div>
+                <div class="d-grid mb-3">
+                    <button class="btn btn-primary btn-lg rounded-pill fw-bold" onclick="handleLogin()">Sign In</button>
+                </div>
+                <p class="text-center text-muted">Don't have an account? <a href="#" class="text-primary fw-bold text-decoration-none" onclick="toggleAuthMode('signup')">Sign Up</a></p>
             </div>
-            <div class="mb-2">First post example. ✔️</div>
-            <div class="d-flex justify-content-between border-top pt-3 mt-2">
-                <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Clap</div>
-                <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
-                <div class="action-btn"><i class="bi bi-send"></i> Share</div>
+
+            <div id="signup-form-box" style="display: none;">
+                <h4 class="fw-bold mb-1">Create Account</h4>
+                <p class="text-muted mb-4">Join the community today.</p>
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">FULL NAME</label>
+                    <input type="text" id="signup-name" class="form-control form-control-lg bg-light border-0">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">EMAIL</label>
+                    <input type="email" id="signup-email" class="form-control form-control-lg bg-light border-0">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">PASSWORD</label>
+                    <input type="password" id="signup-pass" class="form-control form-control-lg bg-light border-0">
+                </div>
+                <div class="d-grid mb-3">
+                    <button class="btn btn-primary btn-lg rounded-pill fw-bold" onclick="handleSignup()">Sign Up</button>
+                </div>
+                <p class="text-center text-muted">Already have an account? <a href="#" class="text-primary fw-bold text-decoration-none" onclick="toggleAuthMode('login')">Sign In</a></p>
             </div>
+
+            <div id="auth-error" class="text-danger text-center mt-3 small fw-bold"></div>
         </div>
     </div>
-
-    <!-- Search -->
-    <div id="search-screen" class="screen">
-        <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height:50px;" placeholder="Search...">
+    <div class="app-header">
+        <div class="app-logo">
+            <i class="fi fi-br-square-m"></i>
+        </div>
+        <i class="bi bi-bell header-icon" onclick="openScreen('notification')"></i>
     </div>
 
-    <!-- Message -->
-    <div id="message-screen" class="screen">
-        <h5 class="fw-bold mb-3">Messages</h5>
-    </div>
+    <div class="container px-3 mt-3">
 
-    <!-- Profile -->
-    <div id="profile-screen" class="screen">
-        <div class="profile-section-container">
-            <div class="text-center mb-4">
-                <div class="profile-img-container">
-                    <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
-                    <div class="position-absolute bottom-0 end-0 bg-white rounded-circle p-1 border">
-                        <i class="bi bi-camera-fill text-primary"></i>
+        <div id="home-screen" class="screen">
+            <div class="app-card">
+                <i class="bi bi-bookmark save-icon-absolute"></i> 
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="user-dp-small" style="background-image: url('https://randomuser.me/api/portraits/men/32.jpg');"></div>
+                    <div><h6 class="m-0 fw-bold">Aryan Gupta</h6><small class="text-muted">2 mins ago</small></div>
+                </div>
+                <div class="mb-2">Fixed the save icon! Now it stays in the corner. 📌</div>
+                <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                    <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Clap</div>
+                    <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
+                    <div class="action-btn"><i class="bi bi-send"></i> Share</div>
+                </div>
+            </div>
+            
+            <div class="app-card">
+                <i class="bi bi-bookmark save-icon-absolute"></i>
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <div class="user-dp-small" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                    <div><h6 class="m-0 fw-bold">Priya Singh</h6><small class="text-muted">15 mins ago</small></div>
+                </div>
+                <div class="mb-2">Nature is healing. 🌿</div>
+                <img src="https://picsum.photos/id/16/600/350" class="post-image">
+                <div class="d-flex justify-content-between border-top pt-3 mt-2">
+                    <div class="action-btn text-primary"><i class="bi bi-hand-thumbs-up-fill"></i> 156</div>
+                    <div class="action-btn"><i class="bi bi-chat-square-text"></i> 42</div>
+                    <div class="action-btn"><i class="bi bi-send"></i> Share</div>
+                </div>
+            </div>
+            <div style="height: 50px;"></div>
+        </div>
+
+        <div id="search-screen" class="screen">
+            <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height: 50px;" placeholder="Search...">
+            <h6 class="text-muted small fw-bold px-2 mb-2">TRENDING TOPICS</h6>
+            <div class="app-card p-0">
+                <div class="list-group list-group-flush rounded-3">
+                    <div class="list-group-item py-3">#WebDesign <span class="float-end text-muted small">12k posts</span></div>
+                    <div class="list-group-item py-3">#Firebase <span class="float-end text-muted small">New!</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="message-screen" class="screen">
+            <h5 class="fw-bold mb-3">Messages</h5>
+            <div class="app-card p-0">
+                <div class="list-group list-group-flush rounded-3">
+                     <div class="list-group-item py-3 d-flex gap-3 align-items-center">
+                        <img src="https://randomuser.me/api/portraits/women/12.jpg" class="rounded-circle" width="45">
+                        <div class="flex-grow-1">
+                            <h6 class="m-0 fw-bold">Sara Ali</h6>
+                            <small class="text-muted">Hello!</small>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="profile-screen" class="screen">
+            <div class="profile-section-container">
+                <div class="text-center mb-4">
+                    <div class="profile-img-container">
+                        <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
+                    </div>
+                    <h4 class="fw-bold mt-3 mb-0" id="profile-name-display">Loading...</h4>
+                    <small class="text-muted" id="profile-email-display">@user</small>
+                </div>
+
+                <div class="app-card p-0 mb-4 overflow-hidden">
+                    <div class="list-group list-group-flush settings-list">
+                        <div class="list-group-item d-flex justify-content-between align-items-center clickable">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-person-circle fs-4 text-dark"></i>
+                                <div><h6 class="m-0 fw-bold">Account Centre</h6></div>
+                            </div>
+                            <i class="bi bi-chevron-right text-muted"></i>
+                        </div>
                     </div>
                 </div>
-                <h4 class="fw-bold mt-3 mb-0">User</h4>
-                <small class="text-muted">@username</small>
-                <div class="d-flex justify-content-center gap-4 mt-4">
-                    <div class="text-center"><h5 class="fw-bold mb-0">120</h5><small class="text-muted">Posts</small></div>
-                    <div class="text-center"><h5 class="fw-bold mb-0">1.5k</h5><small class="text-muted">Followers</small></div>
-                    <div class="text-center"><h5 class="fw-bold mb-0">400</h5><small class="text-muted">Following</small></div>
+
+                <div class="d-grid px-2 mb-4">
+                    <button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="handleLogout()">Logout</button>
                 </div>
             </div>
-            <div class="d-grid px-2 mb-4">
-                <button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="logout()">Logout</button>
-            </div>
         </div>
+        
+        <div id="notification-screen" class="screen">
+            <h5 class="fw-bold mb-3">Notifications</h5>
+            <div class="alert alert-light text-center">No new notifications</div>
+        </div>
+
     </div>
 
-    <!-- Notification -->
-    <div id="notification-screen" class="screen">
-        <h5 class="fw-bold mb-3">Notifications</h5>
+    <div id="fab-btn" class="fab-main" onclick="alert('Create Post')">
+        <i class="bi bi-plus-lg"></i>
     </div>
 
-</div>
+    <div class="nav-wrapper">
+        <button class="nav-item-btn active" onclick="switchTab('home', this)">
+            <i class="bi bi-house-door-fill"></i>
+            <span>Home</span>
+        </button>
+        <button class="nav-item-btn" onclick="switchTab('search', this)">
+            <i class="bi bi-search"></i>
+            <span>Search</span>
+        </button>
+        <button class="nav-item-btn" onclick="switchTab('message', this)">
+            <i class="bi bi-chat-dots"></i> <span>Chat</span>
+        </button>
+        <button class="nav-item-btn" onclick="switchTab('profile', this)">
+            <i class="bi bi-person"></i>
+            <span>Profile</span>
+        </button>
+    </div>
 
-<div id="fab-btn" class="fab-main" onclick="alert('Create Post')"><i class="bi bi-plus-lg"></i></div>
-
-<div class="nav-wrapper">
-    <button class="nav-item-btn active" onclick="switchTab('home', this)"><i class="bi bi-house-door-fill"></i><span>Home</span></button>
-    <button class="nav-item-btn" onclick="switchTab('search', this)"><i class="bi bi-search"></i><span>Search</span></button>
-    <button class="nav-item-btn" onclick="switchTab('message', this)"><i class="bi bi-envelope"></i><span>Chat</span></button>
-    <button class="nav-item-btn" onclick="switchTab('profile', this)"><i class="bi bi-person"></i><span>Profile</span></button>
-</div>
-
-<!-- Auth -->
-<div id="authBox">
-  <div class="auth-card">
-    <h3 class="text-center mb-4">Login / Signup</h3>
-    <input id="email" class="form-control mb-3" type="email" placeholder="Email">
-    <input id="password" class="form-control mb-4" type="password" placeholder="Password">
-    <button class="btn btn-primary w-100 mb-2" onclick="signup()">Sign Up</button>
-    <button class="btn btn-outline-primary w-100" onclick="login()">Login</button>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-function switchTab(screenId, navEl){
-    document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
-    document.getElementById(screenId+'-screen').classList.add('active');
-    document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
-    navEl.classList.add('active');
-    const fab=document.getElementById('fab-btn');
-    if(screenId==='home'){fab.style.display='flex'; setTimeout(()=>fab.classList.remove('hide'),100);}
-    else{fab.classList.add('hide'); setTimeout(()=>fab.style.display='none',300);}
-}
-function openScreen(screenId){
-    document.querySelectorAll('.screen').forEach(el=>el.classList.remove('active'));
-    document.getElementById(screenId+'-screen').classList.add('active');
-    document.querySelectorAll('.nav-item-btn').forEach(btn=>btn.classList.remove('active'));
-    document.getElementById('fab-btn').classList.add('hide');
-}
-</script>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
-    authDomain: "masd-repo-git.firebaseapp.com",
-    projectId: "masd-repo-git",
-    storageBucket: "masd-repo-git.firebasestorage.app",
-    messagingSenderId: "317994984658",
-    appId: "1:317994984658:web:c55231ca09e70341c8f90b"
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ==========================================
+        //  FIREBASE CONFIGURATION (REPLACE THIS!)
+        // ==========================================
+      const firebaseConfig = {
+  apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
+  authDomain: "masd-repo-git.firebaseapp.com",
+  projectId: "masd-repo-git",
+  storageBucket: "masd-repo-git.firebasestorage.app",
+  messagingSenderId: "317994984658",
+  appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
-window.signup=async()=>{
-    const email=document.getElementById('email').value;
-    const password=document.getElementById('password').value;
-    try{await createUserWithEmailAndPassword(auth,email,password); alert("Signup successful!");}
-    catch(e){alert(e.message);}
-}
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-window.login=async()=>{
-    const email=document.getElementById('email').value;
-    const password=document.getElementById('password').value;
-    try{await signInWithEmailAndPassword(auth,email,password);}
-    catch(e){alert(e.message);}
-}
+        // --- AUTH LOGIC ---
+        
+        // Listen for Authentication State Changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in.
+                document.body.classList.remove('not-logged-in');
+                document.getElementById('auth-screen').classList.remove('active');
+                
+                // Show Home Screen
+                switchTab('home', document.querySelector('.nav-item-btn'));
+                
+                // Update Profile Info
+                document.getElementById('profile-email-display').innerText = user.email;
+                document.getElementById('profile-name-display').innerText = user.displayName || "User";
+                
+            } else {
+                // User is signed out.
+                document.body.classList.add('not-logged-in');
+                
+                // Hide all screens, Show Auth
+                document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+                document.getElementById('auth-screen').classList.add('active');
+            }
+        });
 
-window.logout=async()=>{try{await signOut(auth);}catch(e){console.error(e.message);}}
+        // Toggle Login/Signup View
+        function toggleAuthMode(mode) {
+            document.getElementById('auth-error').innerText = ""; // clear errors
+            if(mode === 'signup') {
+                document.getElementById('login-form-box').style.display = 'none';
+                document.getElementById('signup-form-box').style.display = 'block';
+            } else {
+                document.getElementById('signup-form-box').style.display = 'none';
+                document.getElementById('login-form-box').style.display = 'block';
+            }
+        }
 
-onAuthStateChanged(auth,user=>{
-    if(user){
-        document.getElementById("authBox").style.display="none";
-        const profileName=document.querySelector('#profile-screen h4');
-        if(profileName) profileName.textContent=user.email.split('@')[0];
-    }else{
-        document.getElementById("authBox").style.display="flex";
-    }
-});
-</script>
+        // Handle Signup
+        function handleSignup() {
+            const email = document.getElementById('signup-email').value;
+            const pass = document.getElementById('signup-pass').value;
+            const name = document.getElementById('signup-name').value;
+            const errorDiv = document.getElementById('auth-error');
+
+            auth.createUserWithEmailAndPassword(email, pass)
+                .then((userCredential) => {
+                    // Signed in, now update name
+                    userCredential.user.updateProfile({
+                        displayName: name
+                    }).then(() => {
+                        // Profile updated
+                        location.reload(); // Reload to refresh state
+                    });
+                })
+                .catch((error) => {
+                    errorDiv.innerText = error.message;
+                });
+        }
+
+        // Handle Login
+        function handleLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorDiv = document.getElementById('auth-error');
+
+            auth.signInWithEmailAndPassword(email, pass)
+                .catch((error) => {
+                    errorDiv.innerText = "Error: " + error.message;
+                });
+        }
+
+        // Handle Logout
+        function handleLogout() {
+            if(confirm("Are you sure you want to logout?")) {
+                auth.signOut();
+            }
+        }
+
+        // --- UI & TAB SWITCHING LOGIC ---
+        function switchTab(screenId, navEl) {
+            // Prevent switching if not logged in (Extra safety)
+            if(document.body.classList.contains('not-logged-in')) return;
+
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById(screenId + '-screen').classList.add('active');
+
+            // Icon updates
+            document.querySelectorAll('.nav-item-btn').forEach(btn => {
+                btn.classList.remove('active');
+                let icon = btn.querySelector('i');
+                // Reset icons to outline version
+                if(icon.classList.contains('bi-house-door-fill')) icon.className = 'bi bi-house-door';
+                if(icon.classList.contains('bi-chat-dots-fill')) icon.className = 'bi bi-chat-dots';
+                if(icon.classList.contains('bi-person-fill')) icon.className = 'bi bi-person';
+                if(icon.classList.contains('bi-search')) icon.className = 'bi bi-search'; // Search stays same mostly
+            });
+
+            // Activate current nav
+            if(navEl) {
+                navEl.classList.add('active');
+                let activeIcon = navEl.querySelector('i');
+                if(activeIcon.classList.contains('bi-house-door')) activeIcon.className = 'bi bi-house-door-fill';
+                if(activeIcon.classList.contains('bi-chat-dots')) activeIcon.className = 'bi bi-chat-dots-fill';
+                if(activeIcon.classList.contains('bi-person')) activeIcon.className = 'bi bi-person-fill';
+            }
+
+            // Show FAB only on Home
+            const fab = document.getElementById('fab-btn');
+            if (screenId === 'home') {
+                fab.style.display = 'flex';
+                setTimeout(() => fab.classList.remove('hide'), 100);
+            } else {
+                fab.classList.add('hide');
+                setTimeout(() => fab.style.display = 'none', 300);
+            }
+        }
+
+        // Header Screens (Notifications etc)
+        function openScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+            document.getElementById(screenId + '-screen').classList.add('active');
+            document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('fab-btn').classList.add('hide');
+        }
+
+        // Scroll Logic for FAB
+        let isScrolling;
+        const fab = document.getElementById('fab-btn');
+        window.addEventListener('scroll', function (event) {
+            if (!document.getElementById('home-screen').classList.contains('active')) return;
+            fab.classList.add('hide');
+            window.clearTimeout(isScrolling);
+            isScrolling = setTimeout(function() {
+                fab.classList.remove('hide');
+            }, 250);
+        }, false);
+
+    </script>
 </body>
 </html>
