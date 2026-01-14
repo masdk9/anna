@@ -769,6 +769,9 @@
 
   console.log("🔥 Firebase connected successfully");
 
+
+
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 onAuthStateChanged(auth, user => {
@@ -776,7 +779,7 @@ onAuthStateChanged(auth, user => {
     document.getElementById("authBox").style.display = "none";
     console.log("User logged in");
   } else {
-    document.getElementById("authBox").style.display = "block";
+    document.getElementById("authBox").style.display = "flex";
     console.log("User not logged in");
   }
 });
