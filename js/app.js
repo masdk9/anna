@@ -19,14 +19,14 @@ const db = firebase.firestore();
 
 
 // ==========================================
-//  FINAL FIXED LOGIN FUNCTION (No Reload)
+//  LOGIN + FORCE ENTRY (No Waiting)
 // ==========================================
 function handleLogin() {
     const email = document.getElementById('login-email').value.trim();
     const pass = document.getElementById('login-pass').value.trim();
     const btn = document.querySelector('.login button'); 
 
-    // Error Message box (Red wala)
+    // Error hatao
     const errorDiv = document.getElementById('auth-error');
     if(errorDiv) errorDiv.innerText = "";
 
@@ -36,21 +36,39 @@ function handleLogin() {
         return;
     }
 
-    // 1. Button par "Please wait..." dikhao
+    // 1. Loading...
     const originalText = btn.innerText;
     btn.innerText = "Please wait...";
     btn.disabled = true;
 
-    // 2. Firebase se Login karo
+    // 2. Firebase Login
     auth.signInWithEmailAndPassword(email, pass)
         .then((userCredential) => {
-            // ✅ SUCCESS!
-            console.log("Login Success!");
+            // ✅ LOGIN SUCCESS
+            console.log("Login Done!");
             btn.innerText = "Success! 🔓";
+
+            // --- 👇 FORCE ENTRY CODE (Yahi aapko andar le jayega) 👇 ---
             
-            // YAHAN KUCH MAT KARNA ❌
-            // (Na Reload, Na Alert)
-            // 'onAuthStateChanged' function apne aap screen badal dega.
+            // A. Login Screen Hatao
+            document.getElementById('auth-screen').classList.remove('active');
+            
+            // B. App ke Header/Nav ko wapas lao
+            document.body.classList.remove('not-logged-in');
+            
+            // C. Home Screen Dikhao
+            document.getElementById('home-screen').classList.add('active');
+
+            // D. Posts Load Karo (Agar function hai to)
+            if(typeof loadPosts === 'function') {
+                loadPosts();
+            }
+            
+            // E. Profile Name Update Karo (Optional)
+            if(document.getElementById('profile-email-display')) {
+                document.getElementById('profile-email-display').innerText = userCredential.user.email;
+            }
+
         })
         .catch((error) => {
             // ❌ FAIL
@@ -58,11 +76,12 @@ function handleLogin() {
             if(errorDiv) errorDiv.innerText = "Error: " + error.message;
             else alert(error.message);
             
-            // Button wapas normal karo
+            // Button Reset
             btn.innerText = originalText;
             btn.disabled = false;
         });
 }
+
 
 
 // ==========================================
