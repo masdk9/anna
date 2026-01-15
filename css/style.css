@@ -13,20 +13,120 @@ body {
     color: #212529;
 }
 
-/* --- AUTH CSS --- */
-.auth-container {
-    height: 100vh;
+/* --- NEW MODERN AUTH CSS --- */
+body {
+    margin: 0;
+    padding: 0;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    padding: 30px;
-    background: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 2000;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Jost', sans-serif;
+    background: #f0f2f5; /* Light Gray Background */
 }
+
+.main {
+    width: 350px;
+    height: 550px; /* Thoda lamba kiya taki fields aa jaye */
+    background: #fff; /* White Card */
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#chk {
+    display: none;
+}
+
+/* --- LOGIN DESIGN (Base Layer) --- */
+.login {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+label {
+    color: #0d6efd; /* Blue Text */
+    font-size: 2.3em;
+    justify-content: center;
+    display: flex;
+    margin: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s ease-in-out;
+}
+
+input {
+    width: 60%;
+    height: 20px;
+    background: #f1f5f9;
+    justify-content: center;
+    display: flex;
+    margin: 15px auto;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+/* --- BUTTON STYLE --- */
+button {
+    width: 60%;
+    height: 40px;
+    margin: 20px auto;
+    justify-content: center;
+    display: block;
+    color: #fff;
+    background: #0d6efd; /* Anna Blue */
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 20px;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    transition: .2s ease-in;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0b5ed7;
+}
+
+/* --- SIGNUP DESIGN (Overlay Layer) --- */
+.signup {
+    height: 550px;
+    background: #0d6efd; /* Blue Overlay */
+    border-radius: 60% / 10%;
+    transform: translateY(-130px); /* Initially thoda dikhega */
+    transition: .8s ease-in-out;
+}
+
+.signup label {
+    color: #fff; /* White Text on Blue */
+    transform: scale(.6);
+}
+
+/* --- ANIMATION LOGIC --- */
+#chk:checked ~ .signup {
+    transform: translateY(-520px); /* Upar slide hoga */
+}
+
+#chk:checked ~ .signup label {
+    transform: scale(1);
+}
+
+#chk:checked ~ .login label {
+    transform: scale(.6);
+}
+
+.error-msg {
+    text-align: center;
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
 
 /* Hide App UI when not logged in */
 body.not-logged-in .app-header,
