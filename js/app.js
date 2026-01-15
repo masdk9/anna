@@ -19,61 +19,65 @@ const db = firebase.firestore();
 //  2. UI CONTROLLER (Screen Change Logic)
 // ==========================================
 
-// --- App me Ghusne ka Code ---
 function enterApp(user) {
     console.log("Entering App: " + user.email);
 
-    // 1. Login Screen Hatao
+    // 1. Screens Toggle
     const authScreen = document.getElementById('auth-screen');
     if(authScreen) authScreen.classList.remove('active');
-
-    // 2. App Dikhao
     document.body.classList.remove('not-logged-in');
     
-    // 3. Home Tab par le jao
+    // 2. Load Home
     switchTab('home', document.querySelector('.nav-item-btn'));
 
-    // 4. User Data Load karo
-    loadPosts();
+    // 3. User Data Set Karo
+    updateProfileUI(user);
     
-    // 5. Profile Name Update
-    if(document.getElementById('profile-email-display')) {
-        document.getElementById('profile-email-display').innerText = user.email;
-        document.getElementById('profile-name-display').innerText = user.displayName || "User";
-        // Update DP
-        const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
-        document.getElementById('profile-img-display').src = dpUrl;
-    }
+    // 4. Posts Load Karo
+    loadPosts();
 }
 
-// --- App se Nikalne ka Code ---
 function exitApp() {
     console.log("Exiting App...");
     document.body.classList.add('not-logged-in');
-    
-    // Sab screens chupao
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     
-    // Login Screen wapas dikhao
     const authScreen = document.getElementById('auth-screen');
     if(authScreen) authScreen.classList.add('active');
 }
 
+// UI Update Helper (Bina Reload kiye data dikhane ke liye)
+function updateProfileUI(user) {
+    // Profile Page Data
+    if(document.getElementById('profile-email-display')) {
+        document.getElementById('profile-email-display').innerText = user.email;
+        document.getElementById('profile-name-display').innerText = user.displayName || "User";
+        
+        // DP Update
+        const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
+        document.getElementById('profile-img-display').src = dpUrl;
+    }
+    
+    // Edit Modal Fields
+    if(document.getElementById('edit-email')) {
+        document.getElementById('edit-email').value = user.email;
+        document.getElementById('edit-name').value = user.displayName || "";
+    }
+}
+
 // ==========================================
-//  3. AUTH LISTENER (The Gatekeeper)
+//  3. AUTH LISTENER
 // ==========================================
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // Agar user login hai, to App me bhejo
         enterApp(user);
     } else {
-        // Agar user nahi hai, to Login screen dikhao
         exitApp();
     }
 });
 
 // ==========================================
-//  4. LOGIN FUNCTION
+//  4. LOGIN & SIGNUP logic
 // ==========================================
 function handleLogin() {
     const email = document.getElementById('login-email').value.trim();
@@ -85,39 +89,27 @@ function handleLogin() {
 
     if(!email || !pass) {
         if(errorDiv) errorDiv.innerText = "Please enter email and password";
-        else alert("Please enter email and password");
         return;
     }
 
-    // Button Feedback
     btn.innerText = "Please wait...";
     btn.disabled = true;
 
     auth.signInWithEmailAndPassword(email, pass)
-        .then((userCredential) => {
-            // Success Message
+        .then(() => {
             btn.innerText = "Success! 🔓";
-            
-            // NOTE: Yahan se screen change 'onAuthStateChanged' karega.
-            // Hum bas wait karenge.
+            // onAuthStateChanged handle karega entry
         })
         .catch((error) => {
-            console.error(error);
-            btn.innerText = "Login"; // Reset Button
+            btn.innerText = "Login"; 
             btn.disabled = false;
-            
             if(errorDiv) {
                 errorDiv.innerText = error.message.replace('Firebase: ', '');
                 errorDiv.style.color = 'red';
-            } else {
-                alert(error.message);
             }
         });
 }
 
-// ==========================================
-//  5. SIGNUP FUNCTION
-// ==========================================
 function handleSignup() {
     const email = document.getElementById('signup-email').value.trim();
     const name = document.getElementById('signup-name').value.trim();
@@ -139,7 +131,7 @@ function handleSignup() {
     auth.createUserWithEmailAndPassword(email, pass)
         .then((cred) => {
             cred.user.updateProfile({ displayName: name }).then(() => {
-                location.reload(); // Reload to refresh profile
+                location.reload(); 
             });
         })
         .catch((error) => {
@@ -147,9 +139,6 @@ function handleSignup() {
         });
 }
 
-// ==========================================
-//  6. LOGOUT
-// ==========================================
 function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
         auth.signOut().then(() => {
@@ -159,11 +148,19 @@ function handleLogout() {
 }
 
 // ==========================================
-//  7. POSTS & APP LOGIC
+//  5. POSTS LOGIC (Fixed Popup & Loading)
 // ==========================================
+
 function loadPosts() {
     const container = document.getElementById('posts-container');
     if(!container) return;
+    
+    // Loading Spinner (Jab tak data na aaye)
+    container.innerHTML = `
+        <div class="text-center mt-5">
+            <div class="spinner-border text-primary" role="status"></div>
+            <p class="text-muted small mt-2">Loading feed...</p>
+        </div>`;
     
     db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
         if(snapshot.empty) {
@@ -204,8 +201,13 @@ function loadPosts() {
 function savePost() {
     const text = document.getElementById('post-text').value;
     const user = auth.currentUser;
+    const postBtn = document.querySelector('#createPostModal .btn-primary');
+
     if (!text.trim()) return alert("Post cannot be empty!");
     
+    postBtn.innerText = "Posting...";
+    postBtn.disabled = true;
+
     db.collection("posts").add({
         text: text,
         userName: user.displayName || "Anonymous",
@@ -213,29 +215,72 @@ function savePost() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         likes: 0
     }).then(() => {
+        // 1. Clear Input
         document.getElementById('post-text').value = "";
+        
+        // 2. CLOSE MODAL (Fixed Logic)
         const modalEl = document.getElementById('createPostModal');
-        const modal = bootstrap.Modal.getInstance(modalEl);
+        
+        // Try Bootstrap method
+        let modal = bootstrap.Modal.getInstance(modalEl);
+        if (!modal) modal = new bootstrap.Modal(modalEl); // Agar instance kho gaya to naya banao
         modal.hide();
+
+        // 3. FORCE CLEANUP (Agar backdrop chipak jaye)
+        const backdrops = document.querySelectorAll('.modal-backdrop');
+        backdrops.forEach(bd => bd.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style = "";
+
+        postBtn.innerText = "Post";
+        postBtn.disabled = false;
     });
 }
 
+// ==========================================
+//  6. PROFILE EDIT (Instant Update - No Reload)
+// ==========================================
+
 function openEditProfile() {
-    const user = auth.currentUser;
-    if(user) {
-        document.getElementById('edit-name').value = user.displayName || "";
-        document.getElementById('edit-email').value = user.email || "";
-        const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-        modal.show();
-    }
+    const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+    modal.show();
 }
 
 function saveProfileChanges() {
     const newName = document.getElementById('edit-name').value;
+    const btn = document.querySelector('#editProfileModal .btn-primary');
+
     if (!newName.trim()) return alert("Name cannot be empty!");
+
+    btn.innerText = "Saving...";
+    btn.disabled = true;
+
     auth.currentUser.updateProfile({ displayName: newName }).then(() => {
-        alert("Profile Updated!");
-        location.reload();
+        // 1. UI Update (Instant)
+        document.getElementById('profile-name-display').innerText = newName;
+        // DP bhi update kar do
+        const dpUrl = `https://ui-avatars.com/api/?name=${newName}&background=0d6efd&color=fff`;
+        document.getElementById('profile-img-display').src = dpUrl;
+
+        // 2. Close Modal
+        const modalEl = document.getElementById('editProfileModal');
+        let modal = bootstrap.Modal.getInstance(modalEl);
+        if (!modal) modal = new bootstrap.Modal(modalEl);
+        modal.hide();
+        
+        // Force cleanup backdrop
+        document.querySelectorAll('.modal-backdrop').forEach(bd => bd.remove());
+        document.body.classList.remove('modal-open');
+        document.body.style = "";
+
+        // Reset Button
+        btn.innerText = "Save Changes";
+        btn.disabled = false;
+        
+    }).catch(err => {
+        alert("Error: " + err.message);
+        btn.innerText = "Save Changes";
+        btn.disabled = false;
     });
 }
 
