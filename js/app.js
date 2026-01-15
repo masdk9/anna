@@ -1,6 +1,6 @@
-// ======================================================
-//  SECTION 1: FIREBASE CONFIGURATION & INITIALIZATION
-// ======================================================
+// ==========================================
+//  1. FIREBASE CONFIG & INIT
+// ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
   authDomain: "masd-repo-git.firebaseapp.com",
@@ -10,7 +10,6 @@ const firebaseConfig = {
   appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
 
-// Initialize Firebase (Check karta hai taaki double load na ho)
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
@@ -18,199 +17,137 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ======================================================
-//  SECTION 2: AUTHENTICATION LOGIC (Login/Signup)
-// ======================================================
+// ==========================================
+//  2. DEBUG LOGIN FUNCTION (Alerts Included)
+// ==========================================
+function handleLogin() {
+    // Value uthao aur spaces hatao
+    const email = document.getElementById('login-email').value.trim();
+    const pass = document.getElementById('login-pass').value.trim();
+    
+    // DEBUG: Alert check
+    alert("System Check: Logging in as...\n" + email);
 
-// --- 2.1 Login State Listener (Main Gatekeeper) ---
+    if(!email || !pass) {
+        alert("❌ Please enter both Email and Password.");
+        return;
+    }
+
+    auth.signInWithEmailAndPassword(email, pass)
+        .then((userCredential) => {
+            alert("✅ SUCCESS! Login Successful.");
+            window.location.reload(); 
+        })
+        .catch((error) => {
+            alert("❌ LOGIN FAILED:\nError Code: " + error.code + "\nMessage: " + error.message);
+        });
+}
+
+// ==========================================
+//  3. SIGNUP FUNCTION
+// ==========================================
+function handleSignup() {
+    const email = document.getElementById('signup-email').value.trim();
+    const name = document.getElementById('signup-name').value.trim();
+    const pass = document.getElementById('signup-pass').value.trim();
+    const confirmPass = document.getElementById('signup-confirm-pass').value.trim();
+    const errorDiv = document.getElementById('signup-error');
+    
+    errorDiv.innerText = "";
+
+    if(!name || !email || !pass || !confirmPass) {
+        errorDiv.innerText = "All fields required!";
+        return;
+    }
+    if(pass !== confirmPass) {
+        errorDiv.innerText = "Passwords do not match!";
+        return;
+    }
+
+    auth.createUserWithEmailAndPassword(email, pass)
+        .then((cred) => {
+            cred.user.updateProfile({ displayName: name }).then(() => {
+                alert("Account Created! Logging in...");
+                window.location.reload(); 
+            });
+        })
+        .catch((error) => {
+            errorDiv.innerText = error.message;
+        });
+}
+
+// ==========================================
+//  4. AUTH STATE & LOGOUT
+// ==========================================
 auth.onAuthStateChanged((user) => {
     const authScreen = document.getElementById('auth-screen');
     const body = document.body;
 
     if (user) {
         // --- LOGGED IN ---
-        console.log("User Logged In:", user.email);
-
-        loadPosts(); // Posts load karo
-        
+        loadPosts();
         body.classList.remove('not-logged-in');
         authScreen.classList.remove('active');
-        
-        // Home tab par le jao
         switchTab('home', document.querySelector('.nav-item-btn'));
         
-        // Profile Data Update karo
+        // Update Profile UI
         if(document.getElementById('profile-email-display')) {
             document.getElementById('profile-email-display').innerText = user.email;
             document.getElementById('profile-name-display').innerText = user.displayName || "User";
+            const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
+            document.getElementById('profile-img-display').src = dpUrl;
         }
-        
     } else {
         // --- LOGGED OUT ---
-        console.log("User Signed Out");
         body.classList.add('not-logged-in');
-        
-        // Auth Screen Dikhao
-  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-      if(authScreen) authScreen.classList.add('active');
-   } });
-
-// --- 2.2 LOGIN FUNCTION ---
-function handleLogin() {
-    const email = document.getElementById('login-email').value;
-    const pass = document.getElementById('login-pass').value;
-    const errorDiv = document.getElementById('auth-error');
-
-    if(!email || !pass) {
-        errorDiv.innerText = "Please enter email and password";
-        return;  }
-
-    auth.signInWithEmailAndPassword(email, pass)
-        .then(() => {
-            console.log("Login Success");
-            // Screen apne aap change hogi
-        })
-        .catch((error) => {
-       console.error("Login Error:", error);
-            errorDiv.innerText = cleanErrorMessage(error.message);
-        }); }
-
-// --- 2.3 NEW SIGNUP FUNCTION (Updated for Username & Confirm Pass) ---
-function handleSignup() {
-    const email = document.getElementById('signup-email').value;
-    const name = document.getElementById('signup-name').value;
-    const pass = document.getElementById('signup-pass').value;
-    const confirmPass = document.getElementById('signup-confirm-pass').value;
-    const errorDiv = document.getElementById('signup-error');
-    
-    // Reset Error
-    errorDiv.innerText = "";
-
-    // Validation
-    if(!name || !email || !pass || !confirmPass) {
-        errorDiv.innerText = "All fields are required!";
-        return;
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        if(authScreen) authScreen.classList.add('active');
     }
+});
 
-    if(pass !== confirmPass) {
-        errorDiv.innerText = "Passwords do not match! ❌";
-        return;
-    }
-
-    if(pass.length < 6) {
-        errorDiv.innerText = "Password must be at least 6 characters";
-        return;
-    }
-
-    // Create Account
-    auth.createUserWithEmailAndPassword(email, pass)
-        .then((cred) => {
-            // User ban gaya, ab Username set karo
-            cred.user.updateProfile({ displayName: name }).then(() => {
-                location.reload(); 
-            });
-        })
-        .catch((error) => {
-            console.error("Signup Error:", error);
-            errorDiv.innerText = cleanErrorMessage(error.message);
-        });
-}
-
-// --- 2.4 LOGOUT FUNCTION ---
 function handleLogout() {
-    if(confirm("Are you sure you want to logout?")) {
-        auth.signOut();
+    if(confirm("Logout?")) {
+        auth.signOut().then(() => {
+             window.location.reload();
+        });
     }
 }
 
-// Error Message Cleaner
-function cleanErrorMessage(msg) {
-    return msg.replace('Firebase: ', '').replace(' (auth/wrong-password).', '').replace(' (auth/user-not-found).', '');
-}
-
-
-// ======================================================
-//  SECTION 3: UI & TAB NAVIGATION
-// ======================================================
-
+// ==========================================
+//  5. UI NAVIGATION
+// ==========================================
 function switchTab(screenId, navEl) {
     if(document.body.classList.contains('not-logged-in')) return;
 
-    // Hide all screens
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-    // Show target screen
     const targetScreen = document.getElementById(screenId + '-screen');
     if(targetScreen) targetScreen.classList.add('active');
 
-    // Reset all icons
-    document.querySelectorAll('.nav-item-btn').forEach(btn => {
-        btn.classList.remove('active');
-        let icon = btn.querySelector('i');
-        if(icon.classList.contains('bi-house-door-fill')) icon.className = 'bi bi-house-door';
-        if(icon.classList.contains('bi-chat-dots-fill')) icon.className = 'bi bi-chat-dots';
-        if(icon.classList.contains('bi-person-fill')) icon.className = 'bi bi-person';
-    });
+    document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
+    if(navEl) navEl.classList.add('active');
 
-    // Activate clicked icon
-    if(navEl) {
-        navEl.classList.add('active');
-        let activeIcon = navEl.querySelector('i');
-        if(activeIcon.classList.contains('bi-house-door')) activeIcon.className = 'bi bi-house-door-fill';
-        if(activeIcon.classList.contains('bi-chat-dots')) activeIcon.className = 'bi bi-chat-dots-fill';
-        if(activeIcon.classList.contains('bi-person')) activeIcon.className = 'bi bi-person-fill';
-    }
-
-    // FAB Visibility (Only on Home)
+    // FAB Visibility
     const fab = document.getElementById('fab-btn');
     if(fab) {
-        if (screenId === 'home') {
-            fab.style.display = 'flex';
-            setTimeout(() => fab.classList.remove('hide'), 100);
-        } else {
-            fab.classList.add('hide');
-            setTimeout(() => fab.style.display = 'none', 300);
-        }
+        fab.style.display = (screenId === 'home') ? 'flex' : 'none';
     }
 }
 
 function openScreen(screenId) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById(screenId + '-screen').classList.add('active');
-    document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
-    if(document.getElementById('fab-btn')) document.getElementById('fab-btn').classList.add('hide');
 }
 
-// Scroll Logic for FAB (Hide on scroll down)
-let isScrolling;
-const fabBtn = document.getElementById('fab-btn');
-window.addEventListener('scroll', function (event) {
-    const homeScreen = document.getElementById('home-screen');
-    if (homeScreen && !homeScreen.classList.contains('active')) return;
-    if (!fabBtn) return;
-
-    fabBtn.classList.add('hide');
-    window.clearTimeout(isScrolling);
-    isScrolling = setTimeout(function() {
-        fabBtn.classList.remove('hide');
-    }, 250);
-}, false);
-
-
-// ======================================================
-//  SECTION 4: POSTS LOGIC (CREATE & REDESIGNED LOAD)
-// ======================================================
-
-// --- 4.1 SAVE POST ---
+// ==========================================
+//  6. POSTS LOGIC (Instagram Style)
+// ==========================================
 function savePost() {
     const text = document.getElementById('post-text').value;
     const user = auth.currentUser;
 
     if (!text.trim()) return alert("Post cannot be empty!");
-
-    const postBtn = document.querySelector('#createPostModal .btn-primary');
-    postBtn.disabled = true;
-    postBtn.innerText = "Posting...";
-
+    
+    // Save to Firestore
     db.collection("posts").add({
         text: text,
         userName: user.displayName || "Anonymous",
@@ -218,133 +155,70 @@ function savePost() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         likes: 0
     }).then(() => {
-        console.log("Post Saved!");
         document.getElementById('post-text').value = "";
-        
-        // Modal Band karo
         const modalEl = document.getElementById('createPostModal');
         const modal = bootstrap.Modal.getInstance(modalEl);
         modal.hide();
-        
-        postBtn.disabled = false;
-        postBtn.innerText = "Post";
-    }).catch((error) => {
-        console.error("Error writing post: ", error);
-        alert("Error: " + error.message);
-        postBtn.disabled = false;
-        postBtn.innerText = "Post";
     });
 }
 
-// --- 4.2 LOAD POSTS (NEW PROFESSIONAL DESIGN) ---
 function loadPosts() {
     const container = document.getElementById('posts-container');
     
-    db.collection("posts")
-        .orderBy("timestamp", "desc")
-        .onSnapshot((snapshot) => {
-            
-  if(snapshot.empty) {
- container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Start the conversation!</p></div>`;
-                return;
-            }
+    db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+        if(snapshot.empty) {
+            container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet.</p></div>`;
+            return;
+        }
+        let html = "";
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
+            const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
 
-            let html = "";
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                
-                // Time Logic
-                let timeString = "Just now";
-                if(data.timestamp) {
-     const date = data.timestamp.toDate();
-  const isToday = date.toDateString() === new Date().toDateString();
-  timeString = isToday ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString();
-                }
-
-// Username Handle Logic (@name)
-       let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
-
- // DP Logic
-                const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
-
-  // --- NEW CARD HTML ---
-                html += `
-     <div class="card border-0 shadow-sm rounded-4 mb-3">
-                    <div class="card-body p-3">
-                        
- <div class="d-flex justify-content-between align-items-start mb-2">
-  <div class="d-flex gap-2 align-items-center">
-    <img src="${dpUrl}" class="rounded-circle border" width="45" height="45" alt="DP">
-      <div style="line-height: 1.2;">
-  <h6 class="mb-0 fw-bold text-dark" style="font-size: 15px;">${data.userName}</h6>
-   <small class="text-muted" style="font-size: 12px;">${usernameHandle} • ${timeString}</small>
-                                </div>
+            html += `
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body p-3">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div class="d-flex gap-2 align-items-center">
+                            <img src="${dpUrl}" class="rounded-circle border" width="45" height="45">
+                            <div style="line-height: 1.2;">
+                                <h6 class="mb-0 fw-bold text-dark" style="font-size: 15px;">${data.userName}</h6>
+                                <small class="text-muted" style="font-size: 12px;">${usernameHandle}</small>
                             </div>
- <button class="btn btn-sm text-muted rounded-circle p-1">
- <i class="bi bi-bookmark fs-5"></i>
-                            </button>
                         </div>
-
-<p class="mb-3 text-dark mt-2" style="white-space: pre-wrap; font-size: 15px; font-weight: 400;">${data.text}</p>
-                        
-<div class="d-flex justify-content-between align-items-center pt-2 border-top">
-<button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
-<i class="bi bi-heart fs-6"></i> <span>${data.likes || 0}</span>
-                            </button>
-<button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
-          <i class="bi bi-chat fs-6"></i> <span>0</span>
-                            </button>
-   <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
-         <i class="bi bi-share fs-6"></i> <span>0</span>
-                            </button>
-                        </div>
+                        <i class="bi bi-bookmark fs-5 text-muted"></i>
+                    </div>
+                    <p class="mb-3 text-dark mt-2" style="white-space: pre-wrap; font-size: 15px;">${data.text}</p>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                        <i class="bi bi-heart fs-5 text-muted"></i>
+                        <i class="bi bi-chat fs-5 text-muted"></i>
+                        <i class="bi bi-share fs-5 text-muted"></i>
                     </div>
                 </div>
-                `;
-            });
-
-            container.innerHTML = html;
+            </div>`;
         });
+        container.innerHTML = html;
+    });
 }
 
-
-// ======================================================
-//  SECTION 5: PROFILE & ACCOUNT CENTRE LOGIC
-// ======================================================
-
-// 1. Modal Kholna
+// ==========================================
+//  7. PROFILE EDIT
+// ==========================================
 function openEditProfile() {
     const user = auth.currentUser;
     if(!user) return;
-
     document.getElementById('edit-name').value = user.displayName || "";
     document.getElementById('edit-email').value = user.email || "";
-
-    const modalEl = document.getElementById('editProfileModal');
-    const modal = new bootstrap.Modal(modalEl);
+    const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
     modal.show();
 }
 
-// 2. Naam Save Karna
 function saveProfileChanges() {
     const newName = document.getElementById('edit-name').value;
-    const user = auth.currentUser;
-    const btn = document.querySelector('#editProfileModal .btn-primary');
-
     if (!newName.trim()) return alert("Name cannot be empty!");
-
-    btn.innerText = "Saving...";
-    btn.disabled = true;
-
-    user.updateProfile({
-        displayName: newName
-    }).then(() => {
-        alert("Profile Updated! ✅");
-        location.reload(); 
-    }).catch((error) => {
-        console.error(error);
-        alert("Error: " + error.message);
-        btn.innerText = "Save Changes";
-        btn.disabled = false;
+    auth.currentUser.updateProfile({ displayName: newName }).then(() => {
+        alert("Profile Updated!");
+        window.location.reload();
     });
 }
