@@ -1,74 +1,59 @@
 /* =========================================
    1. GLOBAL VARIABLES & RESET
    ========================================= */
-   :root {
+:root {
     --app-primary: #0d6efd;
     --app-bg: #f2f4f7;
     --nav-height: 65px;
 }
 
-/* Default Body Style (App ke liye) */
 body {
-    background-color: var(--app-bg);
-    padding-bottom: 90px;
-    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    /* App ke andar padding chahiye, lekin login screen par nahi */
+    padding-bottom: 90px; 
+    font-family: 'Jost', sans-serif;
+    background: var(--app-bg);
+    color: #212529;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
-    color: #212529;
-    margin: 0;
 }
 
 /* =========================================
-   2. LOGIN / SIGNUP SCREEN (MODERN SLIDER)
+   2. AUTH SCREEN (LOGIN/SIGNUP SLIDER)
    ========================================= */
-
-/* Isse Auth Screen puri screen par center me aayegi */
 #auth-screen {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
-    background: #f0f2f5;
     z-index: 9999;
-    display: none; /* Default band */
+    display: flex; /* Center karne ke liye */
     justify-content: center;
     align-items: center;
+    background: #f0f2f5;
 }
 
-#auth-screen.active {
-    display: flex !important; /* Force flex to center content */
-}
-
-/* Card Container */
 .main {
     width: 350px;
-    height: 550px;
-    background: #fff;
+    height: 500px;
+    background: #fff; /* White Background */
     overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px rgba(0,0,0,0.2);
     position: relative;
-    /* Mobile Responsive Fix */
-    max-width: 90%; 
 }
 
 #chk {
     display: none;
 }
 
-/* --- LOGIN FORM --- */
+/* --- Login Form (White) --- */
 .login {
     position: relative;
     width: 100%;
     height: 100%;
-}
-
-.login form {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center horizontally */
 }
 
 .login label {
@@ -76,36 +61,36 @@ body {
     font-size: 2.3em;
     justify-content: center;
     display: flex;
-    margin: 40px 0;
+    margin: 50px;
     font-weight: bold;
     cursor: pointer;
     transition: .5s ease-in-out;
-    font-family: 'Jost', sans-serif;
 }
 
 .login input {
-    width: 70%;
-    height: 25px;
-    background: #f1f5f9;
+    width: 60%;
+    height: 20px;
+    background: #e0dede;
     justify-content: center;
     display: flex;
-    margin: 10px auto;
-    padding: 12px;
+    margin: 20px auto;
+    padding: 10px;
     border: none;
     outline: none;
     border-radius: 5px;
 }
 
 .login button {
-    width: 70%;
-    height: 45px;
-    margin: 25px auto;
+    width: 60%;
+    height: 40px;
+    margin: 10px auto;
     justify-content: center;
     display: block;
     color: #fff;
     background: var(--app-primary);
     font-size: 1em;
     font-weight: bold;
+    margin-top: 20px;
     outline: none;
     border: none;
     border-radius: 5px;
@@ -113,25 +98,13 @@ body {
     cursor: pointer;
 }
 
-.login button:hover { background: #0b5ed7; }
-
-/* --- SIGNUP FORM (SLIDER) --- */
+/* --- Signup Form (Blue Slider) --- */
 .signup {
-    height: 550px;
+    height: 460px;
     background: var(--app-primary);
     border-radius: 60% / 10%;
-    transform: translateY(-130px);
+    transform: translateY(-180px); /* Default Position (Niche) */
     transition: .8s ease-in-out;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-}
-
-.signup form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
 }
 
 .signup label {
@@ -139,46 +112,46 @@ body {
     font-size: 2.3em;
     justify-content: center;
     display: flex;
-    margin: 30px 0;
+    margin: 50px;
     font-weight: bold;
     cursor: pointer;
     transform: scale(.6);
     transition: .5s ease-in-out;
-    font-family: 'Jost', sans-serif;
 }
 
 .signup input {
-    width: 70%;
-    height: 25px;
+    width: 60%;
+    height: 20px;
     background: #e0dede;
     justify-content: center;
     display: flex;
-    margin: 8px auto;
-    padding: 12px;
+    margin: 20px auto;
+    padding: 10px;
     border: none;
     outline: none;
     border-radius: 5px;
 }
 
 .signup button {
-    width: 70%;
-    height: 45px;
-    margin: 20px auto;
+    width: 60%;
+    height: 40px;
+    margin: 10px auto;
     justify-content: center;
     display: block;
     color: var(--app-primary);
     background: #fff;
     font-size: 1em;
     font-weight: bold;
+    margin-top: 20px;
     outline: none;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-/* --- ANIMATION LOGIC --- */
+/* --- Animation Logic --- */
 #chk:checked ~ .signup {
-    transform: translateY(-500px);
+    transform: translateY(-500px); /* Upar slide hoga */
 }
 #chk:checked ~ .signup label {
     transform: scale(1);
@@ -189,33 +162,28 @@ body {
 
 .error-msg {
     text-align: center;
-    color: red;
-    font-size: 13px;
-    margin-top: 10px;
-    font-weight: 500;
+    font-size: 12px;
+    margin-top: 5px;
+    color: yellow;
 }
 
-
 /* =========================================
-   3. APP UI (HIDDEN WHEN LOGGED OUT)
+   3. HIDE APP UI (WHEN LOGGED OUT)
    ========================================= */
-
-/* Jab tak login nahi, tab tak ye sab chupao */
 body.not-logged-in .app-header,
 body.not-logged-in .nav-wrapper,
 body.not-logged-in #fab-btn,
 body.not-logged-in #home-screen,
 body.not-logged-in #search-screen,
-body.not-logged-in #chat-screen,
-body.not-logged-in #profile-screen {
+body.not-logged-in #message-screen,
+body.not-logged-in #profile-screen,
+body.not-logged-in #notification-screen {
     display: none !important;
 }
 
-/* Jab login nahi hai, to body clean rakho */
 body.not-logged-in {
     padding-bottom: 0;
-    background-color: #f0f2f5;
-    overflow: hidden; /* Scroll band login screen pe */
+    overflow: hidden; /* Scroll band Login page par */
 }
 
 
@@ -247,8 +215,8 @@ body.not-logged-in {
 }
 .header-icon { font-size: 1.4rem; color: #495057; cursor: pointer; }
 
-/* --- Cards --- */
-.app-card {
+/* --- Cards (Post Design) --- */
+.app-card, .card {
     background: white;
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.03);
@@ -258,7 +226,6 @@ body.not-logged-in {
     position: relative; 
 }
 .user-dp-small { width: 42px; height: 42px; border-radius: 50%; background-color: #e9ecef; background-size: cover; }
-.post-image { width: 100%; border-radius: 10px; margin-top: 10px; border: 1px solid #f8f9fa; }
 
 /* Action Icons Style */
 .action-btn { display: flex; align-items: center; gap: 6px; color: #6c757d; cursor: pointer; font-weight: 500; font-size: 0.95rem; }
@@ -277,6 +244,13 @@ body.not-logged-in {
     position: relative;
 }
 .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+
+.settings-list .list-group-item {
+    padding: 16px;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
 
 /* --- Bottom Navigation --- */
 .nav-wrapper {
@@ -305,7 +279,9 @@ body.not-logged-in {
     border: none;
 }
 .nav-item-btn i { font-size: 1.5rem; margin-bottom: 2px; }
+.nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
 .nav-item-btn.active { color: var(--app-primary); }
+.nav-item-btn.active span { display: block; }
 
 /* --- FAB (Create Post Button) --- */
 .fab-main {
@@ -332,3 +308,9 @@ body.not-logged-in {
 .screen { display: none; padding-top: 10px; }
 .screen.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Offcanvas Custom */
+.offcanvas-fullscreen-custom {
+    width: 100%;
+    background-color: #f2f4f7;
+}
