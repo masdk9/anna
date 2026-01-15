@@ -20,28 +20,52 @@ const db = firebase.firestore();
 // ==========================================
 //  2. DEBUG LOGIN FUNCTION (Alerts Included)
 // ==========================================
+// ==========================================
+//  FINAL FIXED LOGIN FUNCTION (No Reload)
+// ==========================================
 function handleLogin() {
-    // Value uthao aur spaces hatao
     const email = document.getElementById('login-email').value.trim();
     const pass = document.getElementById('login-pass').value.trim();
-    
-    // DEBUG: Alert check
-    alert("System Check: Logging in as...\n" + email);
+    const btn = document.querySelector('.login button'); 
+
+    // Error Message box (Red wala)
+    const errorDiv = document.getElementById('auth-error');
+    if(errorDiv) errorDiv.innerText = "";
 
     if(!email || !pass) {
-        alert("❌ Please enter both Email and Password.");
+        if(errorDiv) errorDiv.innerText = "Please enter email and password";
+        else alert("Please enter email and password");
         return;
     }
 
+    // 1. Button par "Please wait..." dikhao
+    const originalText = btn.innerText;
+    btn.innerText = "Please wait...";
+    btn.disabled = true;
+
+    // 2. Firebase se Login karo
     auth.signInWithEmailAndPassword(email, pass)
         .then((userCredential) => {
-            alert("✅ SUCCESS! Login Successful.");
-            window.location.reload(); 
+            // ✅ SUCCESS!
+            console.log("Login Success!");
+            btn.innerText = "Success! 🔓";
+            
+            // YAHAN KUCH MAT KARNA ❌
+            // (Na Reload, Na Alert)
+            // 'onAuthStateChanged' function apne aap screen badal dega.
         })
         .catch((error) => {
-            alert("❌ LOGIN FAILED:\nError Code: " + error.code + "\nMessage: " + error.message);
+            // ❌ FAIL
+            console.error(error);
+            if(errorDiv) errorDiv.innerText = "Error: " + error.message;
+            else alert(error.message);
+            
+            // Button wapas normal karo
+            btn.innerText = originalText;
+            btn.disabled = false;
         });
 }
+
 
 // ==========================================
 //  3. SIGNUP FUNCTION
