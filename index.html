@@ -22,49 +22,49 @@
     <div id="auth-screen" class="screen active">
         <div class="auth-container">
             <div class="text-center mb-5">
-                <i class="fi fi-br-square-m" style="font-size: 3.5rem; color: var(--app-primary);"></i>
+<i class="fi fi-br-square-m" style="font-size: 3.5rem; color: var(--app-primary);"></i>
                 
             </div>
 
             <div id="login-box">
-                <div class="mb-3">
-                    <label class="form-label small fw-bold text-muted">EMAIL</label>
-                    <input type="email" id="login-email" class="form-control form-control-lg bg-light border-0">
+       <div class="mb-3">
+ <label class="form-label small fw-bold text-muted">EMAIL</label>
+  <input type="email" id="login-email" class="form-control form-control-lg bg-light border-0">
                 </div>
                 <div class="mb-4">
-                    <label class="form-label small fw-bold text-muted">PASSWORD</label>
-                    <input type="password" id="login-pass" class="form-control form-control-lg bg-light border-0">
+  <label class="form-label small fw-bold text-muted">PASSWORD</label>
+ <input type="password" id="login-pass" class="form-control form-control-lg bg-light border-0">
                 </div>
                 <div class="d-grid mb-3">
-                <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleLogin()">Sign In</button>
+ <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleLogin()">Sign In</button>
                 </div>
 <p class="text-center text-muted">Don't have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuth('signup')">Sign Up</a></p>
             </div>
 
-            <div id="signup-box" style="display: none;">
-                <div class="mb-3">
-                    <label class="form-label small fw-bold text-muted">FULL NAME</label>
-                    <input type="text" id="signup-name" class="form-control form-control-lg bg-light border-0">
+ <div id="signup-box" style="display: none;">
+ <div class="mb-3">
+ <label class="form-label small fw-bold text-muted">FULL NAME</label>
+ <input type="text" id="signup-name" class="form-control form-control-lg bg-light border-0">
                 </div>
                 <div class="mb-3">
-                    <label class="form-label small fw-bold text-muted">EMAIL</label>
-                    <input type="email" id="signup-email" class="form-control form-control-lg bg-light border-0">
+ <label class="form-label small fw-bold text-muted">EMAIL</label>
+ <input type="email" id="signup-email" class="form-control form-control-lg bg-light border-0">
                 </div>
-                <div class="mb-4">
-                    <label class="form-label small fw-bold text-muted">PASSWORD</label>
-                    <input type="password" id="signup-pass" class="form-control form-control-lg bg-light border-0">
+ <div class="mb-4">
+ <label class="form-label small fw-bold text-muted">PASSWORD</label>
+ <input type="password" id="signup-pass" class="form-control form-control-lg bg-light border-0">
                 </div>
                 <div class="d-grid mb-3">
-                    <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleSignup()">Sign Up</button>
+  <button class="btn btn-primary btn-lg rounded-pill fw-bold py-3" onclick="handleSignup()">Sign Up</button>
                 </div>
-                <p class="text-center text-muted">Already have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuth('login')">Sign In</a></p>
+ <p class="text-center text-muted">Already have an account? <a href="#" class="text-primary text-decoration-none fw-bold" onclick="toggleAuth('login')">Sign In</a></p>
             </div>
-            <div id="auth-error" class="text-danger text-center small mt-3 fw-bold"></div>
+   <div id="auth-error" class="text-danger text-center small mt-3 fw-bold"></div>
         </div>
     </div>
 
     <div class="app-header">
-        <div class="app-logo"><i class="fi fi-br-square-m"></i></div>
+<div class="app-logo"><i class="fi fi-br-square-m"></i></div>
         <i class="bi bi-bell header-icon" onclick="openScreen('notification')"></i>
     </div>
 
@@ -80,7 +80,7 @@
 
         <div id="search-screen" class="screen">
             <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height: 50px;" placeholder="Search...">
-            <h6 class="text-muted small fw-bold px-2 mb-2">TRENDING</h6>
+<h6 class="text-muted small fw-bold px-2 mb-2">TRENDING</h6>
             <div class="app-card p-0">
  <div class="list-group list-group-flush rounded-3">
  <div class="list-group-item py-3">#AnnaApp <span class="float-end text-muted small">New</span></div>
@@ -91,19 +91,19 @@
 
         <div id="message-screen" class="screen">
             <h5 class="fw-bold mb-3">Messages</h5>
-            <div class="app-card p-0">
+  <div class="app-card p-0">
    <div class="list-group list-group-flush rounded-3">
-  <div class="p-4 text-center text-muted">No messages yet.</div>
+<div class="p-4 text-center text-muted">No messages yet.</div>
                 </div>
             </div>
         </div>
 
         <div id="profile-screen" class="screen">
             <div class="profile-section-container">
-                <div class="text-center mb-4">
+   <div class="text-center mb-4">
   <div class="profile-img-container">
  <img src="https://randomuser.me/api/portraits/men/85.jpg" class="profile-img">
-                    </div>
+   </div>
   <h4 class="fw-bold mt-3 mb-0" id="profile-name-display">User</h4>
   <small class="text-muted" id="profile-email-display">@user</small>
 
