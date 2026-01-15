@@ -1,6 +1,6 @@
-// ==========================================
-//  1. FIREBASE CONFIGURATION
-// ==========================================
+// ======================================================
+//  SECTION 1: FIREBASE CONFIGURATION & INITIALIZATION
+// ======================================================
 const firebaseConfig = {
   apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
   authDomain: "masd-repo-git.firebaseapp.com",
@@ -18,11 +18,11 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ==========================================
-//  2. AUTHENTICATION LOGIC
-// ==========================================
+// ======================================================
+//  SECTION 2: AUTHENTICATION LOGIC (Login/Signup)
+// ======================================================
 
-// Login State Listener (Check agar user login hai ya nahi)
+// --- 2.1 Login State Listener (Main Gatekeeper) ---
 auth.onAuthStateChanged((user) => {
     const authScreen = document.getElementById('auth-screen');
     const body = document.body;
@@ -31,8 +31,7 @@ auth.onAuthStateChanged((user) => {
         // --- LOGGED IN ---
         console.log("User Logged In:", user.email);
 
-        // 👇 Yahan Posts load honge (Emoji hata diya hai ✅)
-        loadPosts(); 
+        loadPosts(); // Posts load karo
         
         body.classList.remove('not-logged-in');
         authScreen.classList.remove('active');
@@ -53,23 +52,11 @@ auth.onAuthStateChanged((user) => {
         
         // Auth Screen Dikhao
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        authScreen.classList.add('active');
+        if(authScreen) authScreen.classList.add('active');
     }
 });
 
-// Switch between Login & Signup Forms
-function toggleAuth(mode) {
-    document.getElementById('auth-error').innerText = ""; 
-    if(mode === 'signup') {
-        document.getElementById('login-box').style.display = 'none';
-        document.getElementById('signup-box').style.display = 'block';
-    } else {
-        document.getElementById('signup-box').style.display = 'none';
-        document.getElementById('login-box').style.display = 'block';
-    }
-}
-
-// LOGIN FUNCTION
+// --- 2.2 LOGIN FUNCTION ---
 function handleLogin() {
     const email = document.getElementById('login-email').value;
     const pass = document.getElementById('login-pass').value;
@@ -83,7 +70,7 @@ function handleLogin() {
     auth.signInWithEmailAndPassword(email, pass)
         .then(() => {
             console.log("Login Success");
-            // Screen apne aap change hogi (onAuthStateChanged ki wajah se)
+            // Screen apne aap change hogi
         })
         .catch((error) => {
             console.error("Login Error:", error);
@@ -91,23 +78,39 @@ function handleLogin() {
         });
 }
 
-// SIGNUP FUNCTION
+// --- 2.3 NEW SIGNUP FUNCTION (Updated for Username & Confirm Pass) ---
 function handleSignup() {
     const email = document.getElementById('signup-email').value;
-    const pass = document.getElementById('signup-pass').value;
     const name = document.getElementById('signup-name').value;
-    const errorDiv = document.getElementById('auth-error');
+    const pass = document.getElementById('signup-pass').value;
+    const confirmPass = document.getElementById('signup-confirm-pass').value;
+    const errorDiv = document.getElementById('signup-error');
     
-    if(!name || !email || !pass) { 
-        errorDiv.innerText = "All fields are required"; 
-        return; 
+    // Reset Error
+    errorDiv.innerText = "";
+
+    // Validation
+    if(!name || !email || !pass || !confirmPass) {
+        errorDiv.innerText = "All fields are required!";
+        return;
     }
 
+    if(pass !== confirmPass) {
+        errorDiv.innerText = "Passwords do not match! ❌";
+        return;
+    }
+
+    if(pass.length < 6) {
+        errorDiv.innerText = "Password must be at least 6 characters";
+        return;
+    }
+
+    // Create Account
     auth.createUserWithEmailAndPassword(email, pass)
         .then((cred) => {
-            // User ban gaya, ab uska Naam set karo
+            // User ban gaya, ab Username set karo
             cred.user.updateProfile({ displayName: name }).then(() => {
-                location.reload(); // Reload taaki fresh data dikhe
+                location.reload(); 
             });
         })
         .catch((error) => {
@@ -116,7 +119,7 @@ function handleSignup() {
         });
 }
 
-// LOGOUT FUNCTION
+// --- 2.4 LOGOUT FUNCTION ---
 function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
         auth.signOut();
@@ -129,9 +132,9 @@ function cleanErrorMessage(msg) {
 }
 
 
-// ==========================================
-//  3. UI & TAB LOGIC
-// ==========================================
+// ======================================================
+//  SECTION 3: UI & TAB NAVIGATION
+// ======================================================
 
 function switchTab(screenId, navEl) {
     if(document.body.classList.contains('not-logged-in')) return;
@@ -196,23 +199,21 @@ window.addEventListener('scroll', function (event) {
 }, false);
 
 
-// ==========================================
-//  4. POSTS LOGIC (CREATE & LOAD)
-// ==========================================
+// ======================================================
+//  SECTION 4: POSTS LOGIC (CREATE & REDESIGNED LOAD)
+// ======================================================
 
-// --- SAVE POST (Jab Post button dabega) ---
+// --- 4.1 SAVE POST ---
 function savePost() {
     const text = document.getElementById('post-text').value;
     const user = auth.currentUser;
 
     if (!text.trim()) return alert("Post cannot be empty!");
 
-    // Button ko disable karo
     const postBtn = document.querySelector('#createPostModal .btn-primary');
     postBtn.disabled = true;
     postBtn.innerText = "Posting...";
 
-    // Firestore Database mein data bhejo
     db.collection("posts").add({
         text: text,
         userName: user.displayName || "Anonymous",
@@ -221,7 +222,7 @@ function savePost() {
         likes: 0
     }).then(() => {
         console.log("Post Saved!");
-        document.getElementById('post-text').value = ""; // Box khali karo
+        document.getElementById('post-text').value = "";
         
         // Modal Band karo
         const modalEl = document.getElementById('createPostModal');
@@ -238,49 +239,68 @@ function savePost() {
     });
 }
 
-// --- LOAD POSTS (Screen par dikhane ke liye) ---
+// --- 4.2 LOAD POSTS (NEW PROFESSIONAL DESIGN) ---
 function loadPosts() {
     const container = document.getElementById('posts-container');
     
-    // Real-time listener
     db.collection("posts")
-        .orderBy("timestamp", "desc") // Latest post upar
+        .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
             
             if(snapshot.empty) {
-                container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Be the first to post!</p></div>`;
+                container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Start the conversation!</p></div>`;
                 return;
             }
 
             let html = "";
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                // Time formatter
+                
+                // Time Logic
                 let timeString = "Just now";
                 if(data.timestamp) {
                     const date = data.timestamp.toDate();
-                    timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    const isToday = date.toDateString() === new Date().toDateString();
+                    timeString = isToday ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString();
                 }
 
-                // Random DP generate (User ke naam se)
-                const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff`;
+                // Username Handle Logic (@name)
+                let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
 
-                // HTML Card Template
+                // DP Logic
+                const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
+
+                // --- NEW CARD HTML ---
                 html += `
-                <div class="app-card">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="user-dp-small" style="background-image: url('${dpUrl}');"></div>
-                        <div>
-                            <h6 class="m-0 fw-bold">${data.userName}</h6>
-                            <small class="text-muted">${timeString}</small>
+                <div class="card border-0 shadow-sm rounded-4 mb-3">
+                    <div class="card-body p-3">
+                        
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <div class="d-flex gap-2 align-items-center">
+                                <img src="${dpUrl}" class="rounded-circle border" width="45" height="45" alt="DP">
+                                <div style="line-height: 1.2;">
+                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 15px;">${data.userName}</h6>
+                                    <small class="text-muted" style="font-size: 12px;">${usernameHandle} • ${timeString}</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm text-muted rounded-circle p-1">
+                                <i class="bi bi-bookmark fs-5"></i>
+                            </button>
                         </div>
-                    </div>
-                    <div class="mb-2 fs-6" style="white-space: pre-wrap;">${data.text}</div>
-                    
-                    <div class="d-flex justify-content-between border-top pt-3 mt-2">
-                        <div class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Like</div>
-                        <div class="action-btn"><i class="bi bi-chat-square-text"></i> Comment</div>
-                        <div class="action-btn"><i class="bi bi-share"></i> Share</div>
+
+                        <p class="mb-3 text-dark mt-2" style="white-space: pre-wrap; font-size: 15px; font-weight: 400;">${data.text}</p>
+                        
+                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                            <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
+                                <i class="bi bi-heart fs-6"></i> <span>${data.likes || 0}</span>
+                            </button>
+                            <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
+                                <i class="bi bi-chat fs-6"></i> <span>0</span>
+                            </button>
+   <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
+         <i class="bi bi-share fs-6"></i> <span>0</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 `;
@@ -291,22 +311,18 @@ function loadPosts() {
 }
 
 
-
-
-// ==========================================
-//  5. PROFILE EDIT LOGIC (Account Centre)
-// ==========================================
+// ======================================================
+//  SECTION 5: PROFILE & ACCOUNT CENTRE LOGIC
+// ======================================================
 
 // 1. Modal Kholna
 function openEditProfile() {
     const user = auth.currentUser;
     if(!user) return;
 
-    // Purana naam aur email box me bharo
     document.getElementById('edit-name').value = user.displayName || "";
     document.getElementById('edit-email').value = user.email || "";
 
-    // Modal dikhao
     const modalEl = document.getElementById('editProfileModal');
     const modal = new bootstrap.Modal(modalEl);
     modal.show();
@@ -320,16 +336,14 @@ function saveProfileChanges() {
 
     if (!newName.trim()) return alert("Name cannot be empty!");
 
-    // Button loading...
     btn.innerText = "Saving...";
     btn.disabled = true;
 
-    // Firebase Update
     user.updateProfile({
         displayName: newName
     }).then(() => {
         alert("Profile Updated! ✅");
-        location.reload(); // Page refresh karo taki naya naam dikhe
+        location.reload(); 
     }).catch((error) => {
         console.error(error);
         alert("Error: " + error.message);
@@ -337,9 +351,3 @@ function saveProfileChanges() {
         btn.disabled = false;
     });
 }
-
-
-
-
-
-
