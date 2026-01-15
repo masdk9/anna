@@ -1,3 +1,6 @@
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
 :root {
     --app-primary: #0d6efd;
     --app-bg: #f2f4f7;
@@ -15,9 +18,9 @@ body {
     overflow-x: hidden;
 }
 
-/* =========================== */
-/* AUTH SCREEN (FIXED)        */
-/* =========================== */
+/* =========================================
+   2. AUTH SCREEN (FIXED)
+   ========================================= */
 #auth-screen {
     position: fixed;
     top: 0;
@@ -25,15 +28,22 @@ body {
     width: 100%;
     height: 100vh;
     z-index: 9999;
-    display: flex;
+    background: #f0f2f5;
+    
+    /* 👇 SABSE ZAROORI FIX: Default me chhupa rahega */
+    display: none; 
+}
+
+/* Jab JS bolega tabhi dikhega */
+#auth-screen.active {
+    display: flex !important;
     justify-content: center;
     align-items: center;
-    background: #f0f2f5;
 }
 
 .main {
     width: 350px;
-    height: 520px; /* Thodi height badhai taki sab fit ho */
+    height: 520px;
     background: #fff;
     overflow: hidden;
     border-radius: 10px;
@@ -43,7 +53,7 @@ body {
 
 #chk { display: none; }
 
-/* LOGIN FORM */
+/* --- Login Form (White) --- */
 .login {
     position: relative;
     width: 100%;
@@ -88,12 +98,13 @@ body {
     cursor: pointer;
 }
 
-/* SIGNUP FORM (FIXED POSITION) */
+/* --- Signup Form (Blue Slider) --- */
 .signup {
     height: 460px;
     background: var(--app-primary);
     border-radius: 60% / 10%;
-    transform: translateY(-170px); /* Adjusted to not cover Login button */
+    /* Isse Register button niche dikhega aur Login button nahi dhakega */
+    transform: translateY(-170px); 
     transition: .8s ease-in-out;
 }
 .signup label {
@@ -136,21 +147,23 @@ body {
     cursor: pointer;
 }
 
-/* SLIDER LOGIC */
+/* --- Animation Logic --- */
 #chk:checked ~ .signup { transform: translateY(-500px); }
 #chk:checked ~ .signup label { transform: scale(1); }
 #chk:checked ~ .login label { transform: scale(.6); }
 
-/* ERRORS */
+/* Errors Colors */
 .error-msg {
     text-align: center;
     font-size: 13px;
     margin-top: 10px;
     font-weight: bold;
-    color: red; /* Login screen par Red dikhega */
+    color: red; /* Login screen par Red */
 }
 
-/* HIDE APP WHEN NOT LOGGED IN */
+/* =========================================
+   3. HIDE APP UI (WHEN LOGGED OUT)
+   ========================================= */
 body.not-logged-in .app-header,
 body.not-logged-in .nav-wrapper,
 body.not-logged-in #fab-btn,
@@ -163,10 +176,11 @@ body.not-logged-in #notification-screen {
 }
 body.not-logged-in { padding-bottom: 0; overflow: hidden; }
 
-/* APP COMPONENTS */
+/* =========================================
+   4. APP COMPONENTS
+   ========================================= */
 .app-header {
-    position: sticky;
-    top: 0; z-index: 1020;
+    position: sticky; top: 0; z-index: 1020;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 10px 15px;
@@ -212,6 +226,5 @@ body.not-logged-in { padding-bottom: 0; overflow: hidden; }
     font-size: 28px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
     cursor: pointer; z-index: 1040;
 }
-.fab-main.hide { display: none; }
 .screen { display: none; padding-top: 10px; }
 .screen.active { display: block; }
