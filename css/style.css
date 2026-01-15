@@ -1,9 +1,13 @@
-:root {
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+   :root {
     --app-primary: #0d6efd;
     --app-bg: #f2f4f7;
     --nav-height: 65px;
 }
 
+/* Default Body Style (App ke liye) */
 body {
     background-color: var(--app-bg);
     padding-bottom: 90px;
@@ -11,77 +15,97 @@ body {
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
     color: #212529;
+    margin: 0;
 }
 
-/* --- NEW MODERN AUTH CSS --- */
-body {
-    margin: 0;
-    padding: 0;
-    display: flex;
+/* =========================================
+   2. LOGIN / SIGNUP SCREEN (MODERN SLIDER)
+   ========================================= */
+
+/* Isse Auth Screen puri screen par center me aayegi */
+#auth-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #f0f2f5;
+    z-index: 9999;
+    display: none; /* Default band */
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    font-family: 'Jost', sans-serif;
-    background: #f0f2f5; /* Light Gray Background */
 }
 
+#auth-screen.active {
+    display: flex !important; /* Force flex to center content */
+}
+
+/* Card Container */
 .main {
     width: 350px;
-    height: 550px; /* Thoda lamba kiya taki fields aa jaye */
-    background: #fff; /* White Card */
+    height: 550px;
+    background: #fff;
     overflow: hidden;
     border-radius: 20px;
-    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
     position: relative;
+    /* Mobile Responsive Fix */
+    max-width: 90%; 
 }
 
 #chk {
     display: none;
 }
 
-/* --- LOGIN DESIGN (Base Layer) --- */
+/* --- LOGIN FORM --- */
 .login {
     position: relative;
     width: 100%;
     height: 100%;
 }
 
-label {
-    color: #0d6efd; /* Blue Text */
+.login form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+}
+
+.login label {
+    color: var(--app-primary);
     font-size: 2.3em;
     justify-content: center;
     display: flex;
-    margin: 40px;
+    margin: 40px 0;
     font-weight: bold;
     cursor: pointer;
     transition: .5s ease-in-out;
+    font-family: 'Jost', sans-serif;
 }
 
-input {
-    width: 60%;
-    height: 20px;
+.login input {
+    width: 70%;
+    height: 25px;
     background: #f1f5f9;
     justify-content: center;
     display: flex;
-    margin: 15px auto;
+    margin: 10px auto;
     padding: 12px;
     border: none;
     outline: none;
     border-radius: 5px;
 }
 
-/* --- BUTTON STYLE --- */
-button {
-    width: 60%;
-    height: 40px;
-    margin: 20px auto;
+.login button {
+    width: 70%;
+    height: 45px;
+    margin: 25px auto;
     justify-content: center;
     display: block;
     color: #fff;
-    background: #0d6efd; /* Anna Blue */
+    background: var(--app-primary);
     font-size: 1em;
     font-weight: bold;
-    margin-top: 20px;
     outline: none;
     border: none;
     border-radius: 5px;
@@ -89,33 +113,76 @@ button {
     cursor: pointer;
 }
 
-button:hover {
-    background: #0b5ed7;
-}
+.login button:hover { background: #0b5ed7; }
 
-/* --- SIGNUP DESIGN (Overlay Layer) --- */
+/* --- SIGNUP FORM (SLIDER) --- */
 .signup {
     height: 550px;
-    background: #0d6efd; /* Blue Overlay */
+    background: var(--app-primary);
     border-radius: 60% / 10%;
-    transform: translateY(-130px); /* Initially thoda dikhega */
+    transform: translateY(-130px);
     transition: .8s ease-in-out;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+}
+
+.signup form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
 }
 
 .signup label {
-    color: #fff; /* White Text on Blue */
+    color: #fff;
+    font-size: 2.3em;
+    justify-content: center;
+    display: flex;
+    margin: 30px 0;
+    font-weight: bold;
+    cursor: pointer;
     transform: scale(.6);
+    transition: .5s ease-in-out;
+    font-family: 'Jost', sans-serif;
+}
+
+.signup input {
+    width: 70%;
+    height: 25px;
+    background: #e0dede;
+    justify-content: center;
+    display: flex;
+    margin: 8px auto;
+    padding: 12px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+.signup button {
+    width: 70%;
+    height: 45px;
+    margin: 20px auto;
+    justify-content: center;
+    display: block;
+    color: var(--app-primary);
+    background: #fff;
+    font-size: 1em;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 /* --- ANIMATION LOGIC --- */
 #chk:checked ~ .signup {
-    transform: translateY(-520px); /* Upar slide hoga */
+    transform: translateY(-500px);
 }
-
 #chk:checked ~ .signup label {
     transform: scale(1);
 }
-
 #chk:checked ~ .login label {
     transform: scale(.6);
 }
@@ -123,21 +190,38 @@ button:hover {
 .error-msg {
     text-align: center;
     color: red;
-    font-size: 12px;
-    margin-top: 5px;
+    font-size: 13px;
+    margin-top: 10px;
+    font-weight: 500;
 }
 
 
-/* Hide App UI when not logged in */
+/* =========================================
+   3. APP UI (HIDDEN WHEN LOGGED OUT)
+   ========================================= */
+
+/* Jab tak login nahi, tab tak ye sab chupao */
 body.not-logged-in .app-header,
 body.not-logged-in .nav-wrapper,
-body.not-logged-in #fab-btn {
+body.not-logged-in #fab-btn,
+body.not-logged-in #home-screen,
+body.not-logged-in #search-screen,
+body.not-logged-in #chat-screen,
+body.not-logged-in #profile-screen {
     display: none !important;
 }
+
+/* Jab login nahi hai, to body clean rakho */
 body.not-logged-in {
     padding-bottom: 0;
-    background-color: white;
+    background-color: #f0f2f5;
+    overflow: hidden; /* Scroll band login screen pe */
 }
+
+
+/* =========================================
+   4. APP COMPONENTS (HEADER, CARDS, NAV)
+   ========================================= */
 
 /* --- Header --- */
 .app-header {
@@ -181,18 +265,7 @@ body.not-logged-in {
 .action-btn i { font-size: 1.2rem; }
 .action-btn:hover { color: var(--app-primary); }
 
-/* FIXED SAVE ICON (Absolute Position) */
-.save-icon-absolute {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    font-size: 1.3rem;
-    color: #6c757d;
-    cursor: pointer;
-    z-index: 10;
-}
-
-/* --- Profile Page Styles --- */
+/* --- Profile Page --- */
 .profile-section-container { padding: 10px 5px; }
 .profile-img-container {
     width: 100px;
@@ -205,16 +278,7 @@ body.not-logged-in {
 }
 .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
-.settings-list .list-group-item {
-    padding: 16px;
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-}
-.settings-list .list-group-item:last-child { border-bottom: none; }
-.settings-list .list-group-item:active { background-color: #f8f9fa; }
-
-/* --- Bottom Navigation (Flat) --- */
+/* --- Bottom Navigation --- */
 .nav-wrapper {
     position: fixed;
     bottom: 0;
@@ -228,7 +292,6 @@ body.not-logged-in {
     justify-content: space-around;
     align-items: center;
 }
-
 .nav-item-btn {
     flex: 1;
     display: flex;
@@ -240,14 +303,11 @@ body.not-logged-in {
     height: 100%;
     background: transparent;
     border: none;
-    transition: all 0.2s;
 }
 .nav-item-btn i { font-size: 1.5rem; margin-bottom: 2px; }
-.nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
 .nav-item-btn.active { color: var(--app-primary); }
-.nav-item-btn.active span { display: block; }
 
-/* --- FAB (Side Button) --- */
+/* --- FAB (Create Post Button) --- */
 .fab-main {
     position: fixed;
     bottom: 85px;
@@ -268,17 +328,7 @@ body.not-logged-in {
 }
 .fab-main.hide { transform: translateY(100px); opacity: 0; pointer-events: none; }
 
-/* Screen Logic */
-.screen { display: none; }
-.screen.active { display: block; animation: fadeIn 0.2s; }
+/* --- Helper Classes --- */
+.screen { display: none; padding-top: 10px; }
+.screen.active { display: block; animation: fadeIn 0.3s; }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Offcanvas (Sliders) Styling */
-.offcanvas-fullscreen-custom {
-    width: 100%;
-    background-color: #f2f4f7;
-}
-.offcanvas-header { background: white; border-bottom: 1px solid #dee2e6; }
-.input-group-text { background: white; border-right: none; }
-.form-control { border-left: none; }
-.form-control:focus { box-shadow: none; border-color: #ced4da; }
