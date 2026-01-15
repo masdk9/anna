@@ -17,9 +17,7 @@ if (!firebase.apps.length) {
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ==========================================
-//  2. DEBUG LOGIN FUNCTION (Alerts Included)
-// ==========================================
+
 // ==========================================
 //  FINAL FIXED LOGIN FUNCTION (No Reload)
 // ==========================================
