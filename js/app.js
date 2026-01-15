@@ -51,10 +51,9 @@ auth.onAuthStateChanged((user) => {
         body.classList.add('not-logged-in');
         
         // Auth Screen Dikhao
-        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-        if(authScreen) authScreen.classList.add('active');
-    }
-});
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      if(authScreen) authScreen.classList.add('active');
+   } });
 
 // --- 2.2 LOGIN FUNCTION ---
 function handleLogin() {
@@ -64,8 +63,7 @@ function handleLogin() {
 
     if(!email || !pass) {
         errorDiv.innerText = "Please enter email and password";
-        return;
-    }
+        return;  }
 
     auth.signInWithEmailAndPassword(email, pass)
         .then(() => {
@@ -73,10 +71,9 @@ function handleLogin() {
             // Screen apne aap change hogi
         })
         .catch((error) => {
-            console.error("Login Error:", error);
+       console.error("Login Error:", error);
             errorDiv.innerText = cleanErrorMessage(error.message);
-        });
-}
+        }); }
 
 // --- 2.3 NEW SIGNUP FUNCTION (Updated for Username & Confirm Pass) ---
 function handleSignup() {
@@ -247,8 +244,8 @@ function loadPosts() {
         .orderBy("timestamp", "desc")
         .onSnapshot((snapshot) => {
             
-            if(snapshot.empty) {
-                container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Start the conversation!</p></div>`;
+  if(snapshot.empty) {
+ container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet. Start the conversation!</p></div>`;
                 return;
             }
 
@@ -259,43 +256,43 @@ function loadPosts() {
                 // Time Logic
                 let timeString = "Just now";
                 if(data.timestamp) {
-                    const date = data.timestamp.toDate();
-                    const isToday = date.toDateString() === new Date().toDateString();
-                    timeString = isToday ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString();
+     const date = data.timestamp.toDate();
+  const isToday = date.toDateString() === new Date().toDateString();
+  timeString = isToday ? date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : date.toLocaleDateString();
                 }
 
-                // Username Handle Logic (@name)
-                let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
+// Username Handle Logic (@name)
+       let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
 
-                // DP Logic
+ // DP Logic
                 const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
 
-                // --- NEW CARD HTML ---
+  // --- NEW CARD HTML ---
                 html += `
-                <div class="card border-0 shadow-sm rounded-4 mb-3">
+     <div class="card border-0 shadow-sm rounded-4 mb-3">
                     <div class="card-body p-3">
                         
-                        <div class="d-flex justify-content-between align-items-start mb-2">
-                            <div class="d-flex gap-2 align-items-center">
-                                <img src="${dpUrl}" class="rounded-circle border" width="45" height="45" alt="DP">
-                                <div style="line-height: 1.2;">
-                                    <h6 class="mb-0 fw-bold text-dark" style="font-size: 15px;">${data.userName}</h6>
-                                    <small class="text-muted" style="font-size: 12px;">${usernameHandle} • ${timeString}</small>
+ <div class="d-flex justify-content-between align-items-start mb-2">
+  <div class="d-flex gap-2 align-items-center">
+    <img src="${dpUrl}" class="rounded-circle border" width="45" height="45" alt="DP">
+      <div style="line-height: 1.2;">
+  <h6 class="mb-0 fw-bold text-dark" style="font-size: 15px;">${data.userName}</h6>
+   <small class="text-muted" style="font-size: 12px;">${usernameHandle} • ${timeString}</small>
                                 </div>
                             </div>
-                            <button class="btn btn-sm text-muted rounded-circle p-1">
-                                <i class="bi bi-bookmark fs-5"></i>
+ <button class="btn btn-sm text-muted rounded-circle p-1">
+ <i class="bi bi-bookmark fs-5"></i>
                             </button>
                         </div>
 
-                        <p class="mb-3 text-dark mt-2" style="white-space: pre-wrap; font-size: 15px; font-weight: 400;">${data.text}</p>
+<p class="mb-3 text-dark mt-2" style="white-space: pre-wrap; font-size: 15px; font-weight: 400;">${data.text}</p>
                         
-                        <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                            <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
-                                <i class="bi bi-heart fs-6"></i> <span>${data.likes || 0}</span>
+<div class="d-flex justify-content-between align-items-center pt-2 border-top">
+<button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
+<i class="bi bi-heart fs-6"></i> <span>${data.likes || 0}</span>
                             </button>
-                            <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
-                                <i class="bi bi-chat fs-6"></i> <span>0</span>
+<button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
+          <i class="bi bi-chat fs-6"></i> <span>0</span>
                             </button>
    <button class="btn btn-sm text-muted d-flex align-items-center gap-1 border-0">
          <i class="bi bi-share fs-6"></i> <span>0</span>
