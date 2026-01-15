@@ -10,38 +10,43 @@ const firebaseConfig = {
   appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
 
-// Firebase Initialize
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
+// Initialize Firebase
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ==========================================
-//  2. UI MANAGER (Screen Change Logic)
+//  2. UI CONTROLLER (Screen Change Logic)
 // ==========================================
 
-// Ye function screen badalne ka kaam karega
+// --- App me Ghusne ka Code ---
 function enterApp(user) {
-    console.log("Entering App...");
+    console.log("Entering App: " + user.email);
 
-    // 1. Auth Screen Hatao
+    // 1. Login Screen Hatao
     const authScreen = document.getElementById('auth-screen');
     if(authScreen) authScreen.classList.remove('active');
 
-    // 2. Body se 'not-logged-in' hatao (Taki header dikhe)
+    // 2. App Dikhao
     document.body.classList.remove('not-logged-in');
+    
+    // 3. Home Tab par le jao
+    switchTab('home', document.querySelector('.nav-item-btn'));
 
-    // 3. Home Screen Dikhao
-    const homeScreen = document.getElementById('home-screen');
-    if(homeScreen) homeScreen.classList.add('active');
-
-    // 4. Data Load Karo
+    // 4. User Data Load karo
     loadPosts();
-    updateProfileUI(user);
+    
+    // 5. Profile Name Update
+    if(document.getElementById('profile-email-display')) {
+        document.getElementById('profile-email-display').innerText = user.email;
+        document.getElementById('profile-name-display').innerText = user.displayName || "User";
+        // Update DP
+        const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
+        document.getElementById('profile-img-display').src = dpUrl;
+    }
 }
 
-// Ye function Login screen wapas layega (Logout par)
+// --- App se Nikalne ka Code ---
 function exitApp() {
     console.log("Exiting App...");
     document.body.classList.add('not-logged-in');
@@ -49,27 +54,26 @@ function exitApp() {
     // Sab screens chupao
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     
-    // Auth screen dikhao
+    // Login Screen wapas dikhao
     const authScreen = document.getElementById('auth-screen');
     if(authScreen) authScreen.classList.add('active');
 }
 
 // ==========================================
-//  3. AUTH LISTENER (Gatekeeper)
+//  3. AUTH LISTENER (The Gatekeeper)
 // ==========================================
-// Ye check karega ki user pehle se login hai ya nahi
 auth.onAuthStateChanged((user) => {
     if (user) {
-        // Agar user mila, to App me bhejo
+        // Agar user login hai, to App me bhejo
         enterApp(user);
     } else {
-        // Agar user nahi mila, to Login screen dikhao
+        // Agar user nahi hai, to Login screen dikhao
         exitApp();
     }
 });
 
 // ==========================================
-//  4. LOGIN FUNCTION (Button Click)
+//  4. LOGIN FUNCTION
 // ==========================================
 function handleLogin() {
     const email = document.getElementById('login-email').value.trim();
@@ -77,7 +81,6 @@ function handleLogin() {
     const btn = document.querySelector('.login button'); 
     const errorDiv = document.getElementById('auth-error');
 
-    // Error Reset
     if(errorDiv) errorDiv.innerText = "";
 
     if(!email || !pass) {
@@ -86,32 +89,29 @@ function handleLogin() {
         return;
     }
 
-    // Button Loading
-    const originalText = btn.innerText;
+    // Button Feedback
     btn.innerText = "Please wait...";
     btn.disabled = true;
 
     auth.signInWithEmailAndPassword(email, pass)
         .then((userCredential) => {
-            // ✅ SUCCESS
+            // Success Message
             btn.innerText = "Success! 🔓";
             
-            // Turant App me ghuso (Wait mat karo)
-            enterApp(userCredential.user);
+            // NOTE: Yahan se screen change 'onAuthStateChanged' karega.
+            // Hum bas wait karenge.
         })
         .catch((error) => {
-            // ❌ ERROR
             console.error(error);
+            btn.innerText = "Login"; // Reset Button
+            btn.disabled = false;
+            
             if(errorDiv) {
                 errorDiv.innerText = error.message.replace('Firebase: ', '');
                 errorDiv.style.color = 'red';
             } else {
                 alert(error.message);
             }
-            
-            // Button Reset
-            btn.innerText = originalText;
-            btn.disabled = false;
         });
 }
 
@@ -139,10 +139,7 @@ function handleSignup() {
     auth.createUserWithEmailAndPassword(email, pass)
         .then((cred) => {
             cred.user.updateProfile({ displayName: name }).then(() => {
-                // Signup Success -> App me ghuso
-                enterApp(cred.user);
-                // Page reload isliye taki naam update ho jaye
-                setTimeout(() => location.reload(), 1000); 
+                location.reload(); // Reload to refresh profile
             });
         })
         .catch((error) => {
@@ -151,35 +148,33 @@ function handleSignup() {
 }
 
 // ==========================================
-//  6. LOGOUT FUNCTION
+//  6. LOGOUT
 // ==========================================
 function handleLogout() {
     if(confirm("Are you sure you want to logout?")) {
         auth.signOut().then(() => {
             exitApp();
-            // Form clear karo
-            document.querySelector('form').reset();
         });
     }
 }
 
 // ==========================================
-//  7. POSTS & PROFILE LOGIC
+//  7. POSTS & APP LOGIC
 // ==========================================
 function loadPosts() {
     const container = document.getElementById('posts-container');
     if(!container) return;
-
+    
     db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
         if(snapshot.empty) {
-            container.innerHTML = `<div class="text-center mt-5 text-muted"><p>No posts yet.</p></div>`;
+            container.innerHTML = "<div class='text-center mt-5 text-muted'><p>No posts yet</p></div>";
             return;
         }
         let html = "";
-        snapshot.forEach((doc) => {
-            const data = doc.data();
+        snapshot.forEach(doc => {
+            let data = doc.data();
             let usernameHandle = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
-            const dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
+            let dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
 
             html += `
             <div class="card border-0 shadow-sm rounded-4 mb-3">
@@ -225,24 +220,14 @@ function savePost() {
     });
 }
 
-function updateProfileUI(user) {
-    if(document.getElementById('profile-email-display')) {
-        document.getElementById('profile-email-display').innerText = user.email;
-        document.getElementById('profile-name-display').innerText = user.displayName || "User";
-        const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
-        document.getElementById('profile-img-display').src = dpUrl;
-    }
-    
-    // Edit Modal values update
-    if(document.getElementById('edit-email')) {
-        document.getElementById('edit-email').value = user.email;
-        document.getElementById('edit-name').value = user.displayName || "";
-    }
-}
-
 function openEditProfile() {
-    const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
-    modal.show();
+    const user = auth.currentUser;
+    if(user) {
+        document.getElementById('edit-name').value = user.displayName || "";
+        document.getElementById('edit-email').value = user.email || "";
+        const modal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+        modal.show();
+    }
 }
 
 function saveProfileChanges() {
@@ -254,10 +239,11 @@ function saveProfileChanges() {
     });
 }
 
-// Navigation Logic
+// Navigation Helper
 function switchTab(screenId, navEl) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById(screenId + '-screen').classList.add('active');
+    
     document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
     if(navEl) navEl.classList.add('active');
     
