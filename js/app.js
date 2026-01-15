@@ -289,3 +289,57 @@ function loadPosts() {
             container.innerHTML = html;
         });
 }
+
+
+
+
+// ==========================================
+//  5. PROFILE EDIT LOGIC (Account Centre)
+// ==========================================
+
+// 1. Modal Kholna
+function openEditProfile() {
+    const user = auth.currentUser;
+    if(!user) return;
+
+    // Purana naam aur email box me bharo
+    document.getElementById('edit-name').value = user.displayName || "";
+    document.getElementById('edit-email').value = user.email || "";
+
+    // Modal dikhao
+    const modalEl = document.getElementById('editProfileModal');
+    const modal = new bootstrap.Modal(modalEl);
+    modal.show();
+}
+
+// 2. Naam Save Karna
+function saveProfileChanges() {
+    const newName = document.getElementById('edit-name').value;
+    const user = auth.currentUser;
+    const btn = document.querySelector('#editProfileModal .btn-primary');
+
+    if (!newName.trim()) return alert("Name cannot be empty!");
+
+    // Button loading...
+    btn.innerText = "Saving...";
+    btn.disabled = true;
+
+    // Firebase Update
+    user.updateProfile({
+        displayName: newName
+    }).then(() => {
+        alert("Profile Updated! ✅");
+        location.reload(); // Page refresh karo taki naya naam dikhe
+    }).catch((error) => {
+        console.error(error);
+        alert("Error: " + error.message);
+        btn.innerText = "Save Changes";
+        btn.disabled = false;
+    });
+}
+
+
+
+
+
+
