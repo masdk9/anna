@@ -1,6 +1,3 @@
-/* =========================================
-   1. GLOBAL VARIABLES & RESET
-   ========================================= */
 :root {
     --app-primary: #0d6efd;
     --app-bg: #f2f4f7;
@@ -10,7 +7,6 @@
 body {
     margin: 0;
     padding: 0;
-    /* App ke andar padding chahiye, lekin login screen par nahi */
     padding-bottom: 90px; 
     font-family: 'Jost', sans-serif;
     background: var(--app-bg);
@@ -19,9 +15,9 @@ body {
     overflow-x: hidden;
 }
 
-/* =========================================
-   2. AUTH SCREEN (LOGIN/SIGNUP SLIDER)
-   ========================================= */
+/* =========================== */
+/* AUTH SCREEN (FIXED)        */
+/* =========================== */
 #auth-screen {
     position: fixed;
     top: 0;
@@ -29,7 +25,7 @@ body {
     width: 100%;
     height: 100vh;
     z-index: 9999;
-    display: flex; /* Center karne ke liye */
+    display: flex;
     justify-content: center;
     align-items: center;
     background: #f0f2f5;
@@ -37,25 +33,22 @@ body {
 
 .main {
     width: 350px;
-    height: 500px;
-    background: #fff; /* White Background */
+    height: 520px; /* Thodi height badhai taki sab fit ho */
+    background: #fff;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 5px 20px 50px rgba(0,0,0,0.2);
     position: relative;
 }
 
-#chk {
-    display: none;
-}
+#chk { display: none; }
 
-/* --- Login Form (White) --- */
+/* LOGIN FORM */
 .login {
     position: relative;
     width: 100%;
     height: 100%;
 }
-
 .login label {
     color: var(--app-primary);
     font-size: 2.3em;
@@ -66,7 +59,6 @@ body {
     cursor: pointer;
     transition: .5s ease-in-out;
 }
-
 .login input {
     width: 60%;
     height: 20px;
@@ -79,7 +71,6 @@ body {
     outline: none;
     border-radius: 5px;
 }
-
 .login button {
     width: 60%;
     height: 40px;
@@ -94,19 +85,17 @@ body {
     outline: none;
     border: none;
     border-radius: 5px;
-    transition: .2s ease-in;
     cursor: pointer;
 }
 
-/* --- Signup Form (Blue Slider) --- */
+/* SIGNUP FORM (FIXED POSITION) */
 .signup {
     height: 460px;
     background: var(--app-primary);
     border-radius: 60% / 10%;
-    transform: translateY(-180px); /* Default Position (Niche) */
+    transform: translateY(-170px); /* Adjusted to not cover Login button */
     transition: .8s ease-in-out;
 }
-
 .signup label {
     color: #fff;
     font-size: 2.3em;
@@ -118,7 +107,6 @@ body {
     transform: scale(.6);
     transition: .5s ease-in-out;
 }
-
 .signup input {
     width: 60%;
     height: 20px;
@@ -131,7 +119,6 @@ body {
     outline: none;
     border-radius: 5px;
 }
-
 .signup button {
     width: 60%;
     height: 40px;
@@ -149,28 +136,21 @@ body {
     cursor: pointer;
 }
 
-/* --- Animation Logic --- */
-#chk:checked ~ .signup {
-    transform: translateY(-500px); /* Upar slide hoga */
-}
-#chk:checked ~ .signup label {
-    transform: scale(1);
-}
-#chk:checked ~ .login label {
-    transform: scale(.6);
-}
+/* SLIDER LOGIC */
+#chk:checked ~ .signup { transform: translateY(-500px); }
+#chk:checked ~ .signup label { transform: scale(1); }
+#chk:checked ~ .login label { transform: scale(.6); }
 
+/* ERRORS */
 .error-msg {
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     margin-top: 10px;
-    color: red;
     font-weight: bold;
+    color: red; /* Login screen par Red dikhega */
 }
 
-/* =========================================
-   3. HIDE APP UI (WHEN LOGGED OUT)
-   ========================================= */
+/* HIDE APP WHEN NOT LOGGED IN */
 body.not-logged-in .app-header,
 body.not-logged-in .nav-wrapper,
 body.not-logged-in #fab-btn,
@@ -181,137 +161,57 @@ body.not-logged-in #profile-screen,
 body.not-logged-in #notification-screen {
     display: none !important;
 }
+body.not-logged-in { padding-bottom: 0; overflow: hidden; }
 
-body.not-logged-in {
-    padding-bottom: 0;
-    overflow: hidden; /* Scroll band Login page par */
-}
-
-
-/* =========================================
-   4. APP COMPONENTS (HEADER, CARDS, NAV)
-   ========================================= */
-
-/* --- Header --- */
+/* APP COMPONENTS */
 .app-header {
     position: sticky;
-    top: 0;
-    z-index: 1020;
+    top: 0; z-index: 1020;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 60px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    display: flex; justify-content: space-between; align-items: center;
+    height: 60px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-.app-logo {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--app-primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+.app-logo { font-size: 1.3rem; font-weight: 700; color: var(--app-primary); }
 .header-icon { font-size: 1.4rem; color: #495057; cursor: pointer; }
 
-/* --- Cards (Post Design) --- */
-.app-card, .card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-    margin-bottom: 15px;
-    padding: 16px;
-    border: none;
-    position: relative; 
-}
-.user-dp-small { width: 42px; height: 42px; border-radius: 50%; background-color: #e9ecef; background-size: cover; }
-
-/* Action Icons Style */
-.action-btn { display: flex; align-items: center; gap: 6px; color: #6c757d; cursor: pointer; font-weight: 500; font-size: 0.95rem; }
-.action-btn i { font-size: 1.2rem; }
-.action-btn:hover { color: var(--app-primary); }
-
-/* --- Profile Page --- */
-.profile-section-container { padding: 10px 5px; }
+/* Profile Image */
 .profile-img-container {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto;
-    padding: 3px;
-    border: 3px solid var(--app-primary);
+    width: 100px; height: 100px; margin: 0 auto;
+    padding: 3px; border: 3px solid var(--app-primary);
     border-radius: 50%;
-    position: relative;
 }
 .profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 
-.settings-list .list-group-item {
-    padding: 16px;
-    border: none;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-}
-
-/* --- Bottom Navigation --- */
+/* Bottom Nav */
 .nav-wrapper {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: var(--nav-height);
-    z-index: 1030;
-    background: white;
-    border-top: 1px solid #dee2e6;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    height: var(--nav-height); z-index: 1030;
+    background: white; border-top: 1px solid #dee2e6;
+    display: flex; justify-content: space-around; align-items: center;
 }
 .nav-item-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #adb5bd;
-    cursor: pointer;
-    height: 100%;
-    background: transparent;
-    border: none;
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    color: #adb5bd; cursor: pointer; height: 100%;
+    background: transparent; border: none;
 }
 .nav-item-btn i { font-size: 1.5rem; margin-bottom: 2px; }
-.nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
 .nav-item-btn.active { color: var(--app-primary); }
+.nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
 .nav-item-btn.active span { display: block; }
 
-/* --- FAB (Create Post Button) --- */
+/* FAB */
 .fab-main {
-    position: fixed;
-    bottom: 85px;
-    right: 20px;
-    width: 58px;
-    height: 58px;
+    position: fixed; bottom: 85px; right: 20px;
+    width: 58px; height: 58px;
     background: linear-gradient(135deg, #0d6efd, #0a58ca);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
-    cursor: pointer;
-    z-index: 1040;
-    transition: transform 0.3s, opacity 0.3s;
+    color: white; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+    cursor: pointer; z-index: 1040;
 }
-.fab-main.hide { transform: translateY(100px); opacity: 0; pointer-events: none; }
-
-/* --- Helper Classes --- */
+.fab-main.hide { display: none; }
 .screen { display: none; padding-top: 10px; }
-.screen.active { display: block; animation: fadeIn 0.3s; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Offcanvas Custom */
-.offcanvas-fullscreen-custom {
-    width: 100%;
-    background-color: #f2f4f7;
-}
+.screen.active { display: block; }
