@@ -1,5 +1,5 @@
 // ==========================================
-//  1. FIREBASE CONFIG
+//  FIREBASE & INIT
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
@@ -9,185 +9,117 @@ const firebaseConfig = {
   messagingSenderId: "317994984658",
   appId: "1:317994984658:web:c55231ca09e70341c8f90b"
 };
-
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ==========================================
-//  2. UI CONTROLLER (Screens)
+//  SCREEN LOGIC
 // ==========================================
-
 function enterApp(user) {
     document.getElementById('auth-screen').classList.remove('active');
     document.body.classList.remove('not-logged-in');
-    
-    // Load Data
-    switchTab('home', document.querySelector('.nav-item-btn'));
     updateProfileUI(user);
     loadPosts();
-    loadTheme(); // Theme check karo
+    loadTheme();
 }
-
 function exitApp() {
     document.body.classList.add('not-logged-in');
-    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById('auth-screen').classList.add('active');
 }
-
-function updateProfileUI(user) {
-    if(document.getElementById('profile-email-display')) {
-        document.getElementById('profile-email-display').innerText = user.email;
-        document.getElementById('profile-name-display').innerText = user.displayName || "User";
-        
-        const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
-        document.getElementById('profile-img-display').src = dpUrl;
-    }
-    // Edit Modal Fields
-    if(document.getElementById('edit-email')) {
-        document.getElementById('edit-email').value = user.email;
-        document.getElementById('edit-name').value = user.displayName || "";
-    }
-}
+auth.onAuthStateChanged(user => user ? enterApp(user) : exitApp());
 
 // ==========================================
-//  3. AUTH LOGIC
+//  LOGIN / SIGNUP
 // ==========================================
-auth.onAuthStateChanged((user) => {
-    if (user) enterApp(user);
-    else exitApp();
-});
-
 function handleLogin() {
     const email = document.getElementById('login-email').value.trim();
     const pass = document.getElementById('login-pass').value.trim();
-    const btn = document.querySelector('.login button');
-    const errorDiv = document.getElementById('auth-error');
-
-    if(errorDiv) errorDiv.innerText = "";
-    if(!email || !pass) return errorDiv ? errorDiv.innerText = "Enter email & password" : null;
-
-    btn.innerText = "Wait..."; btn.disabled = true;
-
-    auth.signInWithEmailAndPassword(email, pass)
-        .then(() => btn.innerText = "Success!")
-        .catch(err => {
-            btn.innerText = "Login"; btn.disabled = false;
-            if(errorDiv) errorDiv.innerText = err.message.replace('Firebase: ', '');
-        });
+    if(!email || !pass) return alert("Enter email & password");
+    auth.signInWithEmailAndPassword(email, pass).catch(e => alert(e.message));
 }
-
 function handleSignup() {
     const email = document.getElementById('signup-email').value.trim();
     const name = document.getElementById('signup-name').value.trim();
     const pass = document.getElementById('signup-pass').value.trim();
-    const confirmPass = document.getElementById('signup-confirm-pass').value.trim();
-    const errorDiv = document.getElementById('signup-error');
-
-    if(pass !== confirmPass) return errorDiv.innerText = "Passwords do not match";
-
+    if(!email || !pass) return alert("Fill all fields");
     auth.createUserWithEmailAndPassword(email, pass)
-        .then((cred) => {
-            cred.user.updateProfile({ displayName: name }).then(() => location.reload());
-        })
-        .catch(err => errorDiv.innerText = err.message);
+        .then(cred => cred.user.updateProfile({ displayName: name }).then(() => location.reload()))
+        .catch(e => alert(e.message));
 }
-
-function handleLogout() {
-    if(confirm("Logout?")) auth.signOut();
-}
+function handleLogout() { if(confirm("Logout?")) auth.signOut(); }
 
 // ==========================================
-//  4. SETTINGS & DARK MODE LOGIC
-// ==========================================
-function openSettings() {
-    document.getElementById('settings-screen').classList.add('active');
-    document.querySelector('.nav-wrapper').style.display = 'none'; // Hide Nav
-    document.getElementById('fab-btn').style.display = 'none'; // Hide FAB
-}
-
-function closeSettings() {
-    document.getElementById('settings-screen').classList.remove('active');
-    document.querySelector('.nav-wrapper').style.display = 'flex'; // Show Nav
-    document.getElementById('fab-btn').style.display = 'flex'; // Show FAB
-}
-
-function toggleDarkMode() {
-    const isDark = document.getElementById('dark-mode-toggle').checked;
-    if (isDark) {
-        document.body.classList.add('dark-theme');
-        localStorage.setItem('theme', 'dark');
-    } else {
-        document.body.classList.remove('dark-theme');
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-function loadTheme() {
-    const savedTheme = localStorage.getItem('theme');
-    const toggle = document.getElementById('dark-mode-toggle');
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-theme');
-        if(toggle) toggle.checked = true;
-    }
-}
-
-// ==========================================
-//  5. POSTS & APP LOGIC
+//  POSTS (Part 3 - Updated Footer)
 // ==========================================
 function loadPosts() {
     const container = document.getElementById('posts-container');
-    if(!container) return;
-    
-    container.innerHTML = `<div class="text-center mt-5"><div class="spinner-border text-primary"></div></div>`;
-    
-    db.collection("posts").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
-        if(snapshot.empty) return container.innerHTML = "<p class='text-center mt-5 text-muted'>No posts yet</p>";
-        
+    db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snap => {
         let html = "";
-        snapshot.forEach(doc => {
+        snap.forEach(doc => {
             let data = doc.data();
-            let dpUrl = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff&size=128`;
+            let username = "@" + (data.userEmail ? data.userEmail.split('@')[0] : "user");
+            let dp = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff`;
+
             html += `
             <div class="card border-0 shadow-sm rounded-4 mb-3">
                 <div class="card-body p-3">
-                    <div class="d-flex gap-2 align-items-center mb-2">
-                        <img src="${dpUrl}" class="rounded-circle border" width="40" height="40">
-                        <div><h6 class="mb-0 fw-bold">${data.userName}</h6></div>
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <div class="d-flex gap-2 align-items-center">
+                            <img src="${dp}" class="rounded-circle" width="45" height="45">
+                            <div style="line-height:1.2">
+                                <h6 class="mb-0 fw-bold text-dark">${data.userName}</h6>
+                                <small class="text-muted">${username}</small>
+                            </div>
+                        </div>
+                        <i class="bi bi-three-dots-vertical text-muted"></i>
                     </div>
-                    <p class="mb-3">${data.text}</p>
-                    <div class="d-flex justify-content-between border-top pt-2">
-                         <i class="bi bi-heart"></i> <i class="bi bi-chat"></i> <i class="bi bi-share"></i>
+                    <p class="mb-3 mt-2 text-dark" style="font-size:15px;">${data.text}</p>
+                    <div class="d-flex justify-content-between align-items-center pt-2 border-top text-muted px-2">
+                        <div class="d-flex align-items-center gap-1"><i class="bi bi-chat"></i> <small>12</small></div>
+                        <div class="d-flex align-items-center gap-1"><i class="bi bi-heart"></i> <small>45</small></div>
+                        <div class="d-flex align-items-center gap-1"><i class="bi bi-bar-chart"></i> <small>1.2k</small></div>
+                        <i class="bi bi-bookmark"></i> <i class="bi bi-share"></i>
                     </div>
                 </div>
             </div>`;
         });
-        container.innerHTML = html;
+        container.innerHTML = html || "<p class='text-center mt-5 text-muted'>No posts yet</p>";
     });
+}
+
+// ==========================================
+//  CREATE POST & POLLS
+// ==========================================
+function togglePoll() {
+    const section = document.getElementById('poll-section');
+    section.style.display = (section.style.display === 'none') ? 'block' : 'none';
 }
 
 function savePost() {
     const text = document.getElementById('post-text').value;
     const btn = document.querySelector('#createPostModal .btn-primary');
-    if(!text.trim()) return;
+    const isPoll = document.getElementById('poll-section').style.display === 'block';
+
+    if(!text && !isPoll) return alert("Write something!");
 
     btn.innerText = "Posting..."; btn.disabled = true;
 
     db.collection("posts").add({
         text: text,
+        type: isPoll ? 'poll' : 'text', 
         userName: auth.currentUser.displayName || "User",
         userEmail: auth.currentUser.email,
         timestamp: firebase.firestore.FieldValue.serverTimestamp()
     }).then(() => {
         document.getElementById('post-text').value = "";
+        document.getElementById('poll-section').style.display = 'none';
         
-        // Force Close Modal
-        const modalEl = document.getElementById('createPostModal');
-        let modal = bootstrap.Modal.getInstance(modalEl);
-        if(!modal) modal = new bootstrap.Modal(modalEl);
+        // Close Modal
+        const el = document.getElementById('createPostModal');
+        const modal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
         modal.hide();
-        
-        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
+        document.querySelectorAll('.modal-backdrop').forEach(n => n.remove());
         document.body.classList.remove('modal-open');
         document.body.style = "";
         
@@ -195,38 +127,71 @@ function savePost() {
     });
 }
 
-function openEditProfile() {
-    new bootstrap.Modal(document.getElementById('editProfileModal')).show();
+// ==========================================
+//  ACCOUNT, SETTINGS & NAVIGATION
+// ==========================================
+function openAccountCentre() {
+    document.getElementById('account-screen').classList.add('active');
+    document.querySelector('.nav-wrapper').style.display = 'none';
+    const u = auth.currentUser;
+    document.getElementById('ac-name').value = u.displayName || "";
+    document.getElementById('ac-email').value = u.email;
+    document.getElementById('ac-username').value = u.email.split('@')[0];
+    document.getElementById('ac-img').src = `https://ui-avatars.com/api/?name=${u.displayName}&background=0d6efd&color=fff`;
+}
+
+function closeAccountCentre() {
+    document.getElementById('account-screen').classList.remove('active');
+    document.querySelector('.nav-wrapper').style.display = 'flex';
 }
 
 function saveProfileChanges() {
-    const newName = document.getElementById('edit-name').value;
-    if(!newName) return;
-    
-    auth.currentUser.updateProfile({ displayName: newName }).then(() => {
-        updateProfileUI(auth.currentUser);
-        // Force Close Modal
-        const modalEl = document.getElementById('editProfileModal');
-        let modal = bootstrap.Modal.getInstance(modalEl);
-        if(!modal) modal = new bootstrap.Modal(modalEl);
-        modal.hide();
-        document.querySelectorAll('.modal-backdrop').forEach(el => el.remove());
-        document.body.classList.remove('modal-open');
-        document.body.style = "";
-    });
+    const newName = document.getElementById('ac-name').value;
+    if(newName) {
+        auth.currentUser.updateProfile({displayName: newName}).then(() => {
+            alert("Profile Updated");
+            location.reload();
+        });
+    }
 }
 
-// Nav
-function switchTab(screenId, navEl) {
-    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-    document.getElementById(screenId + '-screen').classList.add('active');
-    document.querySelectorAll('.nav-item-btn').forEach(btn => btn.classList.remove('active'));
-    if(navEl) navEl.classList.add('active');
-    
-    const fab = document.getElementById('fab-btn');
-    if(fab) fab.style.display = (screenId === 'home') ? 'flex' : 'none';
+function updateProfileUI(user) {
+    if(document.getElementById('profile-name-display')) {
+        document.getElementById('profile-name-display').innerText = user.displayName || "User";
+        document.getElementById('profile-email-display').innerText = "@" + user.email.split('@')[0];
+        document.getElementById('profile-img-display').src = `https://ui-avatars.com/api/?name=${user.displayName}&background=0d6efd&color=fff`;
+    }
 }
+
+function openSettings() {
+    document.getElementById('settings-screen').classList.add('active');
+    document.querySelector('.nav-wrapper').style.display = 'none';
+}
+function closeSettings() {
+    document.getElementById('settings-screen').classList.remove('active');
+    document.querySelector('.nav-wrapper').style.display = 'flex';
+}
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-theme');
+    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+}
+function loadTheme() {
+    if(localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-theme');
+        if(document.getElementById('dark-mode-toggle')) document.getElementById('dark-mode-toggle').checked = true;
+    }
+}
+
+// Navigation Logic
 function openScreen(id) {
-    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(e => e.classList.remove('active'));
     document.getElementById(id + '-screen').classList.add('active');
+}
+function switchTab(id, el) {
+    openScreen(id);
+    document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+    // Show FAB only on Home
+    const fab = document.getElementById('fab-btn');
+    if(fab) fab.style.display = (id === 'home') ? 'flex' : 'none';
 }
