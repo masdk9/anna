@@ -43,7 +43,7 @@ function updateProfileUI(user) {
         const dpUrl = `https://ui-avatars.com/api/?name=${user.displayName || 'User'}&background=0d6efd&color=fff`;
         document.getElementById('profile-img-display').src = dpUrl;
     }
-    // Edit Modal
+    // Edit Modal Fields
     if(document.getElementById('edit-email')) {
         document.getElementById('edit-email').value = user.email;
         document.getElementById('edit-name').value = user.displayName || "";
@@ -195,7 +195,6 @@ function savePost() {
     });
 }
 
-// Edit Profile
 function openEditProfile() {
     new bootstrap.Modal(document.getElementById('editProfileModal')).show();
 }
