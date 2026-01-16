@@ -1,8 +1,7 @@
 /* =========================================
-   1. VARIABLES & THEME SYSTEM
+   1. VARIABLES & THEME
    ========================================= */
 :root {
-    /* LIGHT MODE (Default) */
     --app-bg: #f2f4f7;
     --card-bg: #ffffff;
     --text-main: #212529;
@@ -11,8 +10,6 @@
     --app-primary: #0d6efd;
     --nav-height: 65px;
 }
-
-/* DARK MODE */
 body.dark-theme {
     --app-bg: #121212;
     --card-bg: #1e1e1e;
@@ -20,156 +17,83 @@ body.dark-theme {
     --text-muted: #a0a0a0;
     --border-color: #2c2c2c;
 }
-
 body {
-    margin: 0; padding: 0; padding-bottom: 90px;
+    margin: 0; padding-bottom: 90px;
     font-family: 'Jost', sans-serif;
-    background: var(--app-bg);
-    color: var(--text-main);
-    -webkit-tap-highlight-color: transparent;
+    background: var(--app-bg); color: var(--text-main);
     overflow-x: hidden;
-    transition: background 0.3s, color 0.3s;
+    transition: background 0.3s;
 }
 
 /* =========================================
    2. AUTH SCREEN
    ========================================= */
 #auth-screen {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100vh;
-    z-index: 9999;
-    background: #f0f2f5;
-    display: none; 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    z-index: 9999; background: #f0f2f5; display: none;
 }
-#auth-screen.active {
-    display: flex !important;
-    justify-content: center; align-items: center;
-}
-.main {
-    width: 350px; height: 520px;
-    background: #fff; overflow: hidden;
-    border-radius: 10px;
-    box-shadow: 5px 20px 50px rgba(0,0,0,0.2);
-    position: relative;
-}
+#auth-screen.active { display: flex !important; justify-content: center; align-items: center; }
+.main { width: 350px; height: 520px; background: #fff; overflow: hidden; border-radius: 10px; position: relative; }
 #chk { display: none; }
 .login, .signup { position: relative; width: 100%; height: 100%; }
-.signup {
-    height: 460px; background: var(--app-primary);
-    border-radius: 60% / 10%;
-    transform: translateY(-170px);
-    transition: .8s ease-in-out;
-}
-.login label, .signup label {
-    font-size: 2.3em; justify-content: center; display: flex;
-    margin: 50px; font-weight: bold; cursor: pointer;
-    transition: .5s ease-in-out;
-}
-.login label { color: var(--app-primary); }
-.signup label { color: #fff; transform: scale(.6); }
-input {
-    width: 60%; height: 20px; background: #e0dede;
-    justify-content: center; display: flex; margin: 20px auto;
-    padding: 10px; border: none; outline: none; border-radius: 5px;
-}
-button {
-    width: 60%; height: 40px; margin: 10px auto;
-    justify-content: center; display: block;
-    font-size: 1em; font-weight: bold; margin-top: 20px;
-    outline: none; border: none; border-radius: 5px; cursor: pointer;
-}
-.login button { background: var(--app-primary); color: #fff; }
+.signup { height: 460px; background: var(--app-primary); border-radius: 60% / 10%; transform: translateY(-170px); transition: .8s; }
+.login label, .signup label { font-size: 2.3em; margin: 50px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; }
+.login label { color: var(--app-primary); } .signup label { color: #fff; transform: scale(.6); }
+input { width: 60%; height: 20px; background: #e0dede; margin: 20px auto; padding: 10px; border: none; border-radius: 5px; display: block; }
+button { width: 60%; height: 40px; margin: 20px auto; background: var(--app-primary); color: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; display: block; }
 .signup button { background: #fff; color: var(--app-primary); }
 #chk:checked ~ .signup { transform: translateY(-500px); }
-#chk:checked ~ .signup label { transform: scale(1); }
-#chk:checked ~ .login label { transform: scale(.6); }
-.error-msg { text-align: center; font-size: 13px; margin-top: 10px; font-weight: bold; color: red; }
 
 /* =========================================
-   3. APP COMPONENTS
+   3. UI COMPONENTS
    ========================================= */
-.card, .app-card, .list-group-item, .modal-content {
+.card, .list-group-item, .modal-content, .form-control {
     background: var(--card-bg) !important;
     color: var(--text-main) !important;
     border-color: var(--border-color) !important;
 }
-
 .app-header {
     position: sticky; top: 0; z-index: 1020;
     background: var(--card-bg) !important;
-    padding: 10px 15px; display: flex;
-    justify-content: space-between; align-items: center;
-    height: 60px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px;
 }
-.app-logo { font-size: 1.3rem; font-weight: 700; color: var(--app-primary); }
-.header-icon { font-size: 1.4rem; cursor: pointer; }
-
-/* Dark Mode Icons Fixes */
-body.dark-theme .bi-chevron-right, 
-body.dark-theme .text-muted,
-body.dark-theme .header-icon,
-body.dark-theme .bi-arrow-left {
-    color: var(--text-muted) !important;
-}
-body.dark-theme .text-dark {
-    color: var(--text-main) !important;
-}
-
-/* Nav Bar */
 .nav-wrapper {
-    position: fixed; bottom: 0; left: 0; width: 100%;
-    height: var(--nav-height); z-index: 1030;
-    background: var(--card-bg) !important;
-    border-top: 1px solid var(--border-color);
-    display: flex; justify-content: space-around; align-items: center;
+    position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
+    background: var(--card-bg) !important; border-top: 1px solid var(--border-color);
+    display: flex; justify-content: space-around; z-index: 1030;
 }
 .nav-item-btn {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    color: #adb5bd; cursor: pointer; height: 100%;
-    background: transparent; border: none;
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: #adb5bd; background: transparent; border: none;
 }
-.nav-item-btn i { font-size: 1.5rem; margin-bottom: 2px; }
 .nav-item-btn.active { color: var(--app-primary); }
-.nav-item-btn span { font-size: 10px; font-weight: 600; display: none; }
-.nav-item-btn.active span { display: block; }
-
-/* FAB */
 .fab-main {
-    position: fixed; bottom: 85px; right: 20px;
-    width: 58px; height: 58px;
+    position: fixed; bottom: 85px; right: 20px; width: 58px; height: 58px;
     background: linear-gradient(135deg, #0d6efd, #0a58ca);
     color: white; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
-    cursor: pointer; z-index: 1040;
+    display: flex; align-items: center; justify-content: center; font-size: 28px; z-index: 1040;
 }
 
-/* Screens */
-.screen { display: none; padding-top: 10px; }
-.screen.active { display: block; }
-
-/* SETTINGS SCREEN FULL OVERLAY */
-#settings-screen {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100vh;
-    background: var(--app-bg);
-    z-index: 2000;
-    display: none; overflow-y: auto;
+/* Settings & Account Overlay */
+#settings-screen, #account-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+    background: var(--app-bg); z-index: 2000; display: none; overflow-y: auto;
 }
-#settings-screen.active { display: block !important; }
+#settings-screen.active, #account-screen.active { display: block !important; }
 
-/* Toggle Switch Blue Color */
-.form-check-input:checked {
-    background-color: #0d6efd !important;
-    border-color: #0d6efd !important;
-}
+/* Dark Mode Fixes */
+.form-check-input:checked { background-color: #0d6efd !important; border-color: #0d6efd !important; }
+body.dark-theme .bi { color: var(--text-muted); }
+body.dark-theme .text-dark { color: var(--text-main) !important; }
+body.dark-theme .form-select { background-color: var(--card-bg); color: var(--text-main); border-color: var(--border-color); }
+body.dark-theme .whitespace-nowrap { background-color: var(--card-bg); border-color: var(--border-color) !important; color: var(--text-main); }
 
-/* Hide UI when Logged Out */
-body.not-logged-in .app-header,
-body.not-logged-in .nav-wrapper,
-body.not-logged-in #fab-btn,
-body.not-logged-in .container,
-body.not-logged-in #settings-screen {
-    display: none !important;
-}
+/* Poll & Study Specific */
+#poll-section input::placeholder { color: #aaa; }
+#poll-section { background-color: rgba(0,0,0,0.03) !important; }
+.whitespace-nowrap { white-space: nowrap; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Hide UI when logged out */
+body.not-logged-in .app-header, body.not-logged-in .nav-wrapper, body.not-logged-in #fab-btn, body.not-logged-in .container { display: none !important; }
