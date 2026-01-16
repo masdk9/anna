@@ -300,3 +300,64 @@ function openScreen(screenId) {
     document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     document.getElementById(screenId + '-screen').classList.add('active');
 }
+
+
+
+
+
+// ==========================================
+//  8. SETTINGS & DARK MODE LOGIC
+// ==========================================
+
+// Settings Page Kholne ka function
+function openSettings() {
+    // Current screen chupao
+    document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    // Settings dikhao
+    document.getElementById('settings-screen').classList.add('active');
+    // Bottom Nav hatao (optional, agar full screen feel deni hai)
+    document.querySelector('.nav-wrapper').style.display = 'none';
+}
+
+// Settings Band karne ka function
+function closeSettings() {
+    // Settings chupao
+    document.getElementById('settings-screen').classList.remove('active');
+    // Wapas Profile screen dikhao
+    document.getElementById('profile-screen').classList.add('active');
+    // Bottom Nav wapas lao
+    document.querySelector('.nav-wrapper').style.display = 'flex';
+}
+
+// Dark Mode Toggle Logic
+function toggleDarkMode() {
+    const isDark = document.getElementById('dark-mode-toggle').checked;
+    
+    if (isDark) {
+        document.body.classList.add('dark-theme');
+        localStorage.setItem('theme', 'dark'); // Save karo
+    } else {
+        document.body.classList.remove('dark-theme');
+        localStorage.setItem('theme', 'light'); // Save karo
+    }
+}
+
+// App start hote hi check karo ki user ne pehle kya chuna tha
+function loadTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const toggle = document.getElementById('dark-mode-toggle');
+    
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-theme');
+        if(toggle) toggle.checked = true;
+    }
+}
+
+// Is function ko sabse upar call karwa do (Initialize)
+loadTheme();
+
+
+
+
+
+
