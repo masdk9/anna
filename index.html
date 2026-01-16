@@ -4,18 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Anna App</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/style.css">
-
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> 
 </head>
 <body class="not-logged-in">
 
-    <div id="auth-screen" class="screen active">
+    <div id="auth-screen" class="screen active" style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background: #f0f2f5;">
         <div class="main">  
             <input type="checkbox" id="chk" aria-hidden="true">
             <div class="login">
@@ -49,115 +47,113 @@
         </div>
     </div>
 
-    <div class="container px-3 mt-3 pb-5">
-        
-        <div id="home-screen" class="screen">
-            <div id="posts-container" class="pb-5">
-                <div class="text-center text-muted mt-5"><div class="spinner-border text-primary"></div></div>
+    <div id="home-screen" class="screen container px-3 mt-3 pb-5">
+        <div id="posts-container" class="pb-5">
+            <div class="text-center text-muted mt-5"><div class="spinner-border text-primary"></div></div>
+        </div>
+    </div>
+
+    <div id="search-screen" class="screen container px-3 mt-3 pb-5">
+        <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height: 50px;" placeholder="Search exams...">
+        <h6 class="text-muted small fw-bold px-2 mb-2">TRENDING</h6>
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="list-group list-group-flush rounded-3">
+                <div class="list-group-item py-3">#UPSCResult <span class="float-end text-muted small">Live</span></div>
+                <div class="list-group-item py-3">#RailwayVacancy <span class="float-end text-muted small">Trending</span></div>
             </div>
         </div>
+    </div>
 
-        <div id="search-screen" class="screen">
-            <input type="text" class="form-control rounded-pill mb-3 border-0 shadow-sm" style="height: 50px;" placeholder="Search exams...">
-            <h6 class="text-muted small fw-bold px-2 mb-2">TRENDING</h6>
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="list-group list-group-flush rounded-3">
-                    <div class="list-group-item py-3">#UPSCResult <span class="float-end text-muted small">Live</span></div>
-                    <div class="list-group-item py-3">#RailwayVacancy <span class="float-end text-muted small">Trending</span></div>
-                </div>
+    <div id="study-screen" class="screen container px-3 mt-3 pb-5">
+        <div class="d-flex gap-2 overflow-auto pb-2 mb-3 no-scrollbar">
+            <button class="btn btn-primary rounded-pill btn-sm px-3">All</button>
+            <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">SSC/Bank</button>
+            <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">UPSC/IAS</button>
+        </div>
+        <div class="row g-3">
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-file-earmark-pdf fs-1 text-danger"></i></div>
+                <small class="fw-bold text-dark">Notes</small>
+            </div>
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-clock-history fs-1 text-warning"></i></div>
+                <small class="fw-bold text-dark">Papers</small>
+            </div>
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-clipboard-check fs-1 text-success"></i></div>
+                <small class="fw-bold text-dark">Tests</small>
+            </div>
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-list-check fs-1 text-primary"></i></div>
+                <small class="fw-bold text-dark">Syllabus</small>
+            </div>
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-calendar-event fs-1 text-info"></i></div>
+                <small class="fw-bold text-dark">Calendar</small>
+            </div>
+            <div class="col-4 text-center">
+                <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-book fs-1 text-secondary"></i></div>
+                <small class="fw-bold text-dark">Books</small>
             </div>
         </div>
-
-        <div id="study-screen" class="screen">
-            <div class="d-flex gap-2 overflow-auto pb-2 mb-3 no-scrollbar">
-                <button class="btn btn-primary rounded-pill btn-sm px-3">All</button>
-                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">SSC/Bank</button>
-                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">UPSC/IAS</button>
-            </div>
-            <div class="row g-3">
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-file-earmark-pdf fs-1 text-danger"></i></div>
-                    <small class="fw-bold text-dark">Notes</small>
-                </div>
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-clock-history fs-1 text-warning"></i></div>
-                    <small class="fw-bold text-dark">Papers</small>
-                </div>
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-clipboard-check fs-1 text-success"></i></div>
-                    <small class="fw-bold text-dark">Tests</small>
-                </div>
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-list-check fs-1 text-primary"></i></div>
-                    <small class="fw-bold text-dark">Syllabus</small>
-                </div>
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-calendar-event fs-1 text-info"></i></div>
-                    <small class="fw-bold text-dark">Calendar</small>
-                </div>
-                <div class="col-4 text-center">
-                    <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-book fs-1 text-secondary"></i></div>
-                    <small class="fw-bold text-dark">Books</small>
-                </div>
-            </div>
-            <h6 class="text-muted small fw-bold mt-4 mb-2 px-1">UPDATES</h6>
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item p-3">
-                        <div class="d-flex align-items-center gap-3"><i class="bi bi-file-pdf text-danger fs-4"></i><div><h6 class="mb-0 fw-bold text-dark">SSC Notification</h6><small class="text-muted">2 hours ago</small></div><i class="bi bi-download ms-auto text-primary"></i></div>
-                    </div>
+        <h6 class="text-muted small fw-bold mt-4 mb-2 px-1">UPDATES</h6>
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item p-3">
+                    <div class="d-flex align-items-center gap-3"><i class="bi bi-file-pdf text-danger fs-4"></i><div><h6 class="mb-0 fw-bold text-dark">SSC Notification</h6><small class="text-muted">2 hours ago</small></div><i class="bi bi-download ms-auto text-primary"></i></div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div id="message-screen" class="screen">
-            <h5 class="fw-bold mb-3">Messages</h5>
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted">
-                <i class="bi bi-chat-square-text fs-1 mb-2"></i><p>Start a discussion.</p>
-            </div>
+    <div id="message-screen" class="screen container px-3 mt-3 pb-5">
+        <h5 class="fw-bold mb-3">Messages</h5>
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted">
+            <i class="bi bi-chat-square-text fs-1 mb-2"></i><p>Start a discussion.</p>
         </div>
+    </div>
 
-        <div id="profile-screen" class="screen">
-            <div class="card border-0 shadow-sm rounded-4 mx-2 mt-2 p-3">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                    <div class="position-relative">
-                        <img src="https://ui-avatars.com/api/?name=User" class="rounded-circle border" style="width: 75px; height: 75px; object-fit: cover;" id="profile-img-display">
-                        <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center border border-white" style="width: 26px; height: 26px;"><i class="bi bi-camera-fill" style="font-size: 13px;"></i></div>
-                    </div>
-                    <div style="line-height: 1.2;">
-                        <h5 class="fw-bold mb-0 text-dark" id="profile-name-display">User Name</h5>
-                        <small class="text-muted" id="profile-email-display">@username</small><br>
-                        <span class="badge bg-light text-primary border mt-1 rounded-pill">Student</span>
-                    </div>
+    <div id="notification-screen" class="screen container px-3 mt-3 pb-5">
+        <h5 class="fw-bold mb-3">Notifications</h5>
+        <div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted">No new notifications.</div>
+    </div>
+
+    <div id="profile-screen" class="screen container px-3 mt-3 pb-5">
+        <div class="card border-0 shadow-sm rounded-4 mx-2 mt-2 p-3">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="position-relative">
+                    <img src="https://ui-avatars.com/api/?name=User" class="rounded-circle border" style="width: 75px; height: 75px; object-fit: cover;" id="profile-img-display">
+                    <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center border border-white" style="width: 26px; height: 26px;"><i class="bi bi-camera-fill" style="font-size: 13px;"></i></div>
                 </div>
-                <div class="mb-3"><p class="small text-dark mb-0">🎯 Aspirant | 📚 Student</p></div>
-                <div class="d-flex justify-content-between align-items-center text-center border-top pt-3">
-                    <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">12</h6><small class="text-muted" style="font-size: 11px;">Posts</small></div>
-                    <div style="border-left: 1px solid #dee2e6; height: 25px;"></div>
-                    <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">1.5k</h6><small class="text-muted" style="font-size: 11px;">Followers</small></div>
-                    <div style="border-left: 1px solid #dee2e6; height: 25px;"></div>
-                    <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">400</h6><small class="text-muted" style="font-size: 11px;">Following</small></div>
+                <div style="line-height: 1.2;">
+                    <h5 class="fw-bold mb-0 text-dark" id="profile-name-display">User Name</h5>
+                    <small class="text-muted" id="profile-email-display">@username</small><br>
+                    <span class="badge bg-light text-primary border mt-1 rounded-pill">Student</span>
                 </div>
             </div>
-            <div class="card border-0 shadow-sm rounded-4 mx-2 mt-3 overflow-hidden">
-                <div class="list-group list-group-flush">
-                    <div class="list-group-item p-3 d-flex align-items-center" onclick="openAccountCentre()">
-                        <i class="bi bi-person-circle fs-5 me-3 text-primary"></i><div class="flex-grow-1"><h6 class="mb-0 fw-bold small text-dark">Account Centre</h6></div><i class="bi bi-chevron-right text-muted small"></i>
-                    </div>
-                    <div class="list-group-item p-3 d-flex align-items-center" onclick="openSettings()">
-                        <i class="bi bi-gear fs-5 me-3 text-primary"></i><div class="flex-grow-1"><h6 class="mb-0 fw-bold small text-dark">Settings</h6></div><i class="bi bi-chevron-right text-muted small"></i>
-                    </div>
+            <div class="mb-3"><p class="small text-dark mb-0">🎯 Aspirant | 📚 Student</p></div>
+            <div class="d-flex justify-content-between align-items-center text-center border-top pt-3">
+                <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">12</h6><small class="text-muted" style="font-size: 11px;">Posts</small></div>
+                <div style="border-left: 1px solid #dee2e6; height: 25px;"></div>
+                <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">1.5k</h6><small class="text-muted" style="font-size: 11px;">Followers</small></div>
+                <div style="border-left: 1px solid #dee2e6; height: 25px;"></div>
+                <div style="flex: 1;"><h6 class="fw-bold mb-0 text-dark">400</h6><small class="text-muted" style="font-size: 11px;">Following</small></div>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm rounded-4 mx-2 mt-3 overflow-hidden">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item p-3 d-flex align-items-center" onclick="openAccountCentre()">
+                    <i class="bi bi-person-circle fs-5 me-3 text-primary"></i><div class="flex-grow-1"><h6 class="mb-0 fw-bold small text-dark">Account Centre</h6></div><i class="bi bi-chevron-right text-muted small"></i>
+                </div>
+                <div class="list-group-item p-3 d-flex align-items-center" onclick="openSettings()">
+                    <i class="bi bi-gear fs-5 me-3 text-primary"></i><div class="flex-grow-1"><h6 class="mb-0 fw-bold small text-dark">Settings</h6></div><i class="bi bi-chevron-right text-muted small"></i>
                 </div>
             </div>
-            <div class="d-grid px-3 mt-4 mb-5"><button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="handleLogout()">Logout</button></div>
         </div>
+        <div class="d-grid px-3 mt-4 mb-5"><button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="handleLogout()">Logout</button></div>
+    </div>
 
-        <div id="notification-screen" class="screen">
-            <h5 class="fw-bold mb-3">Notifications</h5>
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted">No new notifications.</div>
-        </div>
-
-    </div> <div id="settings-screen">
+    <div id="settings-screen">
         <div class="app-header sticky-top bg-transparent shadow-none border-bottom-0">
             <div class="d-flex align-items-center gap-3"><i class="bi bi-arrow-left fs-4 text-dark" onclick="closeSettings()"></i><h5 class="mb-0 fw-bold text-dark">Settings</h5></div>
         </div>
