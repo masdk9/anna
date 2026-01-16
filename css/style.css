@@ -1,22 +1,39 @@
 /* =========================================
-   1. GLOBAL VARIABLES & RESET
+   1. GLOBAL VARIABLES & RESET (THEME SYSTEM)
    ========================================= */
 :root {
-    --app-primary: #0d6efd;
+    /* Light Mode (Default) Colors */
     --app-bg: #f2f4f7;
+    --card-bg: #ffffff;
+    --text-main: #212529;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --app-primary: #0d6efd;
     --nav-height: 65px;
+}
+
+/* Dark Mode Colors */
+body.dark-theme {
+    --app-bg: #121212;         
+    --card-bg: #1e1e1e;        
+    --text-main: #e0e0e0;      
+    --text-muted: #a0a0a0;
+    --border-color: #2c2c2c;
 }
 
 body {
     margin: 0;
     padding: 0;
-    padding-bottom: 90px; 
+    padding-bottom: 90px;
     font-family: 'Jost', sans-serif;
     background: var(--app-bg);
-    color: #212529;
+    color: var(--text-main);
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
+    transition: background 0.3s, color 0.3s;
 }
+
+
 
 /* =========================================
    2. AUTH SCREEN (FIXED)
