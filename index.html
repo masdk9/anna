@@ -20,7 +20,7 @@
         <div class="main">  
     <input type="checkbox" id="chk" aria-hidden="true">
 
-            <div class="login">
+ <div class="login">
 <form onsubmit="event.preventDefault(); handleLogin();">
 <label for="chk" aria-hidden="true">Login</label>
                     
@@ -96,11 +96,11 @@
    <small class="text-muted" style="font-size: 12px;">Edit name & details</small>
                             </div>
                         </div>
-          <i class="bi bi-chevron-right text-muted"></i>
+<i class="bi bi-chevron-right text-muted"></i>
                     </div>
                 </div>
 
-                <div class="d-grid px-2 mb-4">
+ <div class="d-grid px-2 mb-4">
 <button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="handleLogout()">Logout</button>
                 </div>
             </div>
@@ -132,17 +132,17 @@
         </button>
     </div>
 
-    <div class="modal fade" id="createPostModal" tabindex="-1">
+<div class="modal fade" id="createPostModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header border-0">
+ <div class="modal-header border-0">
     <h5 class="modal-title fw-bold">Create Post</h5>
 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <textarea id="post-text" class="form-control border-0 fs-5" rows="5" placeholder="What's on your mind?"></textarea>
+<textarea id="post-text" class="form-control border-0 fs-5" rows="5" placeholder="What's on your mind?"></textarea>
                 </div>
-                <div class="modal-footer border-0">
+<div class="modal-footer border-0">
  <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold" onclick="savePost()">Post</button>
                 </div>
             </div>
@@ -152,21 +152,21 @@
     <div class="modal fade" id="editProfileModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
  <div class="modal-content border-0 shadow-lg rounded-4">
-                <div class="modal-header border-0">
-       <h5 class="modal-title fw-bold">Edit Profile</h5>
+ <div class="modal-header border-0">
+ <h5 class="modal-title fw-bold">Edit Profile</h5>
 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
+ <div class="modal-body">
+ <div class="mb-3">
    <label class="form-label fw-bold small text-muted">Display Name</label>
  <input type="text" class="form-control rounded-3 p-2" id="edit-name">
                     </div>
-                    <div class="mb-3">
+ <div class="mb-3">
 <label class="form-label fw-bold small text-muted">Email ID (Locked)</label>
  <input type="email" class="form-control bg-light rounded-3 p-2" id="edit-email" readonly>
                     </div>
                 </div>
-                <div class="modal-footer border-0">
+ <div class="modal-footer border-0">
   <button type="button" class="btn btn-primary w-100 rounded-pill py-2 fw-bold" onclick="saveProfileChanges()">Save Changes</button>
                 </div>
             </div>
@@ -180,86 +180,73 @@
 
 
 
-        <div id="settings-screen" class="screen">
-            <div class="app-header sticky-top bg-transparent shadow-none">
-                <div class="d-flex align-items-center gap-3">
-                    <i class="bi bi-x-lg fs-4" onclick="closeSettings()" style="cursor: pointer;"></i>
-                    <h5 class="mb-0 fw-bold">App Settings</h5>
-                </div>
-            </div>
+ <div id="settings-screen" class="screen">
+ <div class="app-header sticky-top bg-transparent shadow-none">
+<div class="d-flex align-items-center gap-3">
+ <i class="bi bi-x-lg fs-4" onclick="closeSettings()" style="cursor: pointer;"></i>
+<h5 class="mb-0 fw-bold">App Settings</h5>
+</div></div>
 
-            <div class="container pb-5">
-                
-                <h6 class="text-muted small fw-bold mt-3 mb-2 px-2">PREFERENCES</h6>
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-bell fs-5"></i>
-                                <span>Push Notifications</span>
+<div class="container pb-5">
+<h6 class="text-muted small fw-bold mt-3 mb-2 px-2">PREFERENCES</h6>
+ <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+<div class="list-group list-group-flush">
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+ <div class="d-flex align-items-center gap-3">
+ <i class="bi bi-bell fs-5"></i>
+<span>Push Notifications</span>
                             </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" checked disabled>
-                            </div>
-                        </div>
-
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-moon fs-5"></i>
-                                <span>Dark Mode</span>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
+ <div class="form-check form-switch">
+ <input class="form-check-input" type="checkbox" checked disabled>
+  </div></div>
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+ <div class="d-flex align-items-center gap-3">
+ <i class="bi bi-moon fs-5"></i>
+<span>Dark Mode</span>
+</div>
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
                             </div>
                         </div>
 
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-translate fs-5"></i>
-                                <span>Language</span>
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+<div class="d-flex align-items-center gap-3">
+<i class="bi bi-translate fs-5"></i>
+<span>Language</span>
                             </div>
-                            <div class="d-flex align-items-center gap-2 text-muted">
-                                <small>English</small>
-                                <i class="bi bi-chevron-right small"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="d-flex align-items-center gap-2 text-muted">
+<small>English</small>
+<i class="bi bi-chevron-right small"></i>
+</div></div></div></div>
 
-                <h6 class="text-muted small fw-bold mt-4 mb-2 px-2">SECURITY</h6>
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-lock fs-5"></i>
-                                <span>Password</span>
+ <h6 class="text-muted small fw-bold mt-4 mb-2 px-2">SECURITY</h6>
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+<div class="list-group list-group-flush">
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+<div class="d-flex align-items-center gap-3">
+<i class="bi bi-lock fs-5"></i>
+ <span>Password</span>
                             </div>
-                            <i class="bi bi-chevron-right text-muted small"></i>
+ <i class="bi bi-chevron-right text-muted small"></i>
                         </div>
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-fingerprint fs-5"></i>
-                                <span>Biometric Login</span>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" checked disabled>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+ <div class="d-flex align-items-center gap-3">
+ <i class="bi bi-fingerprint fs-5"></i>
+ <span>Biometric Login</span></div>
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" checked disabled>
+</div></div></div></div>
 
-                <h6 class="text-muted small fw-bold mt-4 mb-2 px-2">DATA & STORAGE</h6>
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-hdd-network fs-5"></i>
-                                <span>Data Saver</span>
-                            </div>
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" disabled>
-                            </div>
-                        </div>
+<h6 class="text-muted small fw-bold mt-4 mb-2 px-2">DATA & STORAGE</h6>
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+<div class="list-group list-group-flush">
+<div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
+<div class="d-flex align-items-center gap-3">
+<i class="bi bi-hdd-network fs-5"></i>
+<span>Data Saver</span></div>
+<div class="form-check form-switch">
+<input class="form-check-input" type="checkbox" disabled>
+</div></div>
 <div class="list-group-item p-3 d-flex justify-content-between align-items-center bg-transparent">
 <div class="d-flex align-items-center gap-3">
 <i class="bi bi-trash fs-5"></i>
