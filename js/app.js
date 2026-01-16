@@ -358,6 +358,27 @@ loadTheme();
 
 
 
+// Settings Page Kholne ka function
+function openSettings() {
+    document.getElementById('settings-screen').classList.add('active');
+    // Bottom navigation ko chhupa do taaki full screen dikhe
+    document.querySelector('.nav-wrapper').style.display = 'none';
+    document.getElementById('fab-btn').style.display = 'none';
+}
+
+// Settings Band karne ka function
+function closeSettings() {
+    document.getElementById('settings-screen').classList.remove('active');
+    // Bottom navigation wapas lao
+    document.querySelector('.nav-wrapper').style.display = 'flex';
+    document.getElementById('fab-btn').style.display = 'flex';
+}
+
+
+
+
+
+
 
 
 
