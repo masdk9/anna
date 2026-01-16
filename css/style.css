@@ -1,8 +1,8 @@
 /* =========================================
-   1. GLOBAL VARIABLES & RESET (THEME SYSTEM)
+   1. VARIABLES & THEME SYSTEM
    ========================================= */
 :root {
-    /* Light Mode (Default) Colors */
+    /* LIGHT MODE (Default) */
     --app-bg: #f2f4f7;
     --card-bg: #ffffff;
     --text-main: #212529;
@@ -12,11 +12,11 @@
     --nav-height: 65px;
 }
 
-/* Dark Mode Colors */
+/* DARK MODE */
 body.dark-theme {
-    --app-bg: #121212;         
-    --card-bg: #1e1e1e;        
-    --text-main: #e0e0e0;      
+    --app-bg: #121212;
+    --card-bg: #1e1e1e;
+    --text-main: #e0e0e0;
     --text-muted: #a0a0a0;
     --border-color: #2c2c2c;
 }
@@ -33,193 +33,101 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-
-
 /* =========================================
-   2. AUTH SCREEN (FIXED)
+   2. AUTH SCREEN
    ========================================= */
 #auth-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
     z-index: 9999;
     background: #f0f2f5;
-    
-    /* 👇 SABSE ZAROORI FIX: Default me chhupa rahega */
-    display: none; 
+    display: none; /* Default Hidden */
 }
-
-/* Jab JS bolega tabhi dikhega */
 #auth-screen.active {
     display: flex !important;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; align-items: center;
 }
 
 .main {
-    width: 350px;
-    height: 520px;
-    background: #fff;
-    overflow: hidden;
+    width: 350px; height: 520px;
+    background: #fff; overflow: hidden;
     border-radius: 10px;
     box-shadow: 5px 20px 50px rgba(0,0,0,0.2);
     position: relative;
 }
-
 #chk { display: none; }
 
-/* --- Login Form (White) --- */
-.login {
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-.login label {
-    color: var(--app-primary);
-    font-size: 2.3em;
-    justify-content: center;
-    display: flex;
-    margin: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .5s ease-in-out;
-}
-.login input {
-    width: 60%;
-    height: 20px;
-    background: #e0dede;
-    justify-content: center;
-    display: flex;
-    margin: 20px auto;
-    padding: 10px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-}
-.login button {
-    width: 60%;
-    height: 40px;
-    margin: 10px auto;
-    justify-content: center;
-    display: block;
-    color: #fff;
-    background: var(--app-primary);
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 20px;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* --- Signup Form (Blue Slider) --- */
+/* Login/Signup Forms */
+.login, .signup { position: relative; width: 100%; height: 100%; }
 .signup {
-    height: 460px;
-    background: var(--app-primary);
+    height: 460px; background: var(--app-primary);
     border-radius: 60% / 10%;
-    /* Isse Register button niche dikhega aur Login button nahi dhakega */
-    transform: translateY(-170px); 
+    transform: translateY(-170px);
     transition: .8s ease-in-out;
 }
-.signup label {
-    color: #fff;
-    font-size: 2.3em;
-    justify-content: center;
-    display: flex;
-    margin: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transform: scale(.6);
+.login label, .signup label {
+    font-size: 2.3em; justify-content: center; display: flex;
+    margin: 50px; font-weight: bold; cursor: pointer;
     transition: .5s ease-in-out;
 }
-.signup input {
-    width: 60%;
-    height: 20px;
-    background: #e0dede;
-    justify-content: center;
-    display: flex;
-    margin: 20px auto;
-    padding: 10px;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-}
-.signup button {
-    width: 60%;
-    height: 40px;
-    margin: 10px auto;
-    justify-content: center;
-    display: block;
-    color: var(--app-primary);
-    background: #fff;
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 20px;
-    outline: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+.login label { color: var(--app-primary); }
+.signup label { color: #fff; transform: scale(.6); }
 
-/* --- Animation Logic --- */
+input {
+    width: 60%; height: 20px; background: #e0dede;
+    justify-content: center; display: flex; margin: 20px auto;
+    padding: 10px; border: none; outline: none; border-radius: 5px;
+}
+button {
+    width: 60%; height: 40px; margin: 10px auto;
+    justify-content: center; display: block;
+    font-size: 1em; font-weight: bold; margin-top: 20px;
+    outline: none; border: none; border-radius: 5px; cursor: pointer;
+}
+.login button { background: var(--app-primary); color: #fff; }
+.signup button { background: #fff; color: var(--app-primary); }
+
+/* Animation */
 #chk:checked ~ .signup { transform: translateY(-500px); }
 #chk:checked ~ .signup label { transform: scale(1); }
 #chk:checked ~ .login label { transform: scale(.6); }
-
-/* Errors Colors */
-.error-msg {
-    text-align: center;
-    font-size: 13px;
-    margin-top: 10px;
-    font-weight: bold;
-    color: red; /* Login screen par Red */
-}
+.error-msg { text-align: center; font-size: 13px; margin-top: 10px; font-weight: bold; color: red; }
 
 /* =========================================
-   3. HIDE APP UI (WHEN LOGGED OUT)
+   3. APP COMPONENTS (Updated for Theme)
    ========================================= */
-body.not-logged-in .app-header,
-body.not-logged-in .nav-wrapper,
-body.not-logged-in #fab-btn,
-body.not-logged-in #home-screen,
-body.not-logged-in #search-screen,
-body.not-logged-in #message-screen,
-body.not-logged-in #profile-screen,
-body.not-logged-in #notification-screen {
-    display: none !important;
+.card, .app-card, .list-group-item, .modal-content {
+    background: var(--card-bg) !important;
+    color: var(--text-main) !important;
+    border-color: var(--border-color) !important;
 }
-body.not-logged-in { padding-bottom: 0; overflow: hidden; }
 
-/* =========================================
-   4. APP COMPONENTS
-   ========================================= */
 .app-header {
     position: sticky; top: 0; z-index: 1020;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 10px 15px;
-    display: flex; justify-content: space-between; align-items: center;
+    background: var(--card-bg) !important;
+    padding: 10px 15px; display: flex;
+    justify-content: space-between; align-items: center;
     height: 60px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 .app-logo { font-size: 1.3rem; font-weight: 700; color: var(--app-primary); }
-.header-icon { font-size: 1.4rem; color: #495057; cursor: pointer; }
+.header-icon { font-size: 1.4rem; cursor: pointer; }
 
-/* Profile Image */
-.profile-img-container {
-    width: 100px; height: 100px; margin: 0 auto;
-    padding: 3px; border: 3px solid var(--app-primary);
-    border-radius: 50%;
+/* Icons in Dark Mode */
+body.dark-theme .bi-chevron-right, 
+body.dark-theme .text-muted,
+body.dark-theme .header-icon {
+    color: var(--text-muted) !important;
 }
-.profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+body.dark-theme .text-dark {
+    color: var(--text-main) !important;
+}
 
-/* Bottom Nav */
+/* Nav Bar */
 .nav-wrapper {
     position: fixed; bottom: 0; left: 0; width: 100%;
     height: var(--nav-height); z-index: 1030;
-    background: white; border-top: 1px solid #dee2e6;
+    background: var(--card-bg) !important;
+    border-top: 1px solid var(--border-color);
     display: flex; justify-content: space-around; align-items: center;
 }
 .nav-item-btn {
@@ -243,25 +151,26 @@ body.not-logged-in { padding-bottom: 0; overflow: hidden; }
     font-size: 28px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
     cursor: pointer; z-index: 1040;
 }
+
+/* Screens */
 .screen { display: none; padding-top: 10px; }
 .screen.active { display: block; }
 
-
-
-/* Settings Screen ko Full Screen dikhane ke liye */
+/* Settings Screen */
 #settings-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100vh;
     background: var(--app-bg);
     z-index: 2000;
-    display: none; /* Default me chhupa rahega */
-    overflow-y: auto;
+    display: none; overflow-y: auto;
 }
+#settings-screen.active { display: block !important; }
 
-#settings-screen.active {
-    display: block !important; /* Jab click ho tab dikhe */
+/* Hide UI when Logged Out */
+body.not-logged-in .app-header,
+body.not-logged-in .nav-wrapper,
+body.not-logged-in #fab-btn,
+body.not-logged-in .container,
+body.not-logged-in #settings-screen {
+    display: none !important;
 }
-
