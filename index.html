@@ -74,35 +74,74 @@
         </div>
 
         <div id="profile-screen" class="screen">
-            <div class="profile-section-container text-center mb-4">
-                <div class="profile-img-container">
-                    <img src="https://ui-avatars.com/api/?name=User" class="profile-img" id="profile-img-display">
+            <div class="text-center mt-2">
+                
+                <div class="position-relative d-inline-block">
+                    <img src="https://ui-avatars.com/api/?name=User" class="rounded-circle p-1 border border-2 border-primary" style="width: 110px; height: 110px; object-fit: cover;" id="profile-img-display">
+                    
+                    <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center border border-2 border-white" style="width: 35px; height: 35px; cursor: pointer;" onclick="openEditProfile()">
+                        <i class="bi bi-camera-fill small"></i>
+                    </div>
                 </div>
-                <h4 class="fw-bold mt-3 mb-0" id="profile-name-display">User</h4>
-                <small class="text-muted" id="profile-email-display">@user</small>
+                
+                <h4 class="fw-bold mt-3 mb-0" id="profile-name-display">User Name</h4>
+                <p class="text-muted small mb-4" id="profile-email-display">user@gmail.com</p>
 
-                <div class="card border-0 shadow-sm rounded-4 mb-3 mt-4 text-start" onclick="openSettings()">
-                    <div class="card-body d-flex justify-content-between align-items-center p-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                <i class="bi bi-gear fs-5 text-dark"></i>
-                            </div>
-                            <div>
-                                <h6 class="mb-0 fw-bold text-dark">App Settings</h6>
-                                <small class="text-muted" style="font-size: 12px;">Dark mode, Security, etc.</small>
-                            </div>
-                        </div>
-                        <i class="bi bi-chevron-right text-muted"></i>
+                <div class="d-flex justify-content-center gap-4 mb-4">
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-0">120</h5>
+                        <small class="text-muted">Posts</small>
+                    </div>
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-0">1.5k</h5>
+                        <small class="text-muted">Followers</small>
+                    </div>
+                    <div class="text-center">
+                        <h5 class="fw-bold mb-0">400</h5>
+                        <small class="text-muted">Following</small>
                     </div>
                 </div>
 
-                <div class="d-grid px-2 mb-3">
-                    <button class="btn btn-light rounded-pill py-2 fw-bold text-muted border" onclick="openEditProfile()">Edit Profile Details</button>
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden mx-1 text-start mb-5">
+                    <div class="list-group list-group-flush">
+                        
+                        <div class="list-group-item p-3 d-flex align-items-center" onclick="openEditProfile()" style="cursor: pointer;">
+                            <i class="bi bi-person-circle fs-4 me-3 text-dark"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold text-dark">Account Centre</h6>
+                                <small class="text-muted" style="font-size: 11px;">Personal Details, Password</small>
+                            </div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </div>
+
+                        <div class="list-group-item p-3 d-flex align-items-center" onclick="openSettings()" style="cursor: pointer;">
+                            <i class="bi bi-gear fs-4 me-3 text-dark"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold text-dark">Settings</h6>
+                            </div>
+                            <i class="bi bi-chevron-right text-muted small"></i>
+                        </div>
+
+                        <div class="list-group-item p-3 d-flex align-items-center" style="cursor: pointer;">
+                            <i class="bi bi-shield-check fs-4 me-3 text-dark"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold text-dark">Privacy Policy</h6>
+                            </div>
+                        </div>
+
+                        <div class="list-group-item p-3 d-flex align-items-center" style="cursor: pointer;">
+                            <i class="bi bi-question-circle fs-4 me-3 text-dark"></i>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0 fw-bold text-dark">Help Centre</h6>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="d-grid px-2 mb-4">
+                <div class="d-grid px-2 mb-5">
                     <button class="btn btn-outline-danger rounded-pill py-2 fw-bold" onclick="handleLogout()">Logout</button>
                 </div>
+
             </div>
         </div>
 
@@ -114,14 +153,15 @@
     </div>
 
     <div id="settings-screen">
-        <div class="app-header sticky-top bg-transparent shadow-none">
+        <div class="app-header sticky-top bg-transparent shadow-none border-bottom-0">
             <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-arrow-left fs-4" onclick="closeSettings()" style="cursor: pointer;"></i>
-                <h5 class="mb-0 fw-bold">Settings</h5>
+                <i class="bi bi-arrow-left fs-4 text-dark" onclick="closeSettings()" style="cursor: pointer;"></i>
+                <h5 class="mb-0 fw-bold text-dark">Settings</h5>
             </div>
         </div>
 
-        <div class="container pb-5">
+        <div class="container pb-5 pt-2">
+            
             <h6 class="text-muted small fw-bold mt-3 mb-2 px-2">PREFERENCES</h6>
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="list-group list-group-flush">
@@ -130,7 +170,7 @@
                             <i class="bi bi-bell fs-5"></i> <span>Push Notifications</span>
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" checked disabled>
+                            <input class="form-check-input" type="checkbox" checked>
                         </div>
                     </div>
                     <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
@@ -141,6 +181,14 @@
                             <input class="form-check-input" type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()">
                         </div>
                     </div>
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-translate fs-5"></i> <span>Language</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-1 text-muted">
+                            <small>English</small> <i class="bi bi-chevron-right small"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -148,12 +196,38 @@
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="list-group list-group-flush">
                     <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-3"><i class="bi bi-lock fs-5"></i> <span>Password</span></div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-lock fs-5"></i> <span>Password</span>
+                        </div>
                         <i class="bi bi-chevron-right text-muted small"></i>
                     </div>
                     <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-3"><i class="bi bi-fingerprint fs-5"></i> <span>Biometric Login</span></div>
-                        <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked disabled></div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-fingerprint fs-5"></i> <span>Biometric Login</span>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h6 class="text-muted small fw-bold mt-4 mb-2 px-2">DATA & STORAGE</h6>
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-hdd-network fs-5"></i> <span>Data Saver</span>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox">
+                        </div>
+                    </div>
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-trash fs-5"></i> <span>Clear Cache</span>
+                        </div>
+                        <span class="text-muted small">24 MB</span>
                     </div>
                 </div>
             </div>
@@ -162,11 +236,14 @@
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
                 <div class="list-group list-group-flush">
                     <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-3"><i class="bi bi-info-circle fs-5"></i> <span>App Version</span></div>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="bi bi-info-circle fs-5"></i> <span>App Version</span>
+                        </div>
                         <span class="text-muted small">v2.1.0</span>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 
