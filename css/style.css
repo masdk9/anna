@@ -245,3 +245,23 @@ body.not-logged-in { padding-bottom: 0; overflow: hidden; }
 }
 .screen { display: none; padding-top: 10px; }
 .screen.active { display: block; }
+
+
+
+/* Settings Screen ko Full Screen dikhane ke liye */
+#settings-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--app-bg);
+    z-index: 2000;
+    display: none; /* Default me chhupa rahega */
+    overflow-y: auto;
+}
+
+#settings-screen.active {
+    display: block !important; /* Jab click ho tab dikhe */
+}
+
