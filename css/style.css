@@ -22,9 +22,7 @@ body.dark-theme {
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    padding-bottom: 90px;
+    margin: 0; padding: 0; padding-bottom: 90px;
     font-family: 'Jost', sans-serif;
     background: var(--app-bg);
     color: var(--text-main);
@@ -41,13 +39,12 @@ body {
     width: 100%; height: 100vh;
     z-index: 9999;
     background: #f0f2f5;
-    display: none; /* Default Hidden */
+    display: none; 
 }
 #auth-screen.active {
     display: flex !important;
     justify-content: center; align-items: center;
 }
-
 .main {
     width: 350px; height: 520px;
     background: #fff; overflow: hidden;
@@ -56,8 +53,6 @@ body {
     position: relative;
 }
 #chk { display: none; }
-
-/* Login/Signup Forms */
 .login, .signup { position: relative; width: 100%; height: 100%; }
 .signup {
     height: 460px; background: var(--app-primary);
@@ -72,7 +67,6 @@ body {
 }
 .login label { color: var(--app-primary); }
 .signup label { color: #fff; transform: scale(.6); }
-
 input {
     width: 60%; height: 20px; background: #e0dede;
     justify-content: center; display: flex; margin: 20px auto;
@@ -86,15 +80,13 @@ button {
 }
 .login button { background: var(--app-primary); color: #fff; }
 .signup button { background: #fff; color: var(--app-primary); }
-
-/* Animation */
 #chk:checked ~ .signup { transform: translateY(-500px); }
 #chk:checked ~ .signup label { transform: scale(1); }
 #chk:checked ~ .login label { transform: scale(.6); }
 .error-msg { text-align: center; font-size: 13px; margin-top: 10px; font-weight: bold; color: red; }
 
 /* =========================================
-   3. APP COMPONENTS (Updated for Theme)
+   3. APP COMPONENTS
    ========================================= */
 .card, .app-card, .list-group-item, .modal-content {
     background: var(--card-bg) !important;
@@ -112,10 +104,11 @@ button {
 .app-logo { font-size: 1.3rem; font-weight: 700; color: var(--app-primary); }
 .header-icon { font-size: 1.4rem; cursor: pointer; }
 
-/* Icons in Dark Mode */
+/* Dark Mode Icons Fixes */
 body.dark-theme .bi-chevron-right, 
 body.dark-theme .text-muted,
-body.dark-theme .header-icon {
+body.dark-theme .header-icon,
+body.dark-theme .bi-arrow-left {
     color: var(--text-muted) !important;
 }
 body.dark-theme .text-dark {
@@ -156,7 +149,7 @@ body.dark-theme .text-dark {
 .screen { display: none; padding-top: 10px; }
 .screen.active { display: block; }
 
-/* Settings Screen */
+/* SETTINGS SCREEN FULL OVERLAY */
 #settings-screen {
     position: fixed; top: 0; left: 0;
     width: 100%; height: 100vh;
@@ -165,6 +158,12 @@ body.dark-theme .text-dark {
     display: none; overflow-y: auto;
 }
 #settings-screen.active { display: block !important; }
+
+/* Toggle Switch Blue Color */
+.form-check-input:checked {
+    background-color: #0d6efd !important;
+    border-color: #0d6efd !important;
+}
 
 /* Hide UI when Logged Out */
 body.not-logged-in .app-header,
