@@ -1,20 +1,15 @@
-/* =========================================
-   1. VARIABLES & THEME
-   ========================================= */
 :root {
     --app-bg: #f2f4f7;
     --card-bg: #ffffff;
     --text-main: #212529;
-    --text-muted: #6c757d;
     --border-color: #dee2e6;
     --app-primary: #0d6efd;
-    --nav-height: 65px;
+    --nav-height: 60px; /* Reduced Height */
 }
 body.dark-theme {
     --app-bg: #121212;
     --card-bg: #1e1e1e;
     --text-main: #e0e0e0;
-    --text-muted: #a0a0a0;
     --border-color: #2c2c2c;
 }
 body {
@@ -22,17 +17,12 @@ body {
     font-family: 'Jost', sans-serif;
     background: var(--app-bg); color: var(--text-main);
     overflow-x: hidden;
-    transition: background 0.3s;
 }
 
-/* =========================================
-   2. AUTH SCREEN
-   ========================================= */
-#auth-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    z-index: 9999; background: #f0f2f5; display: none;
-}
-#auth-screen.active { display: flex !important; justify-content: center; align-items: center; }
+/* AUTH */
+#auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background: #f0f2f5; display: flex !important; justify-content: center; align-items: center; }
+body.logged-in #auth-screen { display: none !important; }
+
 .main { width: 350px; height: 520px; background: #fff; overflow: hidden; border-radius: 10px; position: relative; }
 #chk { display: none; }
 .login, .signup { position: relative; width: 100%; height: 100%; }
@@ -44,56 +34,25 @@ button { width: 60%; height: 40px; margin: 20px auto; background: var(--app-prim
 .signup button { background: #fff; color: var(--app-primary); }
 #chk:checked ~ .signup { transform: translateY(-500px); }
 
-/* =========================================
-   3. UI COMPONENTS
-   ========================================= */
-.card, .list-group-item, .modal-content, .form-control {
-    background: var(--card-bg) !important;
-    color: var(--text-main) !important;
-    border-color: var(--border-color) !important;
-}
-.app-header {
-    position: sticky; top: 0; z-index: 1020;
-    background: var(--card-bg) !important;
-    padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px;
-}
-.nav-wrapper {
-    position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height);
-    background: var(--card-bg) !important; border-top: 1px solid var(--border-color);
-    display: flex; justify-content: space-around; z-index: 1030;
-}
-.nav-item-btn {
-    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    color: #adb5bd; background: transparent; border: none;
-}
-.nav-item-btn.active { color: var(--app-primary); }
-.fab-main {
-    position: fixed; bottom: 85px; right: 20px; width: 58px; height: 58px;
-    background: linear-gradient(135deg, #0d6efd, #0a58ca);
-    color: white; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 28px; z-index: 1040;
-}
+/* COMPONENTS */
+.card, .list-group-item, .modal-content, .form-control { background: var(--card-bg) !important; color: var(--text-main) !important; border-color: var(--border-color) !important; }
+.app-header { position: sticky; top: 0; z-index: 1020; background: var(--card-bg) !important; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
 
-/* Settings & Account Overlay */
-#settings-screen, #account-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-    background: var(--app-bg); z-index: 2000; display: none; overflow-y: auto;
-}
+/* FIX: BOTTOM NAV HEIGHT & GAP */
+.nav-wrapper { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height); background: var(--card-bg) !important; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; z-index: 1030; align-items: center; }
+.nav-item-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #adb5bd; background: transparent; border: none; padding: 0; margin-top: 5px; }
+.nav-item-btn i { font-size: 1.3rem; margin-bottom: 0px; } 
+.nav-item-btn span { font-size: 0.7rem; }
+.nav-item-btn.active { color: var(--app-primary); }
+
+.fab-main { position: fixed; bottom: 75px; right: 20px; width: 55px; height: 55px; background: linear-gradient(135deg, #0d6efd, #0a58ca); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; z-index: 1040; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4); }
+
+/* SCREENS */
+.screen { display: none !important; }
+.screen.active { display: block !important; }
+#settings-screen, #account-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--app-bg); z-index: 2000; display: none; overflow-y: auto; }
 #settings-screen.active, #account-screen.active { display: block !important; }
 
-/* Dark Mode Fixes */
 .form-check-input:checked { background-color: #0d6efd !important; border-color: #0d6efd !important; }
-body.dark-theme .bi { color: var(--text-muted); }
-body.dark-theme .text-dark { color: var(--text-main) !important; }
-body.dark-theme .form-select { background-color: var(--card-bg); color: var(--text-main); border-color: var(--border-color); }
-body.dark-theme .whitespace-nowrap { background-color: var(--card-bg); border-color: var(--border-color) !important; color: var(--text-main); }
-
-/* Poll & Study Specific */
-#poll-section input::placeholder { color: #aaa; }
-#poll-section { background-color: rgba(0,0,0,0.03) !important; }
-.whitespace-nowrap { white-space: nowrap; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Hide UI when logged out */
 body.not-logged-in .app-header, body.not-logged-in .nav-wrapper, body.not-logged-in #fab-btn, body.not-logged-in .container { display: none !important; }
