@@ -7,79 +7,14 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="css/style.css">
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script> 
-
-    <style>
-        :root {
-            --app-bg: #f2f4f7;
-            --card-bg: #ffffff;
-            --text-main: #212529;
-            --border-color: #dee2e6;
-            --app-primary: #0d6efd;
-            --nav-height: 65px;
-        }
-        body.dark-theme {
-            --app-bg: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --border-color: #2c2c2c;
-        }
-        body {
-            margin: 0; padding-bottom: 90px;
-            font-family: 'Jost', sans-serif;
-            background: var(--app-bg); color: var(--text-main);
-            overflow-x: hidden;
-        }
-
-        /* SCREEN LOGIC */
-        .screen { display: none !important; }
-        .screen.active { display: block !important; }
-
-        /* AUTH */
-        #auth-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 9999; background: #f0f2f5; display: flex !important; justify-content: center; align-items: center; }
-        /* Jab login ho jaye, tab auth screen chupado */
-        body.logged-in #auth-screen { display: none !important; }
-
-        .main { width: 350px; height: 520px; background: #fff; overflow: hidden; border-radius: 10px; position: relative; }
-        #chk { display: none; }
-        .login, .signup { position: relative; width: 100%; height: 100%; }
-        .signup { height: 460px; background: var(--app-primary); border-radius: 60% / 10%; transform: translateY(-170px); transition: .8s; }
-        .login label, .signup label { font-size: 2.3em; margin: 50px; font-weight: bold; cursor: pointer; display: flex; justify-content: center; }
-        .login label { color: var(--app-primary); } .signup label { color: #fff; transform: scale(.6); }
-        input { width: 60%; height: 20px; background: #e0dede; margin: 20px auto; padding: 10px; border: none; border-radius: 5px; display: block; }
-        button { width: 60%; height: 40px; margin: 20px auto; background: var(--app-primary); color: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; display: block; }
-        .signup button { background: #fff; color: var(--app-primary); }
-        #chk:checked ~ .signup { transform: translateY(-500px); }
-
-        /* HEADER & NAV */
-        .app-header { position: sticky; top: 0; z-index: 1020; background: var(--card-bg) !important; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        .nav-wrapper { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--nav-height); background: var(--card-bg) !important; border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; z-index: 1030; }
-        .nav-item-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #adb5bd; background: transparent; border: none; }
-        .nav-item-btn.active { color: var(--app-primary); }
-        
-        /* FAB */
-        .fab-main { position: fixed; bottom: 85px; right: 20px; width: 58px; height: 58px; background: linear-gradient(135deg, #0d6efd, #0a58ca); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; z-index: 1040; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4); cursor: pointer; }
-
-        /* OVERLAYS */
-        #settings-screen, #account-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: var(--app-bg); z-index: 2000; display: none; overflow-y: auto; }
-        #settings-screen.active, #account-screen.active { display: block !important; }
-
-        /* HELPERS */
-        .card, .list-group-item, .modal-content, .form-control { background: var(--card-bg) !important; color: var(--text-main) !important; border-color: var(--border-color) !important; }
-        .form-check-input:checked { background-color: #0d6efd !important; border-color: #0d6efd !important; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* HIDE UI IF NOT LOGGED IN */
-        body:not(.logged-in) .app-header, 
-        body:not(.logged-in) .nav-wrapper, 
-        body:not(.logged-in) #fab-btn, 
-        body:not(.logged-in) .container { display: none !important; }
-    </style>
 </head>
-<body>
+<body class="not-logged-in">
 
     <div id="auth-screen">
         <div class="main">  
@@ -135,11 +70,13 @@
         </div>
 
         <div id="study-screen" class="screen">
-            <div class="d-flex gap-2 overflow-auto pb-2 mb-3 no-scrollbar">
-                <button class="btn btn-primary rounded-pill btn-sm px-3">All</button>
-                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">SSC/Bank</button>
-                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap">UPSC/IAS</button>
+            <div class="d-flex gap-2 overflow-auto pb-2 mb-3 no-scrollbar" id="study-tabs">
+                <button class="btn btn-primary rounded-pill btn-sm px-3" onclick="filterStudy('all', this)">All</button>
+                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap" onclick="filterStudy('ssc', this)">SSC/Bank</button>
+                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap" onclick="filterStudy('upsc', this)">UPSC/IAS</button>
+                <button class="btn btn-light border rounded-pill btn-sm px-3 whitespace-nowrap" onclick="filterStudy('12th', this)">Class 12th</button>
             </div>
+            
             <div class="row g-3">
                 <div class="col-4 text-center">
                     <div class="card border-0 shadow-sm rounded-4 mb-2 p-3 d-flex align-items-center justify-content-center" style="height: 80px;"><i class="bi bi-file-earmark-pdf fs-1 text-danger"></i></div>
@@ -166,6 +103,7 @@
                     <small class="fw-bold text-dark">Books</small>
                 </div>
             </div>
+
             <h6 class="text-muted small fw-bold mt-4 mb-2 px-1">UPDATES</h6>
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="list-group list-group-flush">
@@ -223,7 +161,9 @@
             <div class="card border-0 shadow-sm rounded-4 p-4 text-center text-muted">No new notifications.</div>
         </div>
 
-    </div> <div id="fab-btn" class="fab-main" data-bs-toggle="modal" data-bs-target="#createPostModal"><i class="bi bi-plus-lg"></i></div>
+    </div> 
+
+    <div id="fab-btn" class="fab-main" data-bs-toggle="modal" data-bs-target="#createPostModal"><i class="bi bi-plus-lg"></i></div>
 
     <div class="nav-wrapper">
         <button class="nav-item-btn active" onclick="switchTab('home', this)"><i class="bi bi-house-door-fill"></i><span>Home</span></button>
@@ -241,7 +181,16 @@
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 <div class="list-group list-group-flush">
                     <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                        <div class="d-flex align-items-center gap-3"><i class="bi bi-moon fs-5"></i> <span>Dark Mode</span></div><div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()"></div>
+                        <div class="d-flex align-items-center gap-3"><i class="bi bi-bell fs-5"></i> <span>Notifications</span></div>
+                        <div class="form-check form-switch"><input class="form-check-input" type="checkbox" checked></div>
+                    </div>
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3"><i class="bi bi-moon fs-5"></i> <span>Dark Mode</span></div>
+                        <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="dark-mode-toggle" onchange="toggleDarkMode()"></div>
+                    </div>
+                    <div class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center gap-3"><i class="bi bi-hdd-network fs-5"></i> <span>Data Saver</span></div>
+                        <div class="form-check form-switch"><input class="form-check-input" type="checkbox"></div>
                     </div>
                 </div>
             </div>
@@ -253,8 +202,18 @@
             <div class="d-flex align-items-center gap-3"><i class="bi bi-arrow-left fs-4 text-dark" onclick="closeAccountCentre()"></i><h5 class="mb-0 fw-bold text-dark">Account Centre</h5></div>
         </div>
         <div class="container pb-5 pt-2">
+            <div class="text-center mb-4">
+                <img src="https://ui-avatars.com/api/?name=User" class="rounded-circle border border-2 border-primary" width="80" height="80" id="ac-img">
+                <p class="text-primary mt-2 fw-bold small">Change Profile Photo</p>
+            </div>
             <form id="account-form">
                 <div class="mb-3"><label class="form-label small fw-bold text-muted">Name</label><input type="text" class="form-control rounded-3 py-2" id="ac-name"></div>
+                <div class="mb-3"><label class="form-label small fw-bold text-muted">Username</label><div class="input-group"><span class="input-group-text bg-light border-end-0 text-muted">@</span><input type="text" class="form-control rounded-end-3 py-2 border-start-0 ps-0" id="ac-username"></div></div>
+                <div class="mb-3"><label class="form-label small fw-bold text-muted">Email (Locked)</label><input type="email" class="form-control rounded-3 py-2 bg-light" id="ac-email" readonly></div>
+                <div class="row">
+                    <div class="col-6 mb-3"><label class="form-label small fw-bold text-muted">DOB</label><input type="date" class="form-control rounded-3 py-2"></div>
+                    <div class="col-6 mb-3"><label class="form-label small fw-bold text-muted">Gender</label><select class="form-select rounded-3 py-2"><option>Male</option><option>Female</option></select></div>
+                </div>
                 <div class="d-grid gap-2 mt-4"><button type="button" class="btn btn-primary rounded-pill py-2 fw-bold" onclick="saveProfileChanges()">Save Changes</button></div>
             </form>
         </div>
@@ -286,136 +245,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // --- 1. CONFIG ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyA_suE-En5oIv3z04gJV5TPhlDwYyx-QFI",
-            authDomain: "masd-repo-git.firebaseapp.com",
-            projectId: "masd-repo-git",
-            storageBucket: "masd-repo-git.firebasestorage.app",
-            messagingSenderId: "317994984658",
-            appId: "1:317994984658:web:c55231ca09e70341c8f90b"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        // --- 2. AUTH LOGIC ---
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.body.classList.add('logged-in');
-                updateProfileUI(user);
-                loadPosts();
-            } else {
-                document.body.classList.remove('logged-in');
-            }
-        });
-
-        function handleLogin() {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            auth.signInWithEmailAndPassword(email, pass).catch(e => document.getElementById('auth-error').innerText = e.message);
-        }
-
-        function handleSignup() {
-            const email = document.getElementById('signup-email').value;
-            const pass = document.getElementById('signup-pass').value;
-            const name = document.getElementById('signup-name').value;
-            auth.createUserWithEmailAndPassword(email, pass).then(cred => {
-                cred.user.updateProfile({ displayName: name }).then(() => location.reload());
-            }).catch(e => document.getElementById('signup-error').innerText = e.message);
-        }
-        function handleLogout() { if(confirm("Logout?")) auth.signOut(); }
-
-        // --- 3. APP LOGIC ---
-        function switchTab(id, el) {
-            // Hide all screens inside container
-            document.querySelectorAll('.container .screen').forEach(s => s.classList.remove('active'));
-            // Show selected screen
-            const target = document.getElementById(id + '-screen');
-            if(target) target.classList.add('active');
-            
-            // Handle active nav state
-            document.querySelectorAll('.nav-item-btn').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-
-            // FAB Logic
-            const fab = document.getElementById('fab-btn');
-            fab.style.display = (id === 'home') ? 'flex' : 'none';
-        }
-
-        function openScreen(id) {
-            document.querySelectorAll('.container .screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id + '-screen').classList.add('active');
-            document.getElementById('fab-btn').style.display = 'none'; // Hide FAB on other screens
-        }
-
-        function loadPosts() {
-            const container = document.getElementById('posts-container');
-            db.collection("posts").orderBy("timestamp", "desc").onSnapshot(snap => {
-                let html = "";
-                snap.forEach(doc => {
-                    let data = doc.data();
-                    let dp = `https://ui-avatars.com/api/?name=${data.userName}&background=random&color=fff`;
-                    html += `
-                    <div class="card border-0 shadow-sm rounded-4 mb-3">
-                        <div class="card-body p-3">
-                            <div class="d-flex gap-2 align-items-center mb-2">
-                                <img src="${dp}" class="rounded-circle" width="40" height="40">
-                                <div><h6 class="mb-0 fw-bold">${data.userName}</h6></div>
-                            </div>
-                            <p>${data.text}</p>
-                            <div class="d-flex justify-content-between pt-2 border-top text-muted">
-                                <i class="bi bi-chat"></i><i class="bi bi-heart"></i><i class="bi bi-share"></i>
-                            </div>
-                        </div>
-                    </div>`;
-                });
-                container.innerHTML = html || "<p class='text-center mt-5'>No posts yet</p>";
-            });
-        }
-
-        function savePost() {
-            const text = document.getElementById('post-text').value;
-            if(!text) return;
-            db.collection("posts").add({
-                text: text,
-                userName: auth.currentUser.displayName || "User",
-                userEmail: auth.currentUser.email,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            }).then(() => {
-                document.getElementById('post-text').value = "";
-                bootstrap.Modal.getInstance(document.getElementById('createPostModal')).hide();
-            });
-        }
-
-        function togglePoll() {
-            const s = document.getElementById('poll-section');
-            s.style.display = s.style.display === 'none' ? 'block' : 'none';
-        }
-
-        // --- 4. OVERLAYS & HELPERS ---
-        function updateProfileUI(user) {
-            if(document.getElementById('profile-name-display')) {
-                document.getElementById('profile-name-display').innerText = user.displayName || "User";
-                document.getElementById('profile-email-display').innerText = "@" + user.email.split('@')[0];
-                document.getElementById('profile-img-display').src = `https://ui-avatars.com/api/?name=${user.displayName}&background=0d6efd&color=fff`;
-            }
-        }
-        function openSettings() { document.getElementById('settings-screen').classList.add('active'); }
-        function closeSettings() { document.getElementById('settings-screen').classList.remove('active'); }
-        function openAccountCentre() { 
-            document.getElementById('account-screen').classList.add('active'); 
-            document.getElementById('ac-name').value = auth.currentUser.displayName;
-        }
-        function closeAccountCentre() { document.getElementById('account-screen').classList.remove('active'); }
-        function saveProfileChanges() {
-            const n = document.getElementById('ac-name').value;
-            if(n) auth.currentUser.updateProfile({displayName: n}).then(() => location.reload());
-        }
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-theme');
-        }
-    </script>
+    <script src="js/app.js"></script>
 </body>
 </html>
